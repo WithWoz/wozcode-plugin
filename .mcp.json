@@ -1,0 +1,20 @@
+{
+  "mcpServers": {
+    "search": {
+      "command": "node",
+      "args": ["${CLAUDE_PLUGIN_ROOT}/servers/woz-search-server.js"]
+    },
+    "edit": {
+      "command": "node",
+      "args": ["${CLAUDE_PLUGIN_ROOT}/servers/woz-edit-server.js"]
+    },
+    "bash": {
+      "command": "node",
+      "args": ["${CLAUDE_PLUGIN_ROOT}/servers/woz-bash-server.js"]
+    },
+    "sql": {
+      "command": "node",
+      "args": ["${CLAUDE_PLUGIN_ROOT}/servers/woz-sql-server.js"]
+    }
+  }
+}
