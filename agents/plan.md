@@ -1,5 +1,5 @@
 ---
-name: woz-plan
+name: plan
 description: Software architect agent for designing implementation plans. Use for planning strategy, identifying critical files, and considering trade-offs.
 model: haiku
 effort: medium

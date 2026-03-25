@@ -1,5 +1,5 @@
 ---
-name: woz-explore
+name: explore
 description: Fast agent for file searches, reading code, schema lookups, and codebase questions. Does NOT edit files.
 model: haiku
 effort: medium
