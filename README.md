@@ -10,10 +10,8 @@ Add the marketplace and install:
 
 ```shell
 /plugin marketplace add WithWoz/wozcode-plugin
-/plugin install wozcode@WithWoz-wozcode-plugin
+/plugin install woz@wozcode-marketplace
 ```
-
-Replace `<owner>` with the GitHub username or organization hosting the repo.
 
 ### From a local path
 
@@ -21,14 +19,14 @@ If you've cloned the repo locally:
 
 ```shell
 /plugin marketplace add ./path/to/wozcode-plugin
-/plugin install wozcode@wozcode-plugin
+/plugin install woz@wozcode-marketplace
 ```
 
 ### From a Git URL (GitLab, Bitbucket, self-hosted)
 
 ```shell
 /plugin marketplace add https://gitlab.com/WithWoz/wozcode-plugin.git
-/plugin install wozcode@wozcode-plugin
+/plugin install woz@wozcode-marketplace
 ```
 
 ## What's included
@@ -40,7 +38,8 @@ If you've cloned the repo locally:
 ## Managing the plugin
 
 ```shell
-/plugin disable wozcode@<marketplace>   # disable
-/plugin enable wozcode@<marketplace>    # re-enable
-/plugin uninstall wozcode@<marketplace> # remove
+/plugin disable woz@wozcode-marketplace   # disable
+/plugin enable woz@wozcode-marketplace    # re-enable
+/plugin uninstall woz@wozcode-marketplace # remove
+/plugin marketplace remove wozcode-marketplace # remove marketplace
 ```
