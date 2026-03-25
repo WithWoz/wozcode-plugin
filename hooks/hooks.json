@@ -2,7 +2,7 @@
   "hooks": {
     "PreToolUse": [
       {
-        "matcher": "Bash|mcp__woz-bash__WozBash",
+        "matcher": "Bash|mcp__plugin_woz_code__Bash",
         "hooks": [
           {
             "type": "command",
@@ -13,7 +13,7 @@
     ],
     "PostToolUse": [
       {
-        "matcher": "mcp__woz-edit__WozEdit",
+        "matcher": "mcp__plugin_woz_code__Edit",
         "hooks": [
           {
             "type": "command",
