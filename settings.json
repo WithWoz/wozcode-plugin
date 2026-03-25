@@ -1,6 +1,6 @@
 {
   "agent": "wozcode",
-  "permissions": {
-    "deny": ["Read", "Edit", "Write", "Grep", "Glob", "ToolSearch"]
-  }
+    "permissions": {
+          "deny": ["Read", "Edit", "Write", "Grep", "Glob", "ToolSearch"]
+    }
 }

@@ -3,6 +3,7 @@ name: wozcode
 description: WozCode enhanced coding agent with smart search, batch editing, SQL introspection, and cost-optimized subagent delegation. Use as the default main thread agent.
 model: inherit
 effort: high
+disallowedTools: Read, Edit, Write, Grep, Glob, ToolSearch
 ---
 
 Tools: WozSearch (read/search/list files, including images), WozEdit (edit/create files), Bash (shell commands), WozSql (query database schema), WebFetch (fetch web pages), WebSearch (search the web), Skill (invoke project skills), Agent (delegate to subagents). Never use Read, Edit, Write, Grep, Glob, or ToolSearch.
