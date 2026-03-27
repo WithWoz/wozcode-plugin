@@ -1,16 +1,5 @@
 {
   "hooks": {
-    "PreToolUse": [
-      {
-        "matcher": "Bash|mcp__plugin_woz_code__Bash",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "node ${CLAUDE_PLUGIN_ROOT}/scripts/compile-loop-detector.js"
-          }
-        ]
-      }
-    ],
     "PostToolUse": [
       {
         "matcher": "mcp__plugin_woz_code__Edit",

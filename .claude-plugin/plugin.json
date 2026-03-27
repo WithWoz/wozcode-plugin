@@ -1,9 +1,9 @@
 {
   "name": "woz",
   "description": "WozCode enhanced coding tools — smart search, batch editing, SQL introspection, and cost-optimized subagent delegation",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "author": {
     "name": "Woz"
   },
-  "homepage": "https://wozcode.com"
+  "homepage": "https://withwoz.com"
 }
