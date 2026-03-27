@@ -1,4 +1,4 @@
-# WozCode Plugin for Claude Code
+# WOZCODE Plugin for Claude Code
 
 Smarter tools for Claude Code that reduce token usage and cost. Replaces built-in file tools with optimized alternatives — fewer tokens per tool call means cheaper sessions that compound over time.
 
@@ -13,7 +13,7 @@ From GitHub — inside a Claude Code session, run:
 /plugin install woz@wozcode-marketplace
 ```
 
-### 2. Restart Claude Code with the WozCode agent
+### 2. Restart Claude Code with the WOZCODE agent
 
 Quit your current session and start a new one with the `woz:code` agent:
 
@@ -27,17 +27,17 @@ Look for **`woz:code`** on the right side of the text input field:
 
 ![woz:code badge](woz-code-badge.png)
 
-That badge means the WozCode agent is active.
+That badge means the WOZCODE agent is active.
 
 ### 4. Log in
 
-WozCode requires a Woz account. On first tool use you'll be prompted to log in, or do it explicitly:
+WOZCODE requires a Woz account. On first tool use you'll be prompted to log in, or do it explicitly:
 
 ```
 /login          # then select "woz" from the list
 ```
 
-Or type `/woz` to see all available WozCode commands.
+Or type `/woz` to see all available WOZCODE commands.
 
 This opens your browser to complete sign-in. Credentials are saved and refreshed automatically.
 
@@ -49,7 +49,7 @@ This opens your browser to complete sign-in. Credentials are saved and refreshed
 
 ## Usage
 
-Just use Claude Code normally — WozCode tools activate automatically. The plugin replaces built-in file tools with smarter versions behind the scenes.
+Just use Claude Code normally — WOZCODE tools activate automatically. The plugin replaces built-in file tools with smarter versions behind the scenes.
 
 ### Agents
 
