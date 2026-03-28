@@ -13,12 +13,12 @@ From GitHub — inside a Claude Code session, run:
 /plugin install woz@wozcode-marketplace
 ```
 
-### 2. Restart Claude Code with the WOZCODE agent
+### 2. Restart Claude Code
 
-Quit your current session and start a new one with the `woz:code` agent:
+Quit your current session and start a new one:
 
 ```bash
-claude --agent woz:code
+claude
 ```
 
 ### 3. Verify it's working
@@ -34,7 +34,7 @@ That badge means the WOZCODE agent is active.
 WOZCODE requires a Woz account. On first tool use you'll be prompted to log in, or do it explicitly:
 
 ```
-/login          # then select "woz" from the list
+/woz-login
 ```
 
 Or type `/woz` to see all available WOZCODE commands.
@@ -44,7 +44,7 @@ This opens your browser to complete sign-in. Credentials are saved and refreshed
 **Headless / SSH?** The terminal prints an auth URL. Open it manually, complete login, copy the token JSON from the success page, and paste it back:
 
 ```
-/login --token '{"access_token":"...","refresh_token":"..."}'
+/woz-login --token '{"access_token":"...","refresh_token":"..."}'
 ```
 
 ## Usage
@@ -65,9 +65,11 @@ You don't need to switch agents manually. `woz:code` delegates to `woz:explore` 
 
 | Command | Description |
 |---------|-------------|
-| `/login` | Log in to your Woz account (select "woz") |
-| `/status` | Check authentication status (select "woz") |
-| `/logout` | Clear credentials (select "woz") |
+| `/woz-login` | Log in to your Woz account |
+| `/woz-logout` | Clear credentials |
+| `/woz-recall` | Recall saved context and preferences |
+| `/woz-status` | Check authentication status |
+| `/reload-plugins` | Reload plugins to get latest updates |
 
 You can also type `/woz` to see all available WozCode commands in one place.
 
@@ -77,4 +79,28 @@ You can also type `/woz` to see all available WozCode commands in one place.
 /plugin disable woz@wozcode-marketplace     # temporarily disable
 /plugin enable woz@wozcode-marketplace      # re-enable
 /plugin uninstall woz@wozcode-marketplace   # remove
+```
+
+### Updating
+
+To get the latest version:
+
+```
+/reload-plugins
+```
+
+If you need to fully reinstall:
+
+```
+/plugin uninstall woz@wozcode-marketplace
+/plugin marketplace add WithWoz/wozcode-plugin
+/plugin install woz@wozcode-marketplace
+```
+
+### Debug
+
+To explicitly launch with the WOZCODE agent (not normally needed):
+
+```bash
+claude --agent woz:code
 ```
