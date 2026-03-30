@@ -78,7 +78,7 @@ You can also type `/woz` to see all available WozCode commands in one place.
 ```
 /plugin disable woz@wozcode-marketplace     # temporarily disable
 /plugin enable woz@wozcode-marketplace      # re-enable
-/plugin uninstall woz@wozcode-marketplace   # remove
+/plugin marketplace remove WithWoz/wozcode-plugin   # remove
 ```
 
 ### Updating
@@ -92,7 +92,7 @@ To get the latest version:
 If you need to fully reinstall:
 
 ```
-/plugin uninstall woz@wozcode-marketplace
+/plugin marketplace remove WithWoz/wozcode-plugin
 /plugin marketplace add WithWoz/wozcode-plugin
 /plugin install woz@wozcode-marketplace
 ```
