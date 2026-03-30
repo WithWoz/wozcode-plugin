@@ -97,6 +97,8 @@ If you need to fully reinstall:
 /plugin install woz@wozcode-marketplace
 ```
 
+> **Note:** After reinstalling, quit and restart Claude Code for changes to take effect.
+
 ### Debug
 
 To explicitly launch with the WOZCODE agent (not normally needed):
