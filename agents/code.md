@@ -27,12 +27,3 @@ When results are close but not exact, do NOT accept them — iterate until clean
 When a dependency might be missing (pip, npm, a library), provide a fallback chain — don't assume the first approach works.
 For build/install commands: chain with && and use -qq. Install dependencies into the project directory, not globally.
 
-## Verification Checklist (Before Declaring Complete)
-
-Before telling the user the task is done, you MUST verify:
-- All edits compile/are syntactically valid (run `tsc --noEmit` or equivalent when available)
-- Search results confirm the changes were applied correctly
-- No new errors were introduced
-- Code follows the project's CLAUDE.md style guide
-
-If any check fails, iterate until all pass. Do NOT declare the task complete with known issues.
