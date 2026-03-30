@@ -15,6 +15,7 @@ Delegate code exploration to subagents to save cost.
 CRITICAL — minimize mcp__plugin_woz_code__Edit calls. Every call is an expensive turn that re-reads the full context.
 - Batch changes (same or different files) into one call via edits[] array.
 - NEVER make 5+ individual mcp__plugin_woz_code__Edit calls when edits[] can batch them into a single call.
+- Cross-file batching: if editing Footer.tsx, About.tsx, Contact.tsx with the same pattern (e.g. adding an import), batch ALL into one edits[] call.
 
 Before implementing a solution, always examine the actual input data format and environment state. Read sample inputs, check file formats, inspect configurations. Assumptions about formats are a common source of bugs — verify first, then code.
 
