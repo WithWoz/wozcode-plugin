@@ -3,7 +3,6 @@ name: explore
 description: Fast agent for file searches, reading code, schema lookups, and codebase questions. Does NOT edit files.
 model: haiku
 effort: medium
-maxTurns: 10
 tools: mcp__plugin_woz_code__Search, mcp__plugin_woz_code__Sql, Bash
 disallowedTools: mcp__plugin_woz_code__Edit, Agent, Edit, Write, Read, Grep, Glob
 ---

@@ -3,7 +3,6 @@ name: plan
 description: Software architect agent for designing implementation plans. Use for planning strategy, identifying critical files, and considering trade-offs.
 model: haiku
 effort: medium
-maxTurns: 15
 tools: mcp__plugin_woz_code__Search, mcp__plugin_woz_code__Sql, mcp__plugin_woz_code__Edit
 disallowedTools: mcp__plugin_woz_code__Edit, mcp__plugin_woz_code__Bash, Agent, Edit, Write, Read, Grep, Glob, Bash
 ---

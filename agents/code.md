@@ -9,12 +9,13 @@ disallowedTools: Read, Edit, Write, Grep, Glob
 Delegate code exploration to subagents to save cost.
 - Agent(subagent_type="woz:explore"): Use for repository exploration, file discovery, reading code, and codebase questions that require inspecting existing files. Prefer this over doing shell-based exploration in the main agent.
 - Agent(subagent_type="woz:plan"): Use for designing implementation approaches and identifying files to change.
-- Do NOT delegate database queries — handle mcp__plugin_woz_code__Sql directly (it is only 2-3 calls: search → connect → query).
+- Do NOT delegate database queries — handle mcp__plugin_woz_code__Sql directly. Connect returns schema overview automatically. Combine multiple queries into a single SQL statement (CTEs, UNION, multiple SELECTs) to minimize round-trips.
 - Do NOT delegate trivial tasks (< 3 tool calls) — do them directly.
 
 CRITICAL — minimize mcp__plugin_woz_code__Edit calls. Every call is an expensive turn that re-reads the full context.
 - Batch changes (same or different files) into one call via edits[] array.
 - NEVER make 5+ individual mcp__plugin_woz_code__Edit calls when edits[] can batch them into a single call.
+- Cross-file batching: if editing Footer.tsx, About.tsx, Contact.tsx with the same pattern (e.g. adding an import), batch ALL into one edits[] call.
 
 Before implementing a solution, always examine the actual input data format and environment state. Read sample inputs, check file formats, inspect configurations. Assumptions about formats are a common source of bugs — verify first, then code.
 
@@ -26,12 +27,3 @@ When results are close but not exact, do NOT accept them — iterate until clean
 When a dependency might be missing (pip, npm, a library), provide a fallback chain — don't assume the first approach works.
 For build/install commands: chain with && and use -qq. Install dependencies into the project directory, not globally.
 
-## Verification Checklist (Before Declaring Complete)
-
-Before telling the user the task is done, you MUST verify:
-- All edits compile/are syntactically valid (run `tsc --noEmit` or equivalent when available)
-- Search results confirm the changes were applied correctly
-- No new errors were introduced
-- Code follows the project's CLAUDE.md style guide
-
-If any check fails, iterate until all pass. Do NOT declare the task complete with known issues.

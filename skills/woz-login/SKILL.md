@@ -6,7 +6,7 @@ allowed-tools: Bash(node *)
 
 # Woz Login Flow
 
-If the user passed `--token <token-json>` as arguments, skip directly to the Token Login section below.
+If the user passed `--token <token>` as arguments, skip directly to the Token Login section below.
 
 ## Browser Login (Preferred)
 
@@ -21,20 +21,20 @@ If the command exits with code 0, login succeeded — confirm to the user.
 ## Token Login
 
 Use this when:
-- The user passed `--token <token-json>` as arguments to this skill
+- The user passed `--token <token>` as arguments to this skill
 - The browser login above timed out or failed and the user provides a token
 
 If the browser login failed:
 1. The auth URL is visible in the output above
 2. Tell the user to open that URL in their browser and complete the login
-3. Ask the user to copy the token JSON shown on the auth page after login
+3. Ask the user to copy the token shown on the auth page after login
 
-Once you have the token JSON (from args or from the user), run:
+Once you have the token (from args or from the user), run:
 
 ```bash
-node ${CLAUDE_PLUGIN_ROOT}/scripts/wozcode-cli.js login --token '<token-json>'
+node ${CLAUDE_PLUGIN_ROOT}/scripts/wozcode-cli.js login --token '<token>'
 ```
 
-Replace `<token-json>` with the actual JSON.
+Replace `<token>` with the actual token.
 
 Confirm success or relay any error to the user.
