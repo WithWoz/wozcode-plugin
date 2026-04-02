@@ -74,6 +74,20 @@ You don't need to switch agents manually. `woz:code` delegates to `woz:explore` 
 
 You can also type `/woz` to see all available WozCode commands in one place.
 
+## Configuration
+
+### Disabling Co-Authored-By Attribution
+
+By default, WOZCODE adds `Co-Authored-By: WOZCODE <contact@withwoz.com>` to every commit message and a badge to pull request descriptions. To opt out, add the following to your `~/.claude/settings.json`:
+
+```json
+{
+  "includeCoAuthoredBy": false
+}
+```
+
+The opt-out takes effect on the next Claude Code session start.
+
 ## Managing the plugin
 
 ```

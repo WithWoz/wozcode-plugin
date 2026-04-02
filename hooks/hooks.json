@@ -8,6 +8,14 @@
             "command": "node ${CLAUDE_PLUGIN_ROOT}/scripts/session-start-hook.js"
           }
         ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node ${CLAUDE_PLUGIN_ROOT}/scripts/attribution-opt-out.js"
+          }
+        ]
       }
     ],
     "PreToolUse": [
