@@ -124,6 +124,12 @@ Connect WOZCODE to [Conductor](https://conductor.build).
    (or `~/.local/bin/wozcode conductor` if `wozcode` isn't on your PATH)
 
 3. **Paste it** into Conductor → Settings → Advanced → "Claude Code executable path".
-4. **Start a new Conductor session** and ask *"what agent are you running?"* — it should answer `woz:code`.
+4. **Start a new Conductor session** and ask:
+
+   ```
+   what main thread agent are you running?
+   ```
+
+   It should answer `woz:code`.
 
 The `claude-woz` executable is auto-refreshed on every WOZCODE session start, so plugin updates keep it pointing at the current version. Not every WOZCODE feature works through Conductor yet, but Search and Edit do — you'll still get most of the speed and cost savings.
