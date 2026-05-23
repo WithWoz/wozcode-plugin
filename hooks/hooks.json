@@ -100,6 +100,10 @@
           {
             "type": "command",
             "command": "node --no-warnings=ExperimentalWarning ${CLAUDE_PLUGIN_ROOT}/scripts/session-telemetry-hook.js"
+          },
+          {
+            "type": "command",
+            "command": "node --no-warnings=ExperimentalWarning ${CLAUDE_PLUGIN_ROOT}/scripts/postcompact-woz-reactivate.js"
           }
         ]
       }
