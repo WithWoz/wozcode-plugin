@@ -15062,7 +15062,7 @@ function Qk($, Q) {
 var M4 = ($, Q) => {
   for (var J in Q) OG($, J, { get: Q[J], enumerable: true, configurable: true, set: Qk.bind(Q, J) });
 };
-var v6 = (0, import_node_module.createRequire)(import_meta.url);
+var v6 = (0, import_node_module.createRequire)(import_meta.url || __filename);
 var Xk = Symbol.dispose || /* @__PURE__ */ Symbol.for("Symbol.dispose");
 var Yk = Symbol.asyncDispose || /* @__PURE__ */ Symbol.for("Symbol.asyncDispose");
 var Z$ = ($, Q, J) => {
