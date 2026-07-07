@@ -49,6 +49,7 @@
       "transports": {
         "openai": {
           "modelConfig": {
+            "$id": "bedrock-mantle-openai-model-config",
             "defaultReasoningEffort": "none",
             "minMaxCompletionTokens": 16
           }
@@ -60,18 +61,20 @@
           // `context_management` body field.
           "requestModifications": [
             {
-              "headers": {
-                "removeValues": {
-                  "anthropic-beta": [
+              "headers": [
+                {
+                  "type": "removeValues",
+                  "name": "anthropic-beta",
+                  "values": [
                     "prompt-caching-scope-2026-01-05",
                     "oauth-2025-04-20"
                     // "context-management-2025-06-27"
                   ]
                 }
-              },
-              "body": {
-                // "remove": ["context_management"]
-              }
+              ],
+              "body": [
+                // { "type": "remove", "path": "context_management" }
+              ]
             }
           ]
         }
@@ -105,12 +108,10 @@
               "when": {
                 "preset": ["/claudecode", "/claudecode-azure"]
               },
-              "systemPrompt": {
-                /* Steering bullets disabled - redundant with the MCP Search/Edit tool descriptions.
-                "append": [
-                  "\n\n- Batch all changes for a task into ONE mcp__plugin_woz_code__Edit call's edits[] array — not one Edit call per file. Ten edits in one call beats ten calls with one edit each.\n- Search up front, then apply edits together. Don't search-edit-search-edit.\n- Combine independent searches into one mcp__plugin_woz_code__Search call (multiple file_glob_patterns or alternation in content_regex) instead of issuing them one at a time.\n- The Edit tool's \"smallest edit\" guidance is about each edit's payload size (don't regenerate untouched lines), not about the scope of work for the task. Do everything the prompt asks for in your batched Edit call."
-                ] */
-              }
+              "systemPrompt": [
+                // Steering bullets disabled - redundant with the MCP Search/Edit tool descriptions.
+                // { "type": "append", "text": "\n\n- Batch all changes for a task into ONE mcp__plugin_woz_code__Edit call's edits[] array — not one Edit call per file. Ten edits in one call beats ten calls with one edit each.\n- Search up front, then apply edits together. Don't search-edit-search-edit.\n- Combine independent searches into one mcp__plugin_woz_code__Search call (multiple file_glob_patterns or alternation in content_regex) instead of issuing them one at a time.\n- The Edit tool's \"smallest edit\" guidance is about each edit's payload size (don't regenerate untouched lines), not about the scope of work for the task. Do everything the prompt asks for in your batched Edit call." }
+              ]
             }
           ]
         }
@@ -144,29 +145,26 @@
               "when": {
                 "preset": ["/claudecode", "/claudecode-chatgpt"]
               },
-              "systemPrompt": {
-                "prepend": ["${CODEX_CLI_SYSTEM_PROMPT_PREFIX}"]
-              },
+              "systemPrompt": [{ "type": "prepend", "text": "${CODEX_CLI_SYSTEM_PROMPT_PREFIX}" }],
               "cookieJar": "cloudflare",
-              "headers": {
-                "add": {
-                  "user-agent": "codex_cli_rs/0.32.0",
-                  "originator": "codex_cli_rs"
-                },
+              "headers": [
                 // Strip headers that would tell the gateway this isn't Codex CLI.
-                "remove": ["anthropic-*", "x-app", "x-claude-code-session-id", "x-stainless-*"]
-              },
-              "body": {
-                "remove": [
-                  "max_tokens",
-                  "max_completion_tokens",
-                  "max_output_tokens",
-                  "metadata",
-                  "prompt_cache_retention",
-                  "temperature",
-                  "top_p"
-                ]
-              }
+                { "type": "remove", "name": "anthropic-*" },
+                { "type": "remove", "name": "x-app" },
+                { "type": "remove", "name": "x-claude-code-session-id" },
+                { "type": "remove", "name": "x-stainless-*" },
+                { "type": "add", "name": "user-agent", "value": "codex_cli_rs/0.32.0" },
+                { "type": "add", "name": "originator", "value": "codex_cli_rs" }
+              ],
+              "body": [
+                { "type": "remove", "path": "max_tokens" },
+                { "type": "remove", "path": "max_completion_tokens" },
+                { "type": "remove", "path": "max_output_tokens" },
+                { "type": "remove", "path": "metadata" },
+                { "type": "remove", "path": "prompt_cache_retention" },
+                { "type": "remove", "path": "temperature" },
+                { "type": "remove", "path": "top_p" }
+              ]
             }
           ]
         }
@@ -438,19 +436,10 @@
       //   {
       //     // Strip the `claude-code-guide` subagent entry from the Agent tool
       //     // description so the model doesn't try to delegate to it.
-      //     "tools": {
-      //       "edit": [{ "tool": "Agent", "search": "- claude-code-guide:${*}\n" }]
-      //     },
+      //     "tools": [{ "type": "edit", "tool": "Agent", "search": "- claude-code-guide:${*}\n" }],
       //     // Strip the "report the issue at github.com/anthropics/claude-code"
       //     // hint from the system prompt; not actionable from the router side.
-      //     "systemPrompt": {
-      //       "edit": [
-      //         {
-      //           "search": "\n${*}- To give feedback,${*}\n",
-      //           "replace": "\n"
-      //         }
-      //       ]
-      //     }
+      //     "systemPrompt": [{ "type": "edit", "search": "\n${*}- To give feedback,${*}\n", "replace": "\n" }]
       //   }
       // ]
     },
@@ -471,31 +460,41 @@
       "path": "/codex",
       "defaultProvider": "openai",
       "requestModifications": [
+        // Empty `$id`-only slot: an experiment fragment can replace it with a
+        // full requestModification entry; left unfilled it is dropped on load.
+        { "$id": "codex-extra-request-modification" },
         {
-          "tools": {
-            "remove": ["apply_patch", "view_image"]
-          }
+          "$id": "codex-tools-remove",
+          "tools": [
+            { "type": "remove", "name": "apply_patch" },
+            { "type": "remove", "name": "view_image" }
+          ]
         },
         {
-          "systemPrompt": {
-            /* Steering bullets disabled - redundant with the MCP Search/Edit tool descriptions; the load-bearing edit rewrites below stay active (slimmed to a minimal pointer; the redundant batching/parallelize prose lives in the MCP Search/Edit tool descriptions, paid once instead of re-billed every resumed turn).
-            "append": [
-              "\n\n- Batch all changes for a task into ONE mcp__plugin_woz_code__Edit call's edits[] array — not one Edit call per file. Ten edits in one call beats ten calls with one edit each.\n- Search up front, then apply edits together. Don't search-edit-search-edit.\n- Combine independent searches into one mcp__plugin_woz_code__Search call (multiple file_glob_patterns or alternation in content_regex) instead of issuing them one at a time.\n- The Edit tool's \"smallest edit\" guidance is about each edit's payload size (don't regenerate untouched lines), not about the scope of work for the task. Do everything the prompt asks for in your batched Edit call."
-            ], */
-            "edit": [
-              {
-                "search": "- When you search for text or files, you reach first for `rg`${**}- You parallelize tool calls whenever you can, especially file reads such as `cat`, `rg`, `sed`, `ls`, `${*}\n",
-                "replace": "- Use mcp__plugin_woz_code__Search for all file discovery, text search, and file reads instead of shell commands such as `rg`, `grep`, `cat`, `sed`, or `ls`.\n"
-              },
-              {
-                "search": "- Use `apply_patch` for manual code edits.${**}- Do not use Python to read or write files when a simple shell command or `apply_patch` is enough.\n",
-                "replace": "- Use mcp__plugin_woz_code__Edit for all file creation and code edits instead of `apply_patch`, `cat`, heredocs, or Python write tricks.\n"
-              },
-              {
-                "search": "## `apply_patch`\n${**}\nshell {\"command\":[\"apply_patch\",\"*** Begin Patch\\n*** Add File: hello.txt\\n+Hello, world!\\n*** End Patch\\n\"]}\n```"
-              }
-            ]
-          }
+          "systemPrompt": [
+            // Steering bullets disabled - redundant with the MCP Search/Edit tool descriptions; the load-bearing edit rewrites below stay active (slimmed to a minimal pointer; the redundant batching/parallelize prose lives in the MCP Search/Edit tool descriptions, paid once instead of re-billed every resumed turn).
+            // { "type": "append", "text": "\n\n- Batch all changes for a task into ONE mcp__plugin_woz_code__Edit call's edits[] array — not one Edit call per file. Ten edits in one call beats ten calls with one edit each.\n- Search up front, then apply edits together. Don't search-edit-search-edit.\n- Combine independent searches into one mcp__plugin_woz_code__Search call (multiple file_glob_patterns or alternation in content_regex) instead of issuing them one at a time.\n- The Edit tool's \"smallest edit\" guidance is about each edit's payload size (don't regenerate untouched lines), not about the scope of work for the task. Do everything the prompt asks for in your batched Edit call." }
+            // Empty `$id`-only append slot: an experiment fragment can replace it
+            // with { "type": "append", "text": ... }; dropped on load if unfilled.
+            { "$id": "codex-system-prompt-append" },
+            {
+              "$id": "codex-edit-search-tools",
+              "type": "edit",
+              "search": "- When you search for text or files, you reach first for `rg`${**}- You parallelize tool calls whenever you can, especially file reads such as `cat`, `rg`, `sed`, `ls`, `${*}\n",
+              "replace": "- Use mcp__plugin_woz_code__Search for all file discovery, text search, and file reads instead of shell commands such as `rg`, `grep`, `cat`, `sed`, or `ls`.\n"
+            },
+            {
+              "$id": "codex-edit-file-edits",
+              "type": "edit",
+              "search": "- Use `apply_patch` for manual code edits.${**}- Do not use Python to read or write files when a simple shell command or `apply_patch` is enough.\n",
+              "replace": "- Use mcp__plugin_woz_code__Edit for all file creation and code edits instead of `apply_patch`, `cat`, heredocs, or Python write tricks.\n"
+            },
+            {
+              "$id": "codex-edit-apply-patch-doc",
+              "type": "edit",
+              "search": "## `apply_patch`\n${**}\nshell {\"command\":[\"apply_patch\",\"*** Begin Patch\\n*** Add File: hello.txt\\n+Hello, world!\\n*** End Patch\\n\"]}\n```"
+            }
+          ]
         }
       ]
     },
@@ -506,31 +505,41 @@
       "path": "/codex-azure",
       "defaultProvider": "azure-foundry",
       "requestModifications": [
+        // Empty `$id`-only slot: fill by id to inject a requestModification
+        // (e.g. a systemPrompt.append); dropped on load when left unfilled.
+        { "$id": "codex-azure-extra-request-modification" },
         {
-          "tools": {
-            "remove": ["apply_patch", "view_image"]
-          }
+          "$id": "codex-azure-tools-remove",
+          "tools": [
+            { "type": "remove", "name": "apply_patch" },
+            { "type": "remove", "name": "view_image" }
+          ]
         },
         {
-          "systemPrompt": {
-            /* Steering bullets disabled - redundant with the MCP Search/Edit tool descriptions; the load-bearing edit rewrites below stay active (slimmed to a minimal pointer; the redundant batching/parallelize prose lives in the MCP Search/Edit tool descriptions, paid once instead of re-billed every resumed turn).
-            "append": [
-              "\n\n- Batch all changes for a task into ONE mcp__plugin_woz_code__Edit call's edits[] array — not one Edit call per file. Ten edits in one call beats ten calls with one edit each.\n- Search up front, then apply edits together. Don't search-edit-search-edit.\n- Combine independent searches into one mcp__plugin_woz_code__Search call (multiple file_glob_patterns or alternation in content_regex) instead of issuing them one at a time.\n- The Edit tool's \"smallest edit\" guidance is about each edit's payload size (don't regenerate untouched lines), not about the scope of work for the task. Do everything the prompt asks for in your batched Edit call."
-            ], */
-            "edit": [
-              {
-                "search": "- When you search for text or files, you reach first for `rg`${**}- You parallelize tool calls whenever you can, especially file reads such as `cat`, `rg`, `sed`, `ls`, `${*}\n",
-                "replace": "- Use mcp__plugin_woz_code__Search for all file discovery, text search, and file reads instead of shell commands such as `rg`, `grep`, `cat`, `sed`, or `ls`.\n"
-              },
-              {
-                "search": "- Use `apply_patch` for manual code edits.${**}- Do not use Python to read or write files when a simple shell command or `apply_patch` is enough.\n",
-                "replace": "- Use mcp__plugin_woz_code__Edit for all file creation and code edits instead of `apply_patch`, `cat`, heredocs, or Python write tricks.\n"
-              },
-              {
-                "search": "## `apply_patch`\n${**}\nshell {\"command\":[\"apply_patch\",\"*** Begin Patch\\n*** Add File: hello.txt\\n+Hello, world!\\n*** End Patch\\n\"]}\n```"
-              }
-            ]
-          }
+          "systemPrompt": [
+            // Steering bullets disabled - redundant with the MCP Search/Edit tool descriptions; the load-bearing edit rewrites below stay active (slimmed to a minimal pointer; the redundant batching/parallelize prose lives in the MCP Search/Edit tool descriptions, paid once instead of re-billed every resumed turn).
+            // { "type": "append", "text": "\n\n- Batch all changes for a task into ONE mcp__plugin_woz_code__Edit call's edits[] array — not one Edit call per file. Ten edits in one call beats ten calls with one edit each.\n- Search up front, then apply edits together. Don't search-edit-search-edit.\n- Combine independent searches into one mcp__plugin_woz_code__Search call (multiple file_glob_patterns or alternation in content_regex) instead of issuing them one at a time.\n- The Edit tool's \"smallest edit\" guidance is about each edit's payload size (don't regenerate untouched lines), not about the scope of work for the task. Do everything the prompt asks for in your batched Edit call." }
+            // Empty `$id`-only append slot: an experiment fragment can replace it
+            // with { "type": "append", "text": ... }; dropped on load if unfilled.
+            { "$id": "codex-azure-system-prompt-append" },
+            {
+              "$id": "codex-azure-edit-search-tools",
+              "type": "edit",
+              "search": "- When you search for text or files, you reach first for `rg`${**}- You parallelize tool calls whenever you can, especially file reads such as `cat`, `rg`, `sed`, `ls`, `${*}\n",
+              "replace": "- Use mcp__plugin_woz_code__Search for all file discovery, text search, and file reads instead of shell commands such as `rg`, `grep`, `cat`, `sed`, or `ls`.\n"
+            },
+            {
+              "$id": "codex-azure-edit-file-edits",
+              "type": "edit",
+              "search": "- Use `apply_patch` for manual code edits.${**}- Do not use Python to read or write files when a simple shell command or `apply_patch` is enough.\n",
+              "replace": "- Use mcp__plugin_woz_code__Edit for all file creation and code edits instead of `apply_patch`, `cat`, heredocs, or Python write tricks.\n"
+            },
+            {
+              "$id": "codex-azure-edit-apply-patch-doc",
+              "type": "edit",
+              "search": "## `apply_patch`\n${**}\nshell {\"command\":[\"apply_patch\",\"*** Begin Patch\\n*** Add File: hello.txt\\n+Hello, world!\\n*** End Patch\\n\"]}\n```"
+            }
+          ]
         }
       ],
       "modelMappings": [

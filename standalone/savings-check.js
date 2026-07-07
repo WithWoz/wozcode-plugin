@@ -12,6 +12,7 @@
  * Source (unobfuscated, auditable):
  *   https://github.com/WithWoz/wozcode-plugin/blob/main/standalone/savings-check.js
  */
+const __wozImportMetaUrl=require("node:url").pathToFileURL(__filename).href;
 "use strict";
 var __create = Object.create;
 var __defProp = Object.defineProperty;
@@ -42,8 +43,8 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
 
 // src/common/baseline/baseline-scanner.ts
 var import_child_process7 = require("child_process");
-var fs5 = __toESM(require("fs"), 1);
-var path7 = __toESM(require("path"), 1);
+var fs7 = __toESM(require("fs"), 1);
+var path11 = __toESM(require("path"), 1);
 
 // node_modules/zod/v4/classic/external.js
 var external_exports = {};
@@ -811,15 +812,15 @@ function mergeDefs(...defs) {
 function cloneDef(schema) {
   return mergeDefs(schema._zod.def);
 }
-function getElementAtPath(obj, path8) {
-  if (!path8)
+function getElementAtPath(obj, path12) {
+  if (!path12)
     return obj;
-  return path8.reduce((acc, key) => acc?.[key], obj);
+  return path12.reduce((acc, key) => acc?.[key], obj);
 }
 function promiseAllObject(promisesObj) {
   const keys = Object.keys(promisesObj);
-  const promises5 = keys.map((key) => promisesObj[key]);
-  return Promise.all(promises5).then((results) => {
+  const promises6 = keys.map((key) => promisesObj[key]);
+  return Promise.all(promises6).then((results) => {
     const resolvedObj = {};
     for (let i = 0; i < keys.length; i++) {
       resolvedObj[keys[i]] = results[i];
@@ -1223,11 +1224,11 @@ function explicitlyAborted(x2, startIndex = 0) {
   }
   return false;
 }
-function prefixIssues(path8, issues) {
+function prefixIssues(path12, issues) {
   return issues.map((iss) => {
     var _a3;
     (_a3 = iss).path ?? (_a3.path = []);
-    iss.path.unshift(path8);
+    iss.path.unshift(path12);
     return iss;
   });
 }
@@ -1374,16 +1375,16 @@ function flattenError(error51, mapper = (issue2) => issue2.message) {
 }
 function formatError(error51, mapper = (issue2) => issue2.message) {
   const fieldErrors = { _errors: [] };
-  const processError = (error52, path8 = []) => {
+  const processError = (error52, path12 = []) => {
     for (const issue2 of error52.issues) {
       if (issue2.code === "invalid_union" && issue2.errors.length) {
-        issue2.errors.map((issues) => processError({ issues }, [...path8, ...issue2.path]));
+        issue2.errors.map((issues) => processError({ issues }, [...path12, ...issue2.path]));
       } else if (issue2.code === "invalid_key") {
-        processError({ issues: issue2.issues }, [...path8, ...issue2.path]);
+        processError({ issues: issue2.issues }, [...path12, ...issue2.path]);
       } else if (issue2.code === "invalid_element") {
-        processError({ issues: issue2.issues }, [...path8, ...issue2.path]);
+        processError({ issues: issue2.issues }, [...path12, ...issue2.path]);
       } else {
-        const fullpath = [...path8, ...issue2.path];
+        const fullpath = [...path12, ...issue2.path];
         if (fullpath.length === 0) {
           fieldErrors._errors.push(mapper(issue2));
         } else {
@@ -1410,17 +1411,17 @@ function formatError(error51, mapper = (issue2) => issue2.message) {
 }
 function treeifyError(error51, mapper = (issue2) => issue2.message) {
   const result = { errors: [] };
-  const processError = (error52, path8 = []) => {
+  const processError = (error52, path12 = []) => {
     var _a3, _b;
     for (const issue2 of error52.issues) {
       if (issue2.code === "invalid_union" && issue2.errors.length) {
-        issue2.errors.map((issues) => processError({ issues }, [...path8, ...issue2.path]));
+        issue2.errors.map((issues) => processError({ issues }, [...path12, ...issue2.path]));
       } else if (issue2.code === "invalid_key") {
-        processError({ issues: issue2.issues }, [...path8, ...issue2.path]);
+        processError({ issues: issue2.issues }, [...path12, ...issue2.path]);
       } else if (issue2.code === "invalid_element") {
-        processError({ issues: issue2.issues }, [...path8, ...issue2.path]);
+        processError({ issues: issue2.issues }, [...path12, ...issue2.path]);
       } else {
-        const fullpath = [...path8, ...issue2.path];
+        const fullpath = [...path12, ...issue2.path];
         if (fullpath.length === 0) {
           result.errors.push(mapper(issue2));
           continue;
@@ -1452,8 +1453,8 @@ function treeifyError(error51, mapper = (issue2) => issue2.message) {
 }
 function toDotPath(_path) {
   const segs = [];
-  const path8 = _path.map((seg) => typeof seg === "object" ? seg.key : seg);
-  for (const seg of path8) {
+  const path12 = _path.map((seg) => typeof seg === "object" ? seg.key : seg);
+  for (const seg of path12) {
     if (typeof seg === "number")
       segs.push(`[${seg}]`);
     else if (typeof seg === "symbol")
@@ -1639,10 +1640,10 @@ var nanoid = /^[a-zA-Z0-9_-]{21}$/;
 var duration = /^P(?:(\d+W)|(?!.*W)(?=\d|T\d)(\d+Y)?(\d+M)?(\d+D)?(T(?=\d)(\d+H)?(\d+M)?(\d+([.,]\d+)?S)?)?)$/;
 var extendedDuration = /^[-+]?P(?!$)(?:(?:[-+]?\d+Y)|(?:[-+]?\d+[.,]\d+Y$))?(?:(?:[-+]?\d+M)|(?:[-+]?\d+[.,]\d+M$))?(?:(?:[-+]?\d+W)|(?:[-+]?\d+[.,]\d+W$))?(?:(?:[-+]?\d+D)|(?:[-+]?\d+[.,]\d+D$))?(?:T(?=[\d+-])(?:(?:[-+]?\d+H)|(?:[-+]?\d+[.,]\d+H$))?(?:(?:[-+]?\d+M)|(?:[-+]?\d+[.,]\d+M$))?(?:[-+]?\d+(?:[.,]\d+)?S)?)??$/;
 var guid = /^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$/;
-var uuid = (version2) => {
-  if (!version2)
+var uuid = (version3) => {
+  if (!version3)
     return /^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$/;
-  return new RegExp(`^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-${version2}[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12})$`);
+  return new RegExp(`^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-${version3}[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12})$`);
 };
 var uuid4 = /* @__PURE__ */ uuid(4);
 var uuid6 = /* @__PURE__ */ uuid(6);
@@ -3083,13 +3084,13 @@ var $ZodObject = /* @__PURE__ */ $constructor("$ZodObject", (inst, def) => {
     }
     return propValues;
   });
-  const isObject2 = isObject;
+  const isObject3 = isObject;
   const catchall = def.catchall;
   let value;
   inst._zod.parse = (payload, ctx) => {
     value ?? (value = _normalized.value);
     const input = payload.value;
-    if (!isObject2(input)) {
+    if (!isObject3(input)) {
       payload.issues.push({
         expected: "object",
         code: "invalid_type",
@@ -3216,7 +3217,7 @@ var $ZodObjectJIT = /* @__PURE__ */ $constructor("$ZodObjectJIT", (inst, def) =>
     return (payload, ctx) => fn(shape, payload, ctx);
   };
   let fastpass;
-  const isObject2 = isObject;
+  const isObject3 = isObject;
   const jit = !globalConfig.jitless;
   const allowsEval2 = allowsEval;
   const fastEnabled = jit && allowsEval2.value;
@@ -3225,7 +3226,7 @@ var $ZodObjectJIT = /* @__PURE__ */ $constructor("$ZodObjectJIT", (inst, def) =>
   inst._zod.parse = (payload, ctx) => {
     value ?? (value = _normalized.value);
     const input = payload.value;
-    if (!isObject2(input)) {
+    if (!isObject3(input)) {
       payload.issues.push({
         expected: "object",
         code: "invalid_type",
@@ -11032,12 +11033,12 @@ function _uppercase(params) {
   });
 }
 // @__NO_SIDE_EFFECTS__
-function _includes(includes, params) {
+function _includes(includes2, params) {
   return new $ZodCheckIncludes({
     check: "string_format",
     format: "includes",
     ...normalizeParams(params),
-    includes
+    includes: includes2
   });
 }
 // @__NO_SIDE_EFFECTS__
@@ -14145,13 +14146,13 @@ function resolveRef(ref, ctx) {
   if (!ref.startsWith("#")) {
     throw new Error("External $ref is not supported, only local refs (#/...) are allowed");
   }
-  const path8 = ref.slice(1).split("/").filter(Boolean);
-  if (path8.length === 0) {
+  const path12 = ref.slice(1).split("/").filter(Boolean);
+  if (path12.length === 0) {
     return ctx.rootSchema;
   }
   const defsKey = ctx.version === "draft-2020-12" ? "$defs" : "definitions";
-  if (path8[0] === defsKey) {
-    const key = path8[1];
+  if (path12[0] === defsKey) {
+    const key = path12[1];
     if (!key || !ctx.defs[key]) {
       throw new Error(`Reference not found: ${ref}`);
     }
@@ -14518,10 +14519,10 @@ function fromJSONSchema(schema, params) {
   } catch {
     throw new Error("fromJSONSchema input is not valid JSON (possibly cyclic); use $defs/$ref for recursive schemas");
   }
-  const version2 = detectVersion(normalized, params?.defaultTarget);
+  const version3 = detectVersion(normalized, params?.defaultTarget);
   const defs = normalized.$defs || normalized.definitions || {};
   const ctx = {
-    version: version2,
+    version: version3,
     defs,
     refs: /* @__PURE__ */ new Map(),
     processing: /* @__PURE__ */ new Set(),
@@ -14578,8 +14579,8 @@ function addTokenUsage(target, source) {
 // src/common/config/config.ts
 var fsSync = __toESM(require("fs"), 1);
 var fs3 = __toESM(require("fs/promises"), 1);
-var os4 = __toESM(require("os"), 1);
-var path4 = __toESM(require("path"), 1);
+var os5 = __toESM(require("os"), 1);
+var path5 = __toESM(require("path"), 1);
 
 // src/common/claude-env.ts
 var fs = __toESM(require("fs"), 1);
@@ -14591,6 +14592,16 @@ var CLAUDE_CONFIG_DIR_ENV_VAR = "CLAUDE_CONFIG_DIR";
 
 // src/common/config/env-constants.ts
 var WOZCODE_HOST_ENV_VAR = "WOZCODE_HOST";
+var WOZCODE_TELEMETRY_DISABLED_ENV_VAR = "WOZCODE_TELEMETRY_DISABLED";
+var WOZCODE_POSTHOG_ENABLED_ENV_VAR = "WOZCODE_POSTHOG_ENABLED";
+var WOZCODE_POSTHOG_PROJECT_TOKEN_ENV_VAR = "WOZCODE_POSTHOG_PROJECT_TOKEN";
+var WOZCODE_POSTHOG_PROJECT_REGION_ENV_VAR = "WOZCODE_POSTHOG_PROJECT_REGION";
+var WOZCODE_DEBUG_TELEMETRY_ENV_VAR = "WOZCODE_DEBUG_TELEMETRY";
+var TRUTHY_ENV_VALUES = /* @__PURE__ */ new Set(["1", "true", "yes", "on"]);
+function isEnvVarTruthy(value) {
+  if (value == null) return false;
+  return TRUTHY_ENV_VALUES.has(value.trim().toLowerCase());
+}
 
 // src/common/claude-env.ts
 var CLAUDE_DIR_NAME = ".claude";
@@ -14607,9 +14618,16 @@ function getProjectsPath() {
 var os2 = __toESM(require("os"), 1);
 var path2 = __toESM(require("path"), 1);
 
+// src/common/copilot-paths.ts
+var os3 = __toESM(require("os"), 1);
+var path3 = __toESM(require("path"), 1);
+
 // src/common/woz-host.ts
 function initialHostFromEnv() {
-  return process.env[WOZCODE_HOST_ENV_VAR] === "codex" ? "codex" : "claude";
+  const host = process.env[WOZCODE_HOST_ENV_VAR];
+  if (host === "codex") return "codex";
+  if (host === "copilot") return "copilot";
+  return "claude";
 }
 var currentHost = initialHostFromEnv();
 
@@ -14617,8 +14635,8 @@ var currentHost = initialHostFromEnv();
 var import_child_process = require("child_process");
 var crypto = __toESM(require("crypto"), 1);
 var fs2 = __toESM(require("fs"), 1);
-var os3 = __toESM(require("os"), 1);
-var path3 = __toESM(require("path"), 1);
+var os4 = __toESM(require("os"), 1);
+var path4 = __toESM(require("path"), 1);
 var FileLockInfoSchema = external_exports.object({
   pid: external_exports.number(),
   lockAcquiredAtMs: external_exports.number(),
@@ -14631,7 +14649,7 @@ var FileLockInfoSchema = external_exports.object({
 // package.json
 var package_default = {
   name: "wozcode",
-  version: "0.3.83",
+  version: "0.3.84",
   description: "WOZCODE enhanced coding tools \u2014 smart search, batch editing, SQL introspection, and cost-optimized subagent delegation",
   homepage: "https://wozcode.com",
   type: "module",
@@ -14647,8 +14665,10 @@ var package_default = {
     "build:claude:all:prod": "tsc && node dist/plugin/claude/build-plugin-claude.js --cowork",
     "build:codex": "tsc && node dist/plugin/codex/build-plugin-codex.js --no-obfuscate",
     "build:codex:prod": "tsc && node dist/plugin/codex/build-plugin-codex.js",
-    "build:plugins": "npm run build:claude:all && npm run build:codex",
-    "build:plugins:prod": "npm run build:claude:all:prod && npm run build:codex:prod",
+    "build:copilot": "tsc && node dist/plugin/copilot/build-plugin-copilot.js --no-obfuscate",
+    "build:copilot:prod": "tsc && node dist/plugin/copilot/build-plugin-copilot.js",
+    "build:plugins": "npm run build:claude:all && npm run build:codex && npm run build:copilot",
+    "build:plugins:prod": "npm run build:claude:all:prod && npm run build:codex:prod && npm run build:copilot:prod",
     "build:desktop:css": "npx @tailwindcss/cli -i src/desktop/webview/input.css -o src/desktop/webview/styles.css",
     "build:desktop": "npm run build:desktop:css && bunx electrobun build && npm run patch:desktop",
     "build:desktop:release": "npm run build:desktop:css && WOZ_RELEASE_BUILD=1 bunx electrobun build --env=stable && npm run patch:desktop",
@@ -14657,10 +14677,14 @@ var package_default = {
     "package:desktop": "tsx scripts/package-desktop.ts",
     "dev:codex": "npm run build:codex && node wozcode-plugin-codex/wozcode/scripts/install.js",
     "dev:codex:remove": "npm run build:codex && node wozcode-plugin-codex/wozcode/scripts/install.js --remove",
+    "dev:copilot": "npm run build:copilot && node dist/install/copilot/dev-install.js",
+    "dev:copilot:remove": "node dist/install/copilot/dev-install.js --remove",
     "dev:desktop": "npm run build:desktop:css && bunx electrobun dev",
     lint: "npx eslint src/ kb-shared/src/",
     compile: "tsc --noEmit && tsc --noEmit -p tsconfig.webview.json && tsc --noEmit -p tsconfig.webview-test.json",
     format: "npx prettier --write 'src/**/*.{ts,js}' 'kb-shared/src/**/*.{ts,js}'",
+    "bench:experimentdb": "tsx src/benchmark/experiment-db/experiment-cli.ts",
+    "bench:request-audit": "tsx src/tools/session-analytics/request-audit.ts",
     test: 'node --import tsx --test "src/**/*.test.ts" "kb-shared/src/**/*.test.ts"',
     "pretest:integration": "npm run build:plugins",
     "build:integration:obfuscated": "npm run build:claude:all:prod -- --for-integration-tests && npm run build:codex:prod -- --for-integration-tests",
@@ -14673,6 +14697,7 @@ var package_default = {
     "@anthropic-ai/sdk": "~0.100.0",
     "@aws-crypto/sha256-js": "^5.2.0",
     "@aws-sdk/credential-provider-node": "^3.972.46",
+    "@github/copilot-sdk": "^1.0.3",
     "@modelcontextprotocol/sdk": "^1.29.0",
     "@pg-nano/pg-parser": "~16.1.5",
     "@smithy/fetch-http-handler": "~5.4.5",
@@ -14680,7 +14705,7 @@ var package_default = {
     "@smithy/signature-v4": "^5.4.5",
     "@supabase/supabase-js": "^2.106.2",
     "@wozcode/kb-shared": "file:./kb-shared",
-    "@xterm/headless": "^5.5.0",
+    "@xterm/headless": "^6.0.0",
     commander: "~14.0.3",
     electrobun: "^1.0.0",
     glob: "^13.0.6",
@@ -14705,6 +14730,7 @@ var package_default = {
     "@aws/bedrock-token-generator": "^1.1.0",
     "@cursorless/tree-sitter-wasms": "^0.9.0",
     "@eslint/js": "~10.0.1",
+    "@github/copilot": "^1.0.64-0",
     "@posthog/cli": "0.7.13",
     "@smithy/types": "~4.14.2",
     "@tailwindcss/cli": "^4.2.2",
@@ -14715,7 +14741,7 @@ var package_default = {
     dotenv: "~17.4.2",
     esbuild: "^0.28.0",
     eslint: "~10.4.0",
-    "javascript-obfuscator": "^5.4.1",
+    "javascript-obfuscator": "^5.4.3",
     openai: "~6.39.1",
     prettier: "^3.8.3",
     tailwindcss: "^4.2.2",
@@ -14728,7 +14754,7 @@ var package_default = {
     "@homebridge/node-pty-prebuilt-multiarch": "0.14.0"
   },
   engines: {
-    node: ">=22.5"
+    node: ">=22.12.0"
   }
 };
 
@@ -14739,8 +14765,14 @@ var WOZCODE_CLI_NAME = "wozcode";
 var WOZ_CODE_AGENT_NAME = `${WOZ_CODE_PLUGIN_NAME}:code`;
 var WOZ_CODE_FREE_AGENT_NAME = `${WOZ_CODE_PLUGIN_NAME}:code-free`;
 var WOZ_EXPLORE_AGENT_NAME = `${WOZ_CODE_PLUGIN_NAME}:explore`;
+var COPILOT_STATUS_LINE_SCRIPT_KEY = "copilot-savings-status-line";
+var COPILOT_STATUS_LINE_SCRIPT_NAME = `${COPILOT_STATUS_LINE_SCRIPT_KEY}.js`;
+var COPILOT_CLI_SCRIPT_KEY = "wozcode-cli-copilot";
+var COPILOT_CLI_SCRIPT_NAME = `${COPILOT_CLI_SCRIPT_KEY}.js`;
 var BENCHMARK_SCRIPT_KEY = "benchmark";
 var BENCHMARK_SCRIPT_NAME = `${BENCHMARK_SCRIPT_KEY}.js`;
+var CODRIVE_SCRIPT_KEY = "codrive";
+var CODRIVE_SCRIPT_NAME = `${CODRIVE_SCRIPT_KEY}.js`;
 var WOZCODE_CLI_WRAPPER_NAME = WOZCODE_CLI_NAME;
 var CLAUDE_TUI_CLI_SCRIPT_KEY = "claude-tui-cli";
 var CLAUDE_TUI_CLI_SCRIPT_NAME = `${CLAUDE_TUI_CLI_SCRIPT_KEY}.js`;
@@ -14749,7 +14781,14 @@ var WOZCODE_CLI_WRAPPER_FILENAME_WIN = `${WOZCODE_CLI_WRAPPER_NAME}.cmd`;
 var ROUTER_DAEMON_SCRIPT_KEY = "router-daemon";
 var ROUTER_DAEMON_SCRIPT_NAME = `${ROUTER_DAEMON_SCRIPT_KEY}.js`;
 var ROUTER_DAEMON_SOURCE_REL = `router/${ROUTER_DAEMON_SCRIPT_KEY}.ts`;
-var MCP_PLUGIN_PREFIX = "mcp__plugin_woz_code__";
+var CLAUDE_CODEX_MCP_PREFIX = "mcp__plugin_woz_code__";
+var COPILOT_MCP_PREFIX = "plugin_woz_code-";
+var EDIT_TOOL_NAME = "Edit";
+var EDIT_TOOL_COPILOT_MCP = `${COPILOT_MCP_PREFIX}${EDIT_TOOL_NAME}`;
+var SEARCH_TOOL_NAME = "Search";
+var SEARCH_TOOL_COPILOT_MCP = `${COPILOT_MCP_PREFIX}${SEARCH_TOOL_NAME}`;
+var SQL_TOOL_NAME = "Sql";
+var SQL_TOOL_COPILOT_MCP = `${COPILOT_MCP_PREFIX}${SQL_TOOL_NAME}`;
 var WOZ_MARKETPLACE_GITHUB_REPO = "WithWoz/wozcode-plugin";
 var PLUGIN_METADATA_DIR_NAME = ".claude-plugin";
 var WOZ_MARKETPLACE_PLUGIN_JSON_URL = `https://raw.githubusercontent.com/${WOZ_MARKETPLACE_GITHUB_REPO}/main/${PLUGIN_METADATA_DIR_NAME}/plugin.json`;
@@ -14909,7 +14948,7 @@ function modelContainsSegment(model, candidate) {
     const before = idx === 0 ? "" : model[idx - 1];
     const afterIdx = idx + candidate.length;
     const after = afterIdx >= model.length ? "" : model[afterIdx];
-    const leftOk = before === "" || before === "/" || before === ":";
+    const leftOk = before === "" || before === "/" || before === ":" || before === ".";
     const rightOk = after === "" || after === "-" || after === "/" || after === ":" || after === "[";
     if (leftOk && rightOk) return true;
     idx++;
@@ -14925,55 +14964,1310 @@ function getModelPricing(model) {
   return DEFAULT_PRICING;
 }
 
-// src/common/usage/usage-types.ts
-function emptyTranscriptUsage() {
-  return {
-    inputTokens: 0,
-    outputTokens: 0,
-    cacheReadTokens: 0,
-    cacheCreationTokens: 0,
-    outputThinkingTokens: 0,
-    turnCount: 0,
-    toolUseCount: 0,
-    costInUsd: 0
-  };
+// src/common/config/env-config.ts
+var DEV_ENV_KEY = ["WOZ", "INTERNAL", "KEY"].join("_");
+var SUBSCRIPTION_CACHE_TTL_IN_MS = 5 * 60 * 1e3;
+var AUTH_CHECK_FAIL_CLOSED_GRACE_IN_MS = 60 * 1e3;
+var VALIDATION_FAILURE_COOLDOWN_IN_MS = 15 * 1e3;
+
+// src/common/telemetry/providers/posthog-telemetry-service.ts
+var import_node_os = __toESM(require("node:os"), 1);
+var path7 = __toESM(require("node:path"), 1);
+var import_node_url = require("node:url");
+
+// node_modules/posthog-node/dist/extensions/error-tracking/modifiers/module.node.mjs
+var import_path = require("path");
+
+// node_modules/@posthog/core/dist/utils/type-utils.mjs
+var nativeIsArray = Array.isArray;
+var ObjProto = Object.prototype;
+var type_utils_hasOwnProperty = ObjProto.hasOwnProperty;
+var type_utils_toString = ObjProto.toString;
+var isArray = nativeIsArray || function(obj) {
+  return "[object Array]" === type_utils_toString.call(obj);
+};
+var isObject2 = (x2) => x2 === Object(x2) && !isArray(x2);
+var isUndefined = (x2) => void 0 === x2;
+var isString = (x2) => "[object String]" == type_utils_toString.call(x2);
+var isEmptyString = (x2) => isString(x2) && 0 === x2.trim().length;
+var isNumber = (x2) => "[object Number]" == type_utils_toString.call(x2) && x2 === x2;
+var isPlainError = (x2) => x2 instanceof Error;
+function isPrimitive(value) {
+  return null === value || "object" != typeof value;
 }
-function addTranscriptUsage(target, source) {
-  addTokenUsage(target, source);
-  target.turnCount += source.turnCount;
-  target.toolUseCount += source.toolUseCount;
-  target.costInUsd += source.costInUsd;
+function isBuiltin(candidate, className) {
+  return Object.prototype.toString.call(candidate) === `[object ${className}]`;
 }
-var SavingsBucketSchema = external_exports.object({
-  callsSaved: external_exports.number(),
-  timeSavedInMs: external_exports.number(),
-  tokensSaved: external_exports.number(),
-  costSavedInUsd: external_exports.number()
-});
-function emptySavings() {
-  return { callsSaved: 0, timeSavedInMs: 0, tokensSaved: 0, costSavedInUsd: 0 };
+function isErrorEvent(event) {
+  return isBuiltin(event, "ErrorEvent");
 }
-function addSavings(target, source) {
-  target.callsSaved += source.callsSaved;
-  target.timeSavedInMs += source.timeSavedInMs;
-  target.tokensSaved += source.tokensSaved;
-  target.costSavedInUsd += source.costSavedInUsd;
+function isEvent(candidate) {
+  return "undefined" != typeof Event && isInstanceOf(candidate, Event);
+}
+function isInstanceOf(candidate, base) {
+  try {
+    return candidate instanceof base;
+  } catch {
+    return false;
+  }
 }
 
-// src/common/wozcore/session-transcripts.ts
-var fs4 = __toESM(require("fs"), 1);
-var import_path19 = __toESM(require("path"), 1);
-var import_readline3 = __toESM(require("readline"), 1);
+// node_modules/@posthog/core/dist/utils/user-agent-utils.mjs
+var MOBILE = "Mobile";
+var IOS = "iOS";
+var ANDROID = "Android";
+var TABLET = "Tablet";
+var ANDROID_TABLET = ANDROID + " " + TABLET;
+var APPLE = "Apple";
+var APPLE_WATCH = APPLE + " Watch";
+var SAFARI = "Safari";
+var BLACKBERRY = "BlackBerry";
+var SAMSUNG = "Samsung";
+var SAMSUNG_BROWSER = SAMSUNG + "Browser";
+var SAMSUNG_INTERNET = SAMSUNG + " Internet";
+var CHROME = "Chrome";
+var CHROME_OS = CHROME + " OS";
+var CHROME_IOS = CHROME + " " + IOS;
+var INTERNET_EXPLORER = "Internet Explorer";
+var INTERNET_EXPLORER_MOBILE = INTERNET_EXPLORER + " " + MOBILE;
+var OPERA = "Opera";
+var OPERA_MINI = OPERA + " Mini";
+var EDGE = "Edge";
+var MICROSOFT_EDGE = "Microsoft " + EDGE;
+var FIREFOX = "Firefox";
+var FIREFOX_IOS = FIREFOX + " " + IOS;
+var NINTENDO = "Nintendo";
+var PLAYSTATION = "PlayStation";
+var XBOX = "Xbox";
+var ANDROID_MOBILE = ANDROID + " " + MOBILE;
+var MOBILE_SAFARI = MOBILE + " " + SAFARI;
+var WINDOWS = "Windows";
+var WINDOWS_PHONE = WINDOWS + " Phone";
+var GENERIC = "Generic";
+var GENERIC_MOBILE = GENERIC + " " + MOBILE.toLowerCase();
+var GENERIC_TABLET = GENERIC + " " + TABLET.toLowerCase();
+var KONQUEROR = "Konqueror";
+var OCULUS_BROWSER = "Oculus Browser";
+var VIVALDI = "Vivaldi";
+var YANDEX = "Yandex";
+var WHALE = "Whale";
+var DUCKDUCKGO = "DuckDuckGo";
+var PALE_MOON = "Pale Moon";
+var WATERFOX = "Waterfox";
+var BRAVE = "Brave";
+var BROWSER_VERSION_REGEX_SUFFIX = "(\\d+(\\.\\d+)?)";
+var DEFAULT_BROWSER_VERSION_REGEX = new RegExp("Version/" + BROWSER_VERSION_REGEX_SUFFIX);
+var XBOX_REGEX = new RegExp(XBOX, "i");
+var PLAYSTATION_REGEX = new RegExp(PLAYSTATION + " \\w+", "i");
+var NINTENDO_REGEX = new RegExp(NINTENDO + " \\w+", "i");
+var BLACKBERRY_REGEX = new RegExp(BLACKBERRY + "|PlayBook|BB10", "i");
+var windowsVersionMap = {
+  "NT3.51": "NT 3.11",
+  "NT4.0": "NT 4.0",
+  "5.0": "2000",
+  "5.1": "XP",
+  "5.2": "XP",
+  "6.0": "Vista",
+  "6.1": "7",
+  "6.2": "8",
+  "6.3": "8.1",
+  "6.4": "10",
+  "10.0": "10"
+};
+var versionRegexes = {
+  [INTERNET_EXPLORER_MOBILE]: [
+    new RegExp("rv:" + BROWSER_VERSION_REGEX_SUFFIX)
+  ],
+  [MICROSOFT_EDGE]: [
+    new RegExp(EDGE + "?\\/" + BROWSER_VERSION_REGEX_SUFFIX)
+  ],
+  [CHROME]: [
+    new RegExp("(" + CHROME + "|CrMo)\\/" + BROWSER_VERSION_REGEX_SUFFIX)
+  ],
+  [CHROME_IOS]: [
+    new RegExp("CriOS\\/" + BROWSER_VERSION_REGEX_SUFFIX)
+  ],
+  "UC Browser": [
+    new RegExp("(UCBrowser|UCWEB)\\/" + BROWSER_VERSION_REGEX_SUFFIX)
+  ],
+  [SAFARI]: [
+    DEFAULT_BROWSER_VERSION_REGEX
+  ],
+  [MOBILE_SAFARI]: [
+    DEFAULT_BROWSER_VERSION_REGEX
+  ],
+  [OPERA]: [
+    new RegExp("(" + OPERA + "|OPR)\\/" + BROWSER_VERSION_REGEX_SUFFIX)
+  ],
+  [FIREFOX]: [
+    new RegExp(FIREFOX + "\\/" + BROWSER_VERSION_REGEX_SUFFIX)
+  ],
+  [FIREFOX_IOS]: [
+    new RegExp("FxiOS\\/" + BROWSER_VERSION_REGEX_SUFFIX)
+  ],
+  [KONQUEROR]: [
+    new RegExp("Konqueror[:/]?" + BROWSER_VERSION_REGEX_SUFFIX, "i")
+  ],
+  [BLACKBERRY]: [
+    new RegExp(BLACKBERRY + " " + BROWSER_VERSION_REGEX_SUFFIX),
+    DEFAULT_BROWSER_VERSION_REGEX
+  ],
+  [ANDROID_MOBILE]: [
+    new RegExp("android\\s" + BROWSER_VERSION_REGEX_SUFFIX, "i")
+  ],
+  [SAMSUNG_INTERNET]: [
+    new RegExp(SAMSUNG_BROWSER + "\\/" + BROWSER_VERSION_REGEX_SUFFIX)
+  ],
+  [OCULUS_BROWSER]: [
+    new RegExp("OculusBrowser\\/" + BROWSER_VERSION_REGEX_SUFFIX)
+  ],
+  [VIVALDI]: [
+    new RegExp(VIVALDI + "\\/" + BROWSER_VERSION_REGEX_SUFFIX)
+  ],
+  [YANDEX]: [
+    new RegExp("YaBrowser\\/" + BROWSER_VERSION_REGEX_SUFFIX)
+  ],
+  [WHALE]: [
+    new RegExp(WHALE + "\\/" + BROWSER_VERSION_REGEX_SUFFIX)
+  ],
+  [BRAVE]: [
+    new RegExp(BRAVE + "\\/" + BROWSER_VERSION_REGEX_SUFFIX)
+  ],
+  [DUCKDUCKGO]: [
+    new RegExp("(DuckDuckGo|Ddg)\\/" + BROWSER_VERSION_REGEX_SUFFIX)
+  ],
+  [PALE_MOON]: [
+    new RegExp("PaleMoon\\/" + BROWSER_VERSION_REGEX_SUFFIX)
+  ],
+  [WATERFOX]: [
+    new RegExp(WATERFOX + "\\/" + BROWSER_VERSION_REGEX_SUFFIX)
+  ],
+  [INTERNET_EXPLORER]: [
+    new RegExp("(rv:|MSIE )" + BROWSER_VERSION_REGEX_SUFFIX)
+  ],
+  Mozilla: [
+    new RegExp("rv:" + BROWSER_VERSION_REGEX_SUFFIX)
+  ]
+};
+var osMatchers = [
+  [
+    new RegExp(XBOX + "; " + XBOX + " (.*?)[);]", "i"),
+    (match) => [
+      XBOX,
+      match && match[1] || ""
+    ]
+  ],
+  [
+    new RegExp(NINTENDO, "i"),
+    [
+      NINTENDO,
+      ""
+    ]
+  ],
+  [
+    new RegExp(PLAYSTATION, "i"),
+    [
+      PLAYSTATION,
+      ""
+    ]
+  ],
+  [
+    BLACKBERRY_REGEX,
+    [
+      BLACKBERRY,
+      ""
+    ]
+  ],
+  [
+    new RegExp(WINDOWS, "i"),
+    (_2, user_agent) => {
+      if (/Phone/.test(user_agent) || /WPDesktop/.test(user_agent)) return [
+        WINDOWS_PHONE,
+        ""
+      ];
+      if (new RegExp(MOBILE).test(user_agent) && !/IEMobile\b/.test(user_agent)) return [
+        WINDOWS + " " + MOBILE,
+        ""
+      ];
+      const match = /Windows NT ([0-9.]+)/i.exec(user_agent);
+      if (match && match[1]) {
+        const version3 = match[1];
+        let osVersion = windowsVersionMap[version3] || "";
+        if (/arm/i.test(user_agent)) osVersion = "RT";
+        return [
+          WINDOWS,
+          osVersion
+        ];
+      }
+      return [
+        WINDOWS,
+        ""
+      ];
+    }
+  ],
+  [
+    /((iPhone|iPad|iPod).*?OS (\d+)_(\d+)_?(\d+)?|iPhone)/,
+    (match) => {
+      if (match && match[3]) {
+        const versionParts = [
+          match[3],
+          match[4],
+          match[5] || "0"
+        ];
+        return [
+          IOS,
+          versionParts.join(".")
+        ];
+      }
+      return [
+        IOS,
+        ""
+      ];
+    }
+  ],
+  [
+    /(watch.*\/(\d+\.\d+\.\d+)|watch os,(\d+\.\d+),)/i,
+    (match) => {
+      let version3 = "";
+      if (match && match.length >= 3) version3 = isUndefined(match[2]) ? match[3] : match[2];
+      return [
+        "watchOS",
+        version3
+      ];
+    }
+  ],
+  [
+    new RegExp("(" + ANDROID + " (\\d+)\\.(\\d+)\\.?(\\d+)?|" + ANDROID + ")", "i"),
+    (match) => {
+      if (match && match[2]) {
+        const versionParts = [
+          match[2],
+          match[3],
+          match[4] || "0"
+        ];
+        return [
+          ANDROID,
+          versionParts.join(".")
+        ];
+      }
+      return [
+        ANDROID,
+        ""
+      ];
+    }
+  ],
+  [
+    /Mac OS X (\d+)[_.](\d+)[_.]?(\d+)?/i,
+    (match) => {
+      const result = [
+        "Mac OS X",
+        ""
+      ];
+      if (match && match[1]) {
+        const versionParts = [
+          match[1],
+          match[2],
+          match[3] || "0"
+        ];
+        result[1] = versionParts.join(".");
+      }
+      return result;
+    }
+  ],
+  [
+    /Mac/i,
+    [
+      "Mac OS X",
+      ""
+    ]
+  ],
+  [
+    /CrOS/,
+    [
+      CHROME_OS,
+      ""
+    ]
+  ],
+  [
+    /Linux|debian/i,
+    [
+      "Linux",
+      ""
+    ]
+  ]
+];
+
+// node_modules/@posthog/core/dist/utils/index.mjs
+var isError = (x2) => x2 instanceof Error;
+
+// node_modules/@posthog/core/dist/logs/logs-utils.mjs
+var OTLP_SEVERITY_MAP = {
+  trace: {
+    text: "TRACE",
+    number: 1
+  },
+  debug: {
+    text: "DEBUG",
+    number: 5
+  },
+  info: {
+    text: "INFO",
+    number: 9
+  },
+  warn: {
+    text: "WARN",
+    number: 13
+  },
+  error: {
+    text: "ERROR",
+    number: 17
+  },
+  fatal: {
+    text: "FATAL",
+    number: 21
+  }
+};
+var DEFAULT_OTLP_SEVERITY = OTLP_SEVERITY_MAP.info;
+
+// node_modules/@posthog/core/dist/error-tracking/index.mjs
+var error_tracking_exports = {};
+__export(error_tracking_exports, {
+  DEFAULT_EXCEPTION_STEPS_CONFIG: () => DEFAULT_EXCEPTION_STEPS_CONFIG,
+  DOMExceptionCoercer: () => DOMExceptionCoercer,
+  EXCEPTION_STEP_INTERNAL_FIELDS: () => EXCEPTION_STEP_INTERNAL_FIELDS,
+  ErrorCoercer: () => ErrorCoercer,
+  ErrorEventCoercer: () => ErrorEventCoercer,
+  ErrorPropertiesBuilder: () => ErrorPropertiesBuilder,
+  EventCoercer: () => EventCoercer,
+  ExceptionStepsBuffer: () => ExceptionStepsBuffer,
+  ObjectCoercer: () => ObjectCoercer,
+  PrimitiveCoercer: () => PrimitiveCoercer,
+  PromiseRejectionEventCoercer: () => PromiseRejectionEventCoercer,
+  ReduceableCache: () => ReduceableCache,
+  StringCoercer: () => StringCoercer,
+  chromeStackLineParser: () => chromeStackLineParser,
+  createDefaultStackParser: () => createDefaultStackParser,
+  createStackParser: () => createStackParser,
+  geckoStackLineParser: () => geckoStackLineParser,
+  getUtf8ByteLength: () => getUtf8ByteLength,
+  nodeStackLineParser: () => nodeStackLineParser,
+  opera10StackLineParser: () => opera10StackLineParser,
+  opera11StackLineParser: () => opera11StackLineParser,
+  resolveExceptionStepsConfig: () => resolveExceptionStepsConfig,
+  reverseAndStripFrames: () => reverseAndStripFrames,
+  stripReservedExceptionStepFields: () => stripReservedExceptionStepFields,
+  winjsStackLineParser: () => winjsStackLineParser
+});
+
+// node_modules/@posthog/core/dist/error-tracking/chunk-ids.mjs
+var parsedStackResults;
+var lastKeysCount;
+var cachedFilenameChunkIds;
+function getFilenameToChunkIdMap(stackParser) {
+  const chunkIdMap = globalThis._posthogChunkIds;
+  if (!chunkIdMap) return;
+  const chunkIdKeys = Object.keys(chunkIdMap);
+  if (cachedFilenameChunkIds && chunkIdKeys.length === lastKeysCount) return cachedFilenameChunkIds;
+  lastKeysCount = chunkIdKeys.length;
+  cachedFilenameChunkIds = chunkIdKeys.reduce((acc, stackKey) => {
+    if (!parsedStackResults) parsedStackResults = {};
+    const result = parsedStackResults[stackKey];
+    if (result) acc[result[0]] = result[1];
+    else {
+      const parsedStack = stackParser(stackKey);
+      for (let i = parsedStack.length - 1; i >= 0; i--) {
+        const stackFrame = parsedStack[i];
+        const filename = stackFrame?.filename;
+        const chunkId = chunkIdMap[stackKey];
+        if (filename && chunkId) {
+          acc[filename] = chunkId;
+          parsedStackResults[stackKey] = [
+            filename,
+            chunkId
+          ];
+          break;
+        }
+      }
+    }
+    return acc;
+  }, {});
+  return cachedFilenameChunkIds;
+}
+
+// node_modules/@posthog/core/dist/error-tracking/error-properties-builder.mjs
+var MAX_CAUSE_RECURSION = 4;
+var ErrorPropertiesBuilder = class {
+  constructor(coercers, stackParser, modifiers = []) {
+    this.coercers = coercers;
+    this.stackParser = stackParser;
+    this.modifiers = modifiers;
+  }
+  buildFromUnknown(input, hint = {}) {
+    const providedMechanism = hint && hint.mechanism;
+    const mechanism = providedMechanism || {
+      handled: true,
+      type: "generic"
+    };
+    const coercingContext = this.buildCoercingContext(mechanism, hint, 0);
+    const exceptionWithCause = coercingContext.apply(input);
+    const parsingContext = this.buildParsingContext(hint);
+    const exceptionWithStack = this.parseStacktrace(exceptionWithCause, parsingContext);
+    const exceptionList = this.convertToExceptionList(exceptionWithStack, mechanism);
+    return {
+      $exception_list: exceptionList,
+      $exception_level: "error"
+    };
+  }
+  async modifyFrames(exceptionList) {
+    for (const exc of exceptionList) if (exc.stacktrace && exc.stacktrace.frames && isArray(exc.stacktrace.frames)) exc.stacktrace.frames = await this.applyModifiers(exc.stacktrace.frames);
+    return exceptionList;
+  }
+  coerceFallback(ctx) {
+    return {
+      type: "Error",
+      value: "Unknown error",
+      stack: ctx.syntheticException?.stack,
+      synthetic: true
+    };
+  }
+  parseStacktrace(err, ctx) {
+    let cause;
+    if (null != err.cause) cause = this.parseStacktrace(err.cause, ctx);
+    let stack;
+    if ("" != err.stack && null != err.stack) stack = this.applyChunkIds(this.stackParser(err.stack, err.synthetic ? ctx.skipFirstLines : 0), ctx.chunkIdMap);
+    return {
+      ...err,
+      cause,
+      stack
+    };
+  }
+  applyChunkIds(frames, chunkIdMap) {
+    return frames.map((frame) => {
+      if (frame.filename && chunkIdMap) frame.chunk_id = chunkIdMap[frame.filename];
+      return frame;
+    });
+  }
+  applyCoercers(input, ctx) {
+    for (const adapter of this.coercers) if (adapter.match(input)) return adapter.coerce(input, ctx);
+    return this.coerceFallback(ctx);
+  }
+  async applyModifiers(frames) {
+    let newFrames = frames;
+    for (const modifier of this.modifiers) newFrames = await modifier(newFrames);
+    return newFrames;
+  }
+  convertToExceptionList(exceptionWithStack, mechanism) {
+    const currentException = {
+      type: exceptionWithStack.type,
+      value: exceptionWithStack.value,
+      mechanism: {
+        type: mechanism.type ?? "generic",
+        handled: mechanism.handled ?? true,
+        synthetic: exceptionWithStack.synthetic ?? false
+      }
+    };
+    if (exceptionWithStack.stack) currentException.stacktrace = {
+      type: "raw",
+      frames: exceptionWithStack.stack
+    };
+    const exceptionList = [
+      currentException
+    ];
+    if (null != exceptionWithStack.cause) exceptionList.push(...this.convertToExceptionList(exceptionWithStack.cause, {
+      ...mechanism,
+      handled: true
+    }));
+    return exceptionList;
+  }
+  buildParsingContext(hint) {
+    const context = {
+      chunkIdMap: getFilenameToChunkIdMap(this.stackParser),
+      skipFirstLines: hint.skipFirstLines ?? 1
+    };
+    return context;
+  }
+  buildCoercingContext(mechanism, hint, depth = 0) {
+    const coerce = (input, depth2) => {
+      if (!(depth2 <= MAX_CAUSE_RECURSION)) return;
+      {
+        const ctx = this.buildCoercingContext(mechanism, hint, depth2);
+        return this.applyCoercers(input, ctx);
+      }
+    };
+    const context = {
+      ...hint,
+      syntheticException: 0 == depth ? hint.syntheticException : void 0,
+      mechanism,
+      apply: (input) => coerce(input, depth),
+      next: (input) => coerce(input, depth + 1)
+    };
+    return context;
+  }
+};
+
+// node_modules/@posthog/core/dist/error-tracking/parsers/base.mjs
+var UNKNOWN_FUNCTION = "?";
+function createFrame(platform, filename, func, lineno, colno) {
+  const frame = {
+    platform,
+    filename,
+    function: "<anonymous>" === func ? UNKNOWN_FUNCTION : func,
+    in_app: true
+  };
+  if (!isUndefined(lineno)) frame.lineno = lineno;
+  if (!isUndefined(colno)) frame.colno = colno;
+  return frame;
+}
+
+// node_modules/@posthog/core/dist/error-tracking/parsers/safari.mjs
+var extractSafariExtensionDetails = (func, filename) => {
+  const isSafariExtension = -1 !== func.indexOf("safari-extension");
+  const isSafariWebExtension = -1 !== func.indexOf("safari-web-extension");
+  return isSafariExtension || isSafariWebExtension ? [
+    -1 !== func.indexOf("@") ? func.split("@")[0] : UNKNOWN_FUNCTION,
+    isSafariExtension ? `safari-extension:${filename}` : `safari-web-extension:${filename}`
+  ] : [
+    func,
+    filename
+  ];
+};
+
+// node_modules/@posthog/core/dist/error-tracking/parsers/chrome.mjs
+var chromeRegexNoFnName = /^\s*at (\S+?)(?::(\d+))(?::(\d+))\s*$/i;
+var chromeRegex = /^\s*at (?:(.+?\)(?: \[.+\])?|.*?) ?\((?:address at )?)?(?:async )?((?:<anonymous>|[-a-z]+:|.*bundle|\/)?.*?)(?::(\d+))?(?::(\d+))?\)?\s*$/i;
+var chromeEvalRegex = /\((\S*)(?::(\d+))(?::(\d+))\)/;
+var chromeStackLineParser = (line, platform) => {
+  const noFnParts = chromeRegexNoFnName.exec(line);
+  if (noFnParts) {
+    const [, filename, line2, col] = noFnParts;
+    return createFrame(platform, filename, UNKNOWN_FUNCTION, +line2, +col);
+  }
+  const parts = chromeRegex.exec(line);
+  if (parts) {
+    const isEval = parts[2] && 0 === parts[2].indexOf("eval");
+    if (isEval) {
+      const subMatch = chromeEvalRegex.exec(parts[2]);
+      if (subMatch) {
+        parts[2] = subMatch[1];
+        parts[3] = subMatch[2];
+        parts[4] = subMatch[3];
+      }
+    }
+    const [func, filename] = extractSafariExtensionDetails(parts[1] || UNKNOWN_FUNCTION, parts[2]);
+    return createFrame(platform, filename, func, parts[3] ? +parts[3] : void 0, parts[4] ? +parts[4] : void 0);
+  }
+};
+
+// node_modules/@posthog/core/dist/error-tracking/parsers/gecko.mjs
+var geckoREgex = /^\s*(.*?)(?:\((.*?)\))?(?:^|@)?((?:[-a-z]+)?:\/.*?|\[native code\]|[^@]*(?:bundle|\d+\.js)|\/[\w\-. /=]+)(?::(\d+))?(?::(\d+))?\s*$/i;
+var geckoEvalRegex = /(\S+) line (\d+)(?: > eval line \d+)* > eval/i;
+var geckoStackLineParser = (line, platform) => {
+  const parts = geckoREgex.exec(line);
+  if (parts) {
+    const isEval = parts[3] && parts[3].indexOf(" > eval") > -1;
+    if (isEval) {
+      const subMatch = geckoEvalRegex.exec(parts[3]);
+      if (subMatch) {
+        parts[1] = parts[1] || "eval";
+        parts[3] = subMatch[1];
+        parts[4] = subMatch[2];
+        parts[5] = "";
+      }
+    }
+    let filename = parts[3];
+    let func = parts[1] || UNKNOWN_FUNCTION;
+    [func, filename] = extractSafariExtensionDetails(func, filename);
+    return createFrame(platform, filename, func, parts[4] ? +parts[4] : void 0, parts[5] ? +parts[5] : void 0);
+  }
+};
+
+// node_modules/@posthog/core/dist/error-tracking/parsers/winjs.mjs
+var winjsRegex = /^\s*at (?:((?:\[object object\])?.+) )?\(?((?:[-a-z]+):.*?):(\d+)(?::(\d+))?\)?\s*$/i;
+var winjsStackLineParser = (line, platform) => {
+  const parts = winjsRegex.exec(line);
+  return parts ? createFrame(platform, parts[2], parts[1] || UNKNOWN_FUNCTION, +parts[3], parts[4] ? +parts[4] : void 0) : void 0;
+};
+
+// node_modules/@posthog/core/dist/error-tracking/parsers/opera.mjs
+var opera10Regex = / line (\d+).*script (?:in )?(\S+)(?:: in function (\S+))?$/i;
+var opera10StackLineParser = (line, platform) => {
+  const parts = opera10Regex.exec(line);
+  return parts ? createFrame(platform, parts[2], parts[3] || UNKNOWN_FUNCTION, +parts[1]) : void 0;
+};
+var opera11Regex = / line (\d+), column (\d+)\s*(?:in (?:<anonymous function: ([^>]+)>|([^)]+))\(.*\))? in (.*):\s*$/i;
+var opera11StackLineParser = (line, platform) => {
+  const parts = opera11Regex.exec(line);
+  return parts ? createFrame(platform, parts[5], parts[3] || parts[4] || UNKNOWN_FUNCTION, +parts[1], +parts[2]) : void 0;
+};
+
+// node_modules/@posthog/core/dist/error-tracking/parsers/node.mjs
+var FILENAME_MATCH = /^\s*[-]{4,}$/;
+var FULL_MATCH = /at (?:async )?(?:(.+?)\s+\()?(?:(.+):(\d+):(\d+)?|([^)]+))\)?/;
+var nodeStackLineParser = (line, platform) => {
+  const lineMatch = line.match(FULL_MATCH);
+  if (lineMatch) {
+    let object2;
+    let method;
+    let functionName;
+    let typeName;
+    let methodName;
+    if (lineMatch[1]) {
+      functionName = lineMatch[1];
+      let methodStart = functionName.lastIndexOf(".");
+      if ("." === functionName[methodStart - 1]) methodStart--;
+      if (methodStart > 0) {
+        object2 = functionName.slice(0, methodStart);
+        method = functionName.slice(methodStart + 1);
+        const objectEnd = object2.indexOf(".Module");
+        if (objectEnd > 0) {
+          functionName = functionName.slice(objectEnd + 1);
+          object2 = object2.slice(0, objectEnd);
+        }
+      }
+      typeName = void 0;
+    }
+    if (method) {
+      typeName = object2;
+      methodName = method;
+    }
+    if ("<anonymous>" === method) {
+      methodName = void 0;
+      functionName = void 0;
+    }
+    if (void 0 === functionName) {
+      methodName = methodName || UNKNOWN_FUNCTION;
+      functionName = typeName ? `${typeName}.${methodName}` : methodName;
+    }
+    let filename = lineMatch[2]?.startsWith("file://") ? lineMatch[2].slice(7) : lineMatch[2];
+    const isNative = "native" === lineMatch[5];
+    if (filename?.match(/\/[A-Z]:/)) filename = filename.slice(1);
+    if (!filename && lineMatch[5] && !isNative) filename = lineMatch[5];
+    return {
+      filename: filename ? decodeURI(filename) : void 0,
+      module: void 0,
+      function: functionName,
+      lineno: _parseIntOrUndefined(lineMatch[3]),
+      colno: _parseIntOrUndefined(lineMatch[4]),
+      in_app: filenameIsInApp(filename || "", isNative),
+      platform
+    };
+  }
+  if (line.match(FILENAME_MATCH)) return {
+    filename: line,
+    platform
+  };
+};
+function filenameIsInApp(filename, isNative = false) {
+  const isInternal = isNative || filename && !filename.startsWith("/") && !filename.match(/^[A-Z]:/) && !filename.startsWith(".") && !filename.match(/^[a-zA-Z]([a-zA-Z0-9.\-+])*:\/\//);
+  return !isInternal && void 0 !== filename && !filename.includes("node_modules/");
+}
+function _parseIntOrUndefined(input) {
+  return parseInt(input || "", 10) || void 0;
+}
+
+// node_modules/@posthog/core/dist/error-tracking/parsers/index.mjs
+var WEBPACK_ERROR_REGEXP = /\(error: (.*)\)/;
+var STACKTRACE_FRAME_LIMIT = 50;
+function reverseAndStripFrames(stack) {
+  if (!stack.length) return [];
+  const localStack = Array.from(stack);
+  localStack.reverse();
+  return localStack.slice(0, STACKTRACE_FRAME_LIMIT).map((frame) => ({
+    ...frame,
+    filename: frame.filename || getLastStackFrame(localStack).filename,
+    function: frame.function || UNKNOWN_FUNCTION
+  }));
+}
+function getLastStackFrame(arr) {
+  return arr[arr.length - 1] || {};
+}
+function createDefaultStackParser() {
+  return createStackParser("web:javascript", chromeStackLineParser, geckoStackLineParser);
+}
+function createStackParser(platform, ...parsers) {
+  return (stack, skipFirstLines = 0) => {
+    const frames = [];
+    const lines = stack.split("\n");
+    for (let i = skipFirstLines; i < lines.length; i++) {
+      const line = lines[i];
+      if (line.length > 1024) continue;
+      const cleanedLine = WEBPACK_ERROR_REGEXP.test(line) ? line.replace(WEBPACK_ERROR_REGEXP, "$1") : line;
+      if (!cleanedLine.match(/\S*Error: /)) {
+        for (const parser of parsers) {
+          const frame = parser(cleanedLine, platform);
+          if (frame) {
+            frames.push(frame);
+            break;
+          }
+        }
+        if (frames.length >= STACKTRACE_FRAME_LIMIT) break;
+      }
+    }
+    return reverseAndStripFrames(frames);
+  };
+}
+
+// node_modules/@posthog/core/dist/error-tracking/coercers/dom-exception-coercer.mjs
+var DOMExceptionCoercer = class {
+  match(err) {
+    return this.isDOMException(err) || this.isDOMError(err);
+  }
+  coerce(err, ctx) {
+    const hasStack = isString(err.stack);
+    return {
+      type: this.getType(err),
+      value: this.getValue(err),
+      stack: hasStack ? err.stack : void 0,
+      cause: err.cause ? ctx.next(err.cause) : void 0,
+      synthetic: false
+    };
+  }
+  getType(candidate) {
+    return this.isDOMError(candidate) ? "DOMError" : "DOMException";
+  }
+  getValue(err) {
+    const name = err.name || (this.isDOMError(err) ? "DOMError" : "DOMException");
+    const message = err.message ? `${name}: ${err.message}` : name;
+    return message;
+  }
+  isDOMException(err) {
+    return isBuiltin(err, "DOMException");
+  }
+  isDOMError(err) {
+    return isBuiltin(err, "DOMError");
+  }
+};
+
+// node_modules/@posthog/core/dist/error-tracking/coercers/error-coercer.mjs
+var ErrorCoercer = class {
+  match(err) {
+    return isPlainError(err);
+  }
+  coerce(err, ctx) {
+    return {
+      type: this.getType(err),
+      value: this.getMessage(err, ctx),
+      stack: this.getStack(err),
+      cause: err.cause ? ctx.next(err.cause) : void 0,
+      synthetic: false
+    };
+  }
+  getType(err) {
+    return err.name || err.constructor.name;
+  }
+  getMessage(err, _ctx) {
+    const message = err.message;
+    if (message.error && "string" == typeof message.error.message) return String(message.error.message);
+    return String(message);
+  }
+  getStack(err) {
+    return err.stacktrace || err.stack || void 0;
+  }
+};
+
+// node_modules/@posthog/core/dist/error-tracking/coercers/error-event-coercer.mjs
+var ErrorEventCoercer = class {
+  constructor() {
+  }
+  match(err) {
+    return isErrorEvent(err) && void 0 != err.error;
+  }
+  coerce(err, ctx) {
+    const exceptionLike = ctx.apply(err.error);
+    if (!exceptionLike) return {
+      type: "ErrorEvent",
+      value: err.message,
+      stack: ctx.syntheticException?.stack,
+      synthetic: true
+    };
+    return exceptionLike;
+  }
+};
+
+// node_modules/@posthog/core/dist/error-tracking/coercers/string-coercer.mjs
+var ERROR_TYPES_PATTERN = /^(?:[Uu]ncaught (?:exception: )?)?(?:((?:Eval|Internal|Range|Reference|Syntax|Type|URI|)Error): )?(.*)$/i;
+var StringCoercer = class {
+  match(input) {
+    return "string" == typeof input;
+  }
+  coerce(input, ctx) {
+    const [type, value] = this.getInfos(input);
+    return {
+      type: type ?? "Error",
+      value: value ?? input,
+      stack: ctx.syntheticException?.stack,
+      synthetic: true
+    };
+  }
+  getInfos(candidate) {
+    let type = "Error";
+    let value = candidate;
+    const groups = candidate.match(ERROR_TYPES_PATTERN);
+    if (groups) {
+      type = groups[1];
+      value = groups[2];
+    }
+    return [
+      type,
+      value
+    ];
+  }
+};
+
+// node_modules/@posthog/core/dist/error-tracking/types.mjs
+var severityLevels = [
+  "fatal",
+  "error",
+  "warning",
+  "log",
+  "info",
+  "debug"
+];
+
+// node_modules/@posthog/core/dist/error-tracking/coercers/utils.mjs
+function extractExceptionKeysForMessage(err, maxLength = 40) {
+  const keys = Object.keys(err);
+  keys.sort();
+  if (!keys.length) return "[object has no keys]";
+  for (let i = keys.length; i > 0; i--) {
+    const serialized = keys.slice(0, i).join(", ");
+    if (!(serialized.length > maxLength)) {
+      if (i === keys.length) return serialized;
+      return serialized.length <= maxLength ? serialized : `${serialized.slice(0, maxLength)}...`;
+    }
+  }
+  return "";
+}
+
+// node_modules/@posthog/core/dist/error-tracking/coercers/object-coercer.mjs
+var ObjectCoercer = class {
+  match(candidate) {
+    return "object" == typeof candidate && null !== candidate;
+  }
+  coerce(candidate, ctx) {
+    const errorProperty = this.getErrorPropertyFromObject(candidate);
+    if (errorProperty) return ctx.apply(errorProperty);
+    return {
+      type: this.getType(candidate),
+      value: this.getValue(candidate),
+      stack: ctx.syntheticException?.stack,
+      level: this.isSeverityLevel(candidate.level) ? candidate.level : "error",
+      synthetic: true
+    };
+  }
+  getType(err) {
+    return isEvent(err) ? err.constructor.name : "Error";
+  }
+  getValue(err) {
+    if ("name" in err && "string" == typeof err.name) {
+      let message = `'${err.name}' captured as exception`;
+      if ("message" in err && "string" == typeof err.message) message += ` with message: '${err.message}'`;
+      return message;
+    }
+    if ("message" in err && "string" == typeof err.message) return err.message;
+    const className = this.getObjectClassName(err);
+    const keys = extractExceptionKeysForMessage(err);
+    return `${className && "Object" !== className ? `'${className}'` : "Object"} captured as exception with keys: ${keys}`;
+  }
+  isSeverityLevel(x2) {
+    return isString(x2) && !isEmptyString(x2) && severityLevels.indexOf(x2) >= 0;
+  }
+  getErrorPropertyFromObject(obj) {
+    for (const prop in obj) if (Object.prototype.hasOwnProperty.call(obj, prop)) {
+      const value = obj[prop];
+      if (isError(value)) return value;
+    }
+  }
+  getObjectClassName(obj) {
+    try {
+      const prototype = Object.getPrototypeOf(obj);
+      return prototype ? prototype.constructor.name : void 0;
+    } catch (e2) {
+      return;
+    }
+  }
+};
+
+// node_modules/@posthog/core/dist/error-tracking/coercers/event-coercer.mjs
+var EventCoercer = class {
+  match(err) {
+    return isEvent(err);
+  }
+  coerce(evt, ctx) {
+    const constructorName = evt.constructor.name;
+    return {
+      type: constructorName,
+      value: `${constructorName} captured as exception with keys: ${extractExceptionKeysForMessage(evt)}`,
+      stack: ctx.syntheticException?.stack,
+      synthetic: true
+    };
+  }
+};
+
+// node_modules/@posthog/core/dist/error-tracking/coercers/primitive-coercer.mjs
+var PrimitiveCoercer = class {
+  match(candidate) {
+    return isPrimitive(candidate);
+  }
+  coerce(value, ctx) {
+    return {
+      type: "Error",
+      value: `Primitive value captured as exception: ${String(value)}`,
+      stack: ctx.syntheticException?.stack,
+      synthetic: true
+    };
+  }
+};
+
+// node_modules/@posthog/core/dist/error-tracking/coercers/promise-rejection-event.mjs
+var PromiseRejectionEventCoercer = class {
+  match(err) {
+    return isBuiltin(err, "PromiseRejectionEvent") || this.isCustomEventWrappingRejection(err);
+  }
+  isCustomEventWrappingRejection(err) {
+    if (!isEvent(err)) return false;
+    try {
+      const detail = err.detail;
+      return null != detail && "object" == typeof detail && "reason" in detail;
+    } catch {
+      return false;
+    }
+  }
+  coerce(err, ctx) {
+    const reason = this.getUnhandledRejectionReason(err);
+    if (isPrimitive(reason)) return {
+      type: "UnhandledRejection",
+      value: `Non-Error promise rejection captured with value: ${String(reason)}`,
+      stack: ctx.syntheticException?.stack,
+      synthetic: true
+    };
+    return ctx.apply(reason);
+  }
+  getUnhandledRejectionReason(error51) {
+    try {
+      if ("reason" in error51) return error51.reason;
+      if ("detail" in error51 && null != error51.detail && "object" == typeof error51.detail && "reason" in error51.detail) return error51.detail.reason;
+    } catch {
+    }
+    return error51;
+  }
+};
+
+// node_modules/@posthog/core/dist/error-tracking/utils.mjs
+var ReduceableCache = class {
+  constructor(_maxSize2) {
+    this._maxSize = _maxSize2;
+    this._cache = /* @__PURE__ */ new Map();
+  }
+  get(key) {
+    const value = this._cache.get(key);
+    if (void 0 === value) return;
+    this._cache.delete(key);
+    this._cache.set(key, value);
+    return value;
+  }
+  set(key, value) {
+    this._cache.set(key, value);
+  }
+  reduce() {
+    while (this._cache.size >= this._maxSize) {
+      const value = this._cache.keys().next().value;
+      if (value) this._cache.delete(value);
+    }
+  }
+};
+
+// node_modules/@posthog/core/dist/error-tracking/exception-steps.mjs
+var EXCEPTION_STEP_INTERNAL_FIELDS = {
+  MESSAGE: "$message",
+  TIMESTAMP: "$timestamp"
+};
+var RESERVED_EXCEPTION_STEP_KEYS = /* @__PURE__ */ new Set([
+  EXCEPTION_STEP_INTERNAL_FIELDS.MESSAGE,
+  EXCEPTION_STEP_INTERNAL_FIELDS.TIMESTAMP
+]);
+var DEFAULT_EXCEPTION_STEPS_CONFIG = {
+  enabled: true,
+  max_bytes: 32768
+};
+function resolveExceptionStepsConfig(config2) {
+  if (!config2) return {
+    ...DEFAULT_EXCEPTION_STEPS_CONFIG
+  };
+  return {
+    enabled: config2.enabled ?? DEFAULT_EXCEPTION_STEPS_CONFIG.enabled,
+    max_bytes: normalizePositiveInteger(config2.max_bytes, DEFAULT_EXCEPTION_STEPS_CONFIG.max_bytes)
+  };
+}
+function stripReservedExceptionStepFields(properties) {
+  if (!properties) return {
+    sanitizedProperties: {},
+    droppedKeys: []
+  };
+  const droppedKeys = [];
+  const sanitizedProperties = Object.keys(properties).reduce((acc, key) => {
+    if (RESERVED_EXCEPTION_STEP_KEYS.has(key)) {
+      droppedKeys.push(key);
+      return acc;
+    }
+    acc[key] = properties[key];
+    return acc;
+  }, {});
+  return {
+    sanitizedProperties,
+    droppedKeys
+  };
+}
+var ExceptionStepsBuffer = class {
+  constructor(config2) {
+    this._entries = [];
+    this._totalBytes = 0;
+    this._config = resolveExceptionStepsConfig(config2);
+  }
+  setConfig(config2) {
+    this._config = resolveExceptionStepsConfig(config2);
+    this._trimToMaxBytes();
+  }
+  add(step) {
+    const serialized = normalizeAndSerializeStep(step);
+    if (!serialized) return;
+    const bytes = getUtf8ByteLength(serialized.json);
+    if (bytes > this._config.max_bytes) return;
+    this._entries.push({
+      step: serialized.step,
+      bytes
+    });
+    this._totalBytes += bytes;
+    this._trimToMaxBytes();
+  }
+  getAttachable() {
+    return this._entries.map((e2) => e2.step);
+  }
+  clear() {
+    this._entries = [];
+    this._totalBytes = 0;
+  }
+  size() {
+    return this._entries.length;
+  }
+  _trimToMaxBytes() {
+    while (this._totalBytes > this._config.max_bytes && this._entries.length > 0) {
+      const evicted = this._entries.shift();
+      if (evicted) this._totalBytes -= evicted.bytes;
+    }
+  }
+};
+function normalizePositiveInteger(input, fallback) {
+  if (!isNumber(input) || input === 1 / 0 || input === -1 / 0) return fallback;
+  const normalized = Math.floor(input);
+  if (normalized < 0) return fallback;
+  return normalized;
+}
+function normalizeAndSerializeStep(step) {
+  const json2 = safeStringify(step);
+  if (!json2) return;
+  try {
+    const parsed = JSON.parse(json2);
+    if (!isObject2(parsed)) return;
+    const parsedStep = parsed;
+    const message = parsedStep[EXCEPTION_STEP_INTERNAL_FIELDS.MESSAGE];
+    const timestamp = parsedStep[EXCEPTION_STEP_INTERNAL_FIELDS.TIMESTAMP];
+    if (!isString(message) || 0 === message.trim().length) return;
+    if (!isString(timestamp) && !isNumber(timestamp)) return;
+    return {
+      step: parsedStep,
+      json: json2
+    };
+  } catch {
+    return;
+  }
+}
+function safeStringify(value) {
+  const seen = /* @__PURE__ */ new WeakSet();
+  try {
+    return JSON.stringify(value, (_key, replacementValue) => {
+      if ("bigint" == typeof replacementValue) return replacementValue.toString();
+      if ("function" == typeof replacementValue || "symbol" == typeof replacementValue) return;
+      if (replacementValue instanceof Date) return replacementValue.toISOString();
+      if (replacementValue instanceof Error) return {
+        name: replacementValue.name,
+        message: replacementValue.message,
+        stack: replacementValue.stack
+      };
+      if (replacementValue && "object" == typeof replacementValue) {
+        if (seen.has(replacementValue)) return "[Circular]";
+        seen.add(replacementValue);
+      }
+      return replacementValue;
+    });
+  } catch {
+    return;
+  }
+}
+function getUtf8ByteLength(value) {
+  if ("undefined" != typeof TextEncoder) return new TextEncoder().encode(value).length;
+  const encoded = encodeURIComponent(value);
+  let byteLength = 0;
+  for (let i = 0; i < encoded.length; i++) if ("%" === encoded[i]) {
+    byteLength += 1;
+    i += 2;
+  } else byteLength += 1;
+  return byteLength;
+}
+
+// node_modules/posthog-node/dist/extensions/error-tracking/modifiers/context-lines.node.mjs
+var import_node_fs = require("node:fs");
+var import_node_readline = require("node:readline");
+var LRU_FILE_CONTENTS_CACHE = new error_tracking_exports.ReduceableCache(25);
+var LRU_FILE_CONTENTS_FS_READ_FAILED = new error_tracking_exports.ReduceableCache(20);
+
+// node_modules/posthog-node/dist/extensions/error-tracking/modifiers/relative-path.node.mjs
+var import_path2 = require("path");
+
+// node_modules/posthog-node/dist/extensions/context/context.mjs
+var import_node_async_hooks = require("node:async_hooks");
+
+// node_modules/posthog-node/dist/extensions/sentry-integration.mjs
+var NAME = "posthog-node";
+function createEventProcessor(_posthog, { organization, projectId, prefix, severityAllowList = [
+  "error"
+], sendExceptionsToPostHog = true } = {}) {
+  return (event) => {
+    const shouldProcessLevel = "*" === severityAllowList || severityAllowList.includes(event.level);
+    if (!shouldProcessLevel) return event;
+    if (!event.tags) event.tags = {};
+    const userId = event.tags[PostHogSentryIntegration.POSTHOG_ID_TAG];
+    if (void 0 === userId) return event;
+    const uiHost = _posthog.options.host ?? "https://us.i.posthog.com";
+    const personUrl = new URL(`/project/${_posthog.apiKey}/person/${userId}`, uiHost).toString();
+    event.tags["PostHog Person URL"] = personUrl;
+    const exceptions = event.exception?.values || [];
+    const exceptionList = exceptions.map((exception) => ({
+      ...exception,
+      stacktrace: exception.stacktrace ? {
+        ...exception.stacktrace,
+        type: "raw",
+        frames: (exception.stacktrace.frames || []).map((frame) => ({
+          ...frame,
+          platform: "node:javascript"
+        }))
+      } : void 0
+    }));
+    const properties = {
+      $exception_message: exceptions[0]?.value || event.message,
+      $exception_type: exceptions[0]?.type,
+      $exception_level: event.level,
+      $exception_list: exceptionList,
+      $sentry_event_id: event.event_id,
+      $sentry_exception: event.exception,
+      $sentry_exception_message: exceptions[0]?.value || event.message,
+      $sentry_exception_type: exceptions[0]?.type,
+      $sentry_tags: event.tags
+    };
+    if (organization && projectId) properties["$sentry_url"] = (prefix || "https://sentry.io/organizations/") + organization + "/issues/?project=" + projectId + "&query=" + event.event_id;
+    if (sendExceptionsToPostHog) _posthog.capture({
+      event: "$exception",
+      distinctId: userId,
+      properties
+    });
+    return event;
+  };
+}
+var PostHogSentryIntegration = class {
+  static #_ = this.POSTHOG_ID_TAG = "posthog_distinct_id";
+  constructor(_posthog, organization, prefix, severityAllowList, sendExceptionsToPostHog) {
+    this.name = NAME;
+    this.name = NAME;
+    this.setupOnce = function(addGlobalEventProcessor, getCurrentHub) {
+      const projectId = getCurrentHub()?.getClient()?.getDsn()?.projectId;
+      addGlobalEventProcessor(createEventProcessor(_posthog, {
+        organization,
+        projectId,
+        prefix,
+        severityAllowList,
+        sendExceptionsToPostHog: sendExceptionsToPostHog ?? true
+      }));
+    };
+  }
+};
+
+// src/common/telemetry/telemetry-id-store.ts
+var crypto2 = __toESM(require("node:crypto"), 1);
+var fs4 = __toESM(require("node:fs/promises"), 1);
+var path6 = __toESM(require("node:path"), 1);
+
+// src/common/telemetry/telemetry-config.ts
+var os6 = __toESM(require("node:os"), 1);
+var OS_PLATFORM = process.platform;
+var OS_RELEASE = os6.release();
+var OS_ARCH = process.arch;
+var NODE_VERSION = process.versions.node;
+var POSTHOG_OS_NAME_BY_PLATFORM = {
+  darwin: "Mac OS X",
+  win32: "Windows",
+  linux: "Linux"
+};
+var POSTHOG_OS_NAME = POSTHOG_OS_NAME_BY_PLATFORM[OS_PLATFORM] ?? OS_PLATFORM;
+function readEnv(envName) {
+  const value = process.env[envName]?.trim();
+  return value === "" ? void 0 : value;
+}
+var POSTHOG_HOST_US = "https://us.i.posthog.com";
+var POSTHOG_HOST_EU = "https://eu.i.posthog.com";
+var POSTHOG_HOST_BY_REGION = {
+  us: POSTHOG_HOST_US,
+  us1: POSTHOG_HOST_US,
+  usa: POSTHOG_HOST_US,
+  eu: POSTHOG_HOST_EU,
+  eu1: POSTHOG_HOST_EU,
+  europe: POSTHOG_HOST_EU
+};
+function isTelemetryDisabled() {
+  return isEnvVarTruthy(readEnv(WOZCODE_TELEMETRY_DISABLED_ENV_VAR));
+}
+var TELEMETRY_FLUSH_AT_BATCH_SIZE = 10;
+var projectToken = readEnv(WOZCODE_POSTHOG_PROJECT_TOKEN_ENV_VAR);
+var projectRegion = readEnv(WOZCODE_POSTHOG_PROJECT_REGION_ENV_VAR)?.toLowerCase();
+var postHogConfig = {
+  projectToken,
+  host: projectRegion != null ? POSTHOG_HOST_BY_REGION[projectRegion] : void 0,
+  // Snapshotted at module load — runtime toggles of WOZCODE_TELEMETRY_DISABLED
+  // do NOT propagate here. Runtime-respecting callers go through
+  // `isTelemetryDisabled()` directly. See its JSDoc for the full split.
+  enabled: !isTelemetryDisabled() && isEnvVarTruthy(readEnv(WOZCODE_POSTHOG_ENABLED_ENV_VAR)) && projectToken !== void 0,
+  flushIntervalInMs: 5e3,
+  flushAt: TELEMETRY_FLUSH_AT_BATCH_SIZE,
+  debugEnabled: isEnvVarTruthy(readEnv(WOZCODE_DEBUG_TELEMETRY_ENV_VAR)),
+  anonymousDistinctId: "anonymous",
+  debugPrefix: "[telemetry]"
+};
+
+// src/common/telemetry/telemetry-id-store.ts
+var IdentifyCacheEntrySchema = external_exports.object({
+  userId: external_exports.string(),
+  propertiesHash: external_exports.string()
+});
+var TelemetryIdFileSchema = external_exports.object({
+  anonymousId: external_exports.string(),
+  identifyCache: IdentifyCacheEntrySchema.optional()
+});
+
+// src/common/telemetry/telemetry.ts
+var HEARTBEAT_INTERVAL_MS = 5 * 60 * 1e3;
+
+// src/common/transcripts/claude-session-transcripts.ts
+var fs6 = __toESM(require("fs"), 1);
+var import_path22 = __toESM(require("path"), 1);
 
 // node_modules/@anthropic-ai/claude-agent-sdk/sdk.mjs
 var import_node_module = require("node:module");
 var import_child_process2 = require("child_process");
-var import_crypto = require("crypto");
+var import_crypto2 = require("crypto");
 var import_fs = require("fs");
 var import_promises = require("fs/promises");
 var import_module = require("module");
 var import_os = require("os");
-var import_path = require("path");
+var import_path3 = require("path");
 var import_readline = require("readline");
 var import_url = require("url");
 var import_events = require("events");
@@ -14981,59 +16275,58 @@ var import_child_process3 = require("child_process");
 var import_fs2 = require("fs");
 var import_readline2 = require("readline");
 var import_os2 = require("os");
-var import_path2 = require("path");
-var import_crypto2 = require("crypto");
-var import_path3 = require("path");
+var import_path4 = require("path");
+var import_crypto3 = require("crypto");
+var import_path5 = require("path");
 var import_async_hooks = require("async_hooks");
 var import_promises2 = require("fs/promises");
-var import_crypto3 = require("crypto");
+var import_crypto4 = require("crypto");
 var import_promises3 = require("fs/promises");
 var import_fs3 = require("fs");
 var import_process = require("process");
-var import_crypto4 = require("crypto");
+var import_crypto5 = require("crypto");
 var import_promises4 = require("fs/promises");
-var import_path4 = require("path");
+var import_path6 = require("path");
 var s = __toESM(require("fs"), 1);
 var import_promises5 = require("fs/promises");
 var import_fs4 = require("fs");
-var import_path5 = require("path");
+var import_path7 = require("path");
 var import_fs5 = require("fs");
 var import_promises6 = require("fs/promises");
 var import_events2 = require("events");
 var import_fs6 = require("fs");
 var import_promises7 = require("fs/promises");
-var import_path6 = require("path");
+var import_path8 = require("path");
 var import_child_process4 = require("child_process");
 var import_util3 = require("util");
 var import_child_process5 = require("child_process");
-var import_path7 = require("path");
+var import_path9 = require("path");
 var import_promises8 = require("fs/promises");
-var import_path8 = require("path");
+var import_path10 = require("path");
 var import_fs7 = require("fs");
 var import_promises9 = require("fs/promises");
-var import_path9 = require("path");
-var import_crypto5 = require("crypto");
-var import_path10 = require("path");
-var import_promises10 = require("fs/promises");
 var import_path11 = require("path");
 var import_crypto6 = require("crypto");
-var import_os3 = require("os");
 var import_path12 = require("path");
+var import_promises10 = require("fs/promises");
 var import_path13 = require("path");
+var import_crypto7 = require("crypto");
+var import_os3 = require("os");
 var import_path14 = require("path");
-var import_node_path = __toESM(require("node:path"), 1);
-var import_node_os = __toESM(require("node:os"), 1);
-var import_node_process = __toESM(require("node:process"), 1);
 var import_path15 = require("path");
+var import_path16 = require("path");
+var import_node_path = __toESM(require("node:path"), 1);
+var import_node_os2 = __toESM(require("node:os"), 1);
+var import_node_process = __toESM(require("node:process"), 1);
+var import_path17 = require("path");
 var import_promises11 = require("fs/promises");
 var import_os4 = require("os");
-var import_path16 = require("path");
+var import_path18 = require("path");
 var import_os5 = require("os");
 var import_child_process6 = require("child_process");
 var import_fs8 = require("fs");
-var import_path17 = require("path");
-var import_path18 = require("path");
-var import_meta = {};
+var import_path19 = require("path");
+var import_path20 = require("path");
 var n_ = Object.create;
 var { getPrototypeOf: r_, defineProperty: OG, getOwnPropertyNames: o_ } = Object;
 var t_ = Object.prototype.hasOwnProperty;
@@ -15062,7 +16355,7 @@ function Qk($, Q) {
 var M4 = ($, Q) => {
   for (var J in Q) OG($, J, { get: Q[J], enumerable: true, configurable: true, set: Qk.bind(Q, J) });
 };
-var v6 = (0, import_node_module.createRequire)(import_meta.url);
+var v6 = (0, import_node_module.createRequire)(__wozImportMetaUrl);
 var Xk = Symbol.dispose || /* @__PURE__ */ Symbol.for("Symbol.dispose");
 var Yk = Symbol.asyncDispose || /* @__PURE__ */ Symbol.for("Symbol.asyncDispose");
 var Z$ = ($, Q, J) => {
@@ -20161,7 +21454,7 @@ function MG($, Q) {
 MG.Cache = m9;
 var C$ = MG;
 var p6 = C$(() => {
-  return (process.env.CLAUDE_CONFIG_DIR ?? (0, import_path2.join)((0, import_os2.homedir)(), ".claude")).normalize("NFC");
+  return (process.env.CLAUDE_CONFIG_DIR ?? (0, import_path4.join)((0, import_os2.homedir)(), ".claude")).normalize("NFC");
 }, () => process.env.CLAUDE_CONFIG_DIR);
 var h0$ = C$(() => R$(process.env.CLAUDE_CODE_SUPERVISED));
 function y($, Q, J, Y, X) {
@@ -23667,7 +24960,7 @@ function lT() {
       $ = J.normalize("NFC");
     }
   }
-  return { originalCwd: $, projectRoot: $, totalCostUSD: 0, totalAPIDuration: 0, totalAPIDurationWithoutRetries: 0, totalToolDuration: 0, startTime: Date.now(), lastInteractionTime: Date.now(), totalLinesAdded: 0, totalLinesRemoved: 0, hasUnknownModelCost: false, cwd: $, modelUsage: {}, mainLoopModelOverride: void 0, refusalFallbackOccurred: false, replConfigArgv: [], initialMainLoopModel: void 0, modelStrings: null, isInteractive: false, attacherCaps: null, hasStreamingInput: false, modelOverrideOptOutForSession: false, kairosActive: false, rendererMode: void 0, strictToolResultPairing: false, memoryToggledOff: false, teamMemoryServerStatus: void 0, sdkAgentProgressSummariesEnabled: false, userMsgOptIn: false, clientType: "cli", sessionSource: void 0, sessionStartType: "fresh", questionPreviewFormat: void 0, sessionIngressToken: void 0, oauthTokenFromFd: void 0, oauthScopesFromFd: void 0, apiKeyFromFd: void 0, gatewayAuth: null, gatewayRefreshInFlight: null, flagSettingsPath: void 0, flagSettingsExpectedContent: void 0, flagSettingsInline: null, parentManagedSettings: null, allowedSettingSources: ["userSettings", "projectSettings", "localSettings", "flagSettings", "policySettings"], meter: null, sessionCounter: null, locCounter: null, prCounter: null, commitCounter: null, costCounter: null, tokenCounter: null, codeEditToolDecisionCounter: null, activeTimeCounter: null, statsStore: null, sessionId: (0, import_crypto4.randomUUID)(), parentSessionId: void 0, loggerProvider: null, eventLogger: null, meterProvider: null, tracerProvider: null, cachedTelemetryResource: null, agentColorMap: /* @__PURE__ */ new Map(), agentColorIndex: 0, lastAPIRequest: null, lastCancelledAPIMessageId: null, lastAPIRequestMessages: null, lastClassifierRequests: null, cachedClaudeMdContent: null, inMemoryErrorLog: [], inlinePlugins: [], inlinePluginUrls: [], syncedPluginDirs: [], chromeFlagOverride: void 0, useCoworkPlugins: false, disableSlashCommands: false, sessionBypassPermissionsMode: false, scheduledTasksEnabled: false, sessionPrResolved: false, sessionCronTasks: [], loopChainStartedAt: /* @__PURE__ */ Object.create(null), sessionCreatedTeams: /* @__PURE__ */ new Set(), sessionTrustAccepted: false, sessionPersistenceDisabled: false, hasExitedPlanMode: false, needsPlanModeExitAttachment: false, needsAutoModeExitAttachment: false, lspRecommendationShownThisSession: false, initJsonSchema: null, registeredHooks: null, planSlugCache: /* @__PURE__ */ new Map(), teleportedSessionInfo: null, invokedSkills: /* @__PURE__ */ new Map(), slowOperations: [], sdkBetas: void 0, sdkOAuthTokenRefreshCallback: null, hostAuthTokenRefreshCallback: null, mainThreadAgentType: void 0, mainThreadAgentHooks: void 0, sessionSkillAllowlist: void 0, caps: mT, replBridgeActive: false, directConnectServerUrl: void 0, mcpConnectNonBlocking: false, strictMcpConfig: false, activeRoutine: void 0, systemPromptSectionCache: /* @__PURE__ */ new Map(), lastEmittedDate: null, additionalDirectoriesForClaudeMd: [], allowedChannels: [], activeInputs: /* @__PURE__ */ new Map(), hasDevChannels: false, sessionProjectDir: null, promptCache1hAllowlist: null, stickyBetas: uO(), thinkingTypeOverrides: /* @__PURE__ */ new Map(), inferenceProfileBackingModels: /* @__PURE__ */ new Map(), promptId: null, promptIndex: 0, lastMainRequestId: void 0, lastMainThreadCacheTtlMs: null, lastApiCompletionTimestamp: null, pendingPostCompaction: false };
+  return { originalCwd: $, projectRoot: $, totalCostUSD: 0, totalAPIDuration: 0, totalAPIDurationWithoutRetries: 0, totalToolDuration: 0, startTime: Date.now(), lastInteractionTime: Date.now(), totalLinesAdded: 0, totalLinesRemoved: 0, hasUnknownModelCost: false, cwd: $, modelUsage: {}, mainLoopModelOverride: void 0, refusalFallbackOccurred: false, replConfigArgv: [], initialMainLoopModel: void 0, modelStrings: null, isInteractive: false, attacherCaps: null, hasStreamingInput: false, modelOverrideOptOutForSession: false, kairosActive: false, rendererMode: void 0, strictToolResultPairing: false, memoryToggledOff: false, teamMemoryServerStatus: void 0, sdkAgentProgressSummariesEnabled: false, userMsgOptIn: false, clientType: "cli", sessionSource: void 0, sessionStartType: "fresh", questionPreviewFormat: void 0, sessionIngressToken: void 0, oauthTokenFromFd: void 0, oauthScopesFromFd: void 0, apiKeyFromFd: void 0, gatewayAuth: null, gatewayRefreshInFlight: null, flagSettingsPath: void 0, flagSettingsExpectedContent: void 0, flagSettingsInline: null, parentManagedSettings: null, allowedSettingSources: ["userSettings", "projectSettings", "localSettings", "flagSettings", "policySettings"], meter: null, sessionCounter: null, locCounter: null, prCounter: null, commitCounter: null, costCounter: null, tokenCounter: null, codeEditToolDecisionCounter: null, activeTimeCounter: null, statsStore: null, sessionId: (0, import_crypto5.randomUUID)(), parentSessionId: void 0, loggerProvider: null, eventLogger: null, meterProvider: null, tracerProvider: null, cachedTelemetryResource: null, agentColorMap: /* @__PURE__ */ new Map(), agentColorIndex: 0, lastAPIRequest: null, lastCancelledAPIMessageId: null, lastAPIRequestMessages: null, lastClassifierRequests: null, cachedClaudeMdContent: null, inMemoryErrorLog: [], inlinePlugins: [], inlinePluginUrls: [], syncedPluginDirs: [], chromeFlagOverride: void 0, useCoworkPlugins: false, disableSlashCommands: false, sessionBypassPermissionsMode: false, scheduledTasksEnabled: false, sessionPrResolved: false, sessionCronTasks: [], loopChainStartedAt: /* @__PURE__ */ Object.create(null), sessionCreatedTeams: /* @__PURE__ */ new Set(), sessionTrustAccepted: false, sessionPersistenceDisabled: false, hasExitedPlanMode: false, needsPlanModeExitAttachment: false, needsAutoModeExitAttachment: false, lspRecommendationShownThisSession: false, initJsonSchema: null, registeredHooks: null, planSlugCache: /* @__PURE__ */ new Map(), teleportedSessionInfo: null, invokedSkills: /* @__PURE__ */ new Map(), slowOperations: [], sdkBetas: void 0, sdkOAuthTokenRefreshCallback: null, hostAuthTokenRefreshCallback: null, mainThreadAgentType: void 0, mainThreadAgentHooks: void 0, sessionSkillAllowlist: void 0, caps: mT, replBridgeActive: false, directConnectServerUrl: void 0, mcpConnectNonBlocking: false, strictMcpConfig: false, activeRoutine: void 0, systemPromptSectionCache: /* @__PURE__ */ new Map(), lastEmittedDate: null, additionalDirectoriesForClaudeMd: [], allowedChannels: [], activeInputs: /* @__PURE__ */ new Map(), hasDevChannels: false, sessionProjectDir: null, promptCache1hAllowlist: null, stickyBetas: uO(), thinkingTypeOverrides: /* @__PURE__ */ new Map(), inferenceProfileBackingModels: /* @__PURE__ */ new Map(), promptId: null, promptIndex: 0, lastMainRequestId: void 0, lastMainThreadCacheTtlMs: null, lastApiCompletionTimestamp: null, pendingPostCompaction: false };
 }
 var cT = lT();
 var pT = () => {
@@ -24157,7 +25450,7 @@ async function V2($, Q, J = Rx) {
   }
 }
 function B2($) {
-  return ZU = (0, import_path4.join)($, `${VU()}.txt`), ZU;
+  return ZU = (0, import_path6.join)($, `${VU()}.txt`), ZU;
 }
 async function Px($, Q, J, Y) {
   if ($) await (0, import_promises4.mkdir)(Q, { recursive: true }).catch(() => {
@@ -24177,7 +25470,7 @@ function Ex() {
   if (!KX) {
     let $ = null;
     KX = lO({ writeFn: (Q) => {
-      let J = z2(), Y = (0, import_path4.dirname)(J), X = $ !== Y;
+      let J = z2(), Y = (0, import_path6.dirname)(J), X = $ !== Y;
       if ($ = Y, FU()) {
         if (X) try {
           l$().mkdirSync(Y);
@@ -24214,11 +25507,11 @@ function X$($, { level: Q } = { level: "debug" }) {
   Ex().write(Y);
 }
 function z2() {
-  return q2() ?? ZU ?? process.env.CLAUDE_CODE_DEBUG_LOGS_DIR ?? (0, import_path4.join)(p6(), "debug", `${VU()}.txt`);
+  return q2() ?? ZU ?? process.env.CLAUDE_CODE_DEBUG_LOGS_DIR ?? (0, import_path6.join)(p6(), "debug", `${VU()}.txt`);
 }
 var N2 = C$(async () => {
   try {
-    let $ = z2(), Q = (0, import_path4.dirname)($), J = (0, import_path4.join)(Q, "latest");
+    let $ = z2(), Q = (0, import_path6.dirname)($), J = (0, import_path6.join)(Q, "latest");
     await (0, import_promises4.unlink)(J).catch(() => {
     }), await (0, import_promises4.symlink)($, J);
   } catch {
@@ -31861,8 +33154,8 @@ var zE;
 function rW($) {
   return $.startsWith("\uFEFF") ? $.slice(1) : $;
 }
-var c1 = import_node_os.default.homedir();
-var Zz = import_node_os.default.tmpdir();
+var c1 = import_node_os2.default.homedir();
+var Zz = import_node_os2.default.tmpdir();
 var { env: j9 } = import_node_process.default;
 var Oe = ($) => {
   let Q = import_node_path.default.join(c1, "Library");
@@ -32641,13 +33934,13 @@ var m0 = C$(function() {
   }
 });
 var BF$ = C$(function() {
-  return (0, import_path15.join)(m0(), "managed-settings.d");
+  return (0, import_path17.join)(m0(), "managed-settings.d");
 });
 var Ee = b(() => K.object({ allowedDomains: K.array(K.string()).optional(), deniedDomains: K.array(K.string()).optional().describe("Domains that are always blocked, even if matched by allowedDomains. Supports the same wildcard syntax as allowedDomains. Merged from all settings sources regardless of allowManagedDomainsOnly."), allowManagedDomainsOnly: K.boolean().optional().describe("When true (and set in managed settings), only allowedDomains and WebFetch(domain:...) allow rules from managed settings are respected. User, project, local, and flag settings domains are ignored. Denied domains are still respected from all sources."), allowUnixSockets: K.array(K.string()).optional().describe("macOS only: Unix socket paths to allow. Ignored on Linux (seccomp cannot filter by path)."), allowAllUnixSockets: K.boolean().optional().describe("If true, allow all Unix sockets (disables blocking on both platforms)."), allowLocalBinding: K.boolean().optional(), allowMachLookup: K.array(K.string().refine(($) => {
   return !($.endsWith("*") ? $.slice(0, -1) : $).includes("*");
 }, { message: 'Wildcards are only allowed as a single trailing "*" (e.g., "com.example.*" or "*" for all services).' })).optional().describe('macOS only: Additional XPC/Mach service names to allow looking up. Supports trailing-wildcard prefix matching (e.g., "com.apple.coresimulator.*"). Needed for tools that communicate via XPC such as the iOS Simulator or Playwright.'), httpProxyPort: K.number().optional(), socksProxyPort: K.number().optional(), tlsTerminate: K.object({ caCertPath: K.string().min(1).optional(), caKeyPath: K.string().min(1).optional() }).optional().describe("[EXPERIMENTAL] Enable in-process TLS termination so the per-request filter can see HTTPS request bodies. Provide a CA cert+key, or omit both to have sandbox-runtime generate an ephemeral one for the session.") }).optional());
 var be = b(() => K.object({ allowWrite: K.array(K.string()).optional().describe("Additional paths to allow writing within the sandbox. Merged with paths from Edit(...) allow permission rules."), denyWrite: K.array(K.string()).optional().describe("Additional paths to deny writing within the sandbox. Merged with paths from Edit(...) deny permission rules."), denyRead: K.array(K.string()).optional().describe("Additional paths to deny reading within the sandbox. Merged with paths from Read(...) deny permission rules."), allowRead: K.array(K.string()).optional().describe("Paths to re-allow reading within denyRead regions. Takes precedence over denyRead for matching paths."), allowManagedReadPathsOnly: K.boolean().optional().describe("When true (set in managed settings), only allowRead paths from policySettings are used.") }).optional());
-var PE = b(() => K.object({ enabled: K.boolean().optional(), failIfUnavailable: K.boolean().optional().describe("Exit with an error at startup if sandbox.enabled is true but the sandbox cannot start (missing dependencies or unsupported platform). When false (default), a warning is shown and commands run unsandboxed. Intended for managed-settings deployments that require sandboxing as a hard gate."), autoAllowBashIfSandboxed: K.boolean().optional(), allowUnsandboxedCommands: K.boolean().optional().describe("Allow commands to run outside the sandbox via the dangerouslyDisableSandbox parameter. When false, the dangerouslyDisableSandbox parameter is completely ignored and all commands must run sandboxed. Default: true."), network: Ee(), filesystem: be(), ignoreViolations: K.record(K.string(), K.array(K.string())).optional(), enableWeakerNestedSandbox: K.boolean().optional(), enableWeakerNetworkIsolation: K.boolean().optional().describe("macOS only: Allow access to com.apple.trustd.agent in the sandbox. Needed for Go-based CLI tools (gh, gcloud, terraform, etc.) to verify TLS certificates when using httpProxyPort with a MITM proxy and custom CA. **Reduces security** \u2014 opens a potential data exfiltration vector through the trustd service. Default: false"), excludedCommands: K.array(K.string()).optional(), ripgrep: K.object({ command: K.string(), args: K.array(K.string()).optional() }).optional().describe("Custom ripgrep configuration for bundled ripgrep support"), bwrapPath: K.preprocess(($) => typeof $ === "string" && (0, import_path16.isAbsolute)($) ? $ : void 0, K.string()).optional().catch(void 0).describe("Linux/WSL only: Absolute path to the bwrap (bubblewrap) binary. Overrides auto-detection via PATH. Only honored from admin-controlled managed settings."), socatPath: K.preprocess(($) => typeof $ === "string" && (0, import_path16.isAbsolute)($) ? $ : void 0, K.string()).optional().catch(void 0).describe("Linux/WSL only: Absolute path to the socat binary used for the sandbox network proxy. Overrides auto-detection via PATH. Only honored from admin-controlled managed settings.") }).passthrough());
+var PE = b(() => K.object({ enabled: K.boolean().optional(), failIfUnavailable: K.boolean().optional().describe("Exit with an error at startup if sandbox.enabled is true but the sandbox cannot start (missing dependencies or unsupported platform). When false (default), a warning is shown and commands run unsandboxed. Intended for managed-settings deployments that require sandboxing as a hard gate."), autoAllowBashIfSandboxed: K.boolean().optional(), allowUnsandboxedCommands: K.boolean().optional().describe("Allow commands to run outside the sandbox via the dangerouslyDisableSandbox parameter. When false, the dangerouslyDisableSandbox parameter is completely ignored and all commands must run sandboxed. Default: true."), network: Ee(), filesystem: be(), ignoreViolations: K.record(K.string(), K.array(K.string())).optional(), enableWeakerNestedSandbox: K.boolean().optional(), enableWeakerNetworkIsolation: K.boolean().optional().describe("macOS only: Allow access to com.apple.trustd.agent in the sandbox. Needed for Go-based CLI tools (gh, gcloud, terraform, etc.) to verify TLS certificates when using httpProxyPort with a MITM proxy and custom CA. **Reduces security** \u2014 opens a potential data exfiltration vector through the trustd service. Default: false"), excludedCommands: K.array(K.string()).optional(), ripgrep: K.object({ command: K.string(), args: K.array(K.string()).optional() }).optional().describe("Custom ripgrep configuration for bundled ripgrep support"), bwrapPath: K.preprocess(($) => typeof $ === "string" && (0, import_path18.isAbsolute)($) ? $ : void 0, K.string()).optional().catch(void 0).describe("Linux/WSL only: Absolute path to the bwrap (bubblewrap) binary. Overrides auto-detection via PATH. Only honored from admin-controlled managed settings."), socatPath: K.preprocess(($) => typeof $ === "string" && (0, import_path18.isAbsolute)($) ? $ : void 0, K.string()).optional().catch(void 0).describe("Linux/WSL only: Absolute path to the socat binary used for the sandbox network proxy. Overrides auto-detection via PATH. Only honored from admin-controlled managed settings.") }).passthrough());
 var EE = ["auto", "iterm2", "iterm2_with_bell", "terminal_bell", "kitty", "ghostty", "notifications_disabled"];
 var bE = ["normal", "vim"];
 var _E = ["auto", "tmux", "in-process"];
@@ -33152,69 +34445,12 @@ var I6$ = X_(function($, Q) {
 });
 process.env.NoDefaultCurrentDirectoryInExePath = "1";
 
-// src/common/wozcore/utils/path-containment.ts
-var import_fs9 = require("fs");
-var path5 = __toESM(require("path"), 1);
-
 // src/common/wozcore/session-transcripts.ts
-function repoPathToClaudeProjectName(repoDirPathNormalized) {
-  const repoDirPathAbs = import_path19.default.resolve(repoDirPathNormalized);
-  const repoCcProjectName = repoDirPathAbs.replace(/[\\/:\s~_]/g, "-");
-  return repoCcProjectName;
-}
-async function discoverSessionTranscripts(maxSessions, projectDir, projectsDirPath) {
-  const sessions = [];
-  const sessionsDir = projectsDirPath ?? getProjectsPath();
-  const encodedProjectDir = projectDir != null ? repoPathToClaudeProjectName(projectDir) : void 0;
-  let projectDirEntries;
-  try {
-    projectDirEntries = (await fs4.promises.readdir(sessionsDir)).map((d2) => import_path19.default.join(sessionsDir, d2));
-  } catch {
-    return [];
-  }
-  for (const dir of projectDirEntries) {
-    let stat;
-    try {
-      stat = await fs4.promises.stat(dir);
-    } catch {
-      continue;
-    }
-    if (!stat.isDirectory()) continue;
-    const projectPath = import_path19.default.basename(dir);
-    let filePaths;
-    try {
-      filePaths = (await fs4.promises.readdir(dir)).filter((f9) => f9.endsWith(".jsonl"));
-    } catch {
-      continue;
-    }
-    for (const filePath of filePaths) {
-      const sessionFilePath = import_path19.default.join(dir, filePath);
-      const sessionId = import_path19.default.basename(sessionFilePath, ".jsonl");
-      let fstat;
-      try {
-        fstat = await fs4.promises.stat(sessionFilePath);
-      } catch {
-        continue;
-      }
-      sessions.push({
-        sessionId,
-        sessionFilePath,
-        projectPath,
-        mtimeMs: fstat.mtimeMs,
-        sizeBytes: fstat.size
-      });
-    }
-  }
-  sessions.sort((a, b2) => {
-    const aMatch = encodedProjectDir != null && a.projectPath.includes(encodedProjectDir);
-    const bMatch = encodedProjectDir != null && b2.projectPath.includes(encodedProjectDir);
-    if (aMatch !== bMatch) return bMatch ? 1 : -1;
-    return b2.mtimeMs - a.mtimeMs;
-  });
-  return maxSessions != null ? sessions.slice(0, maxSessions) : sessions;
-}
+var fs5 = __toESM(require("fs"), 1);
+var import_path21 = __toESM(require("path"), 1);
+var import_readline3 = __toESM(require("readline"), 1);
 async function* readLinesFromEnd(filePath, chunkSize = 65536, readFromByteOffset) {
-  const fd = await fs4.promises.open(filePath, "r");
+  const fd = await fs5.promises.open(filePath, "r");
   try {
     const stats = await fd.stat();
     const fileSize = readFromByteOffset ?? stats.size;
@@ -33273,7 +34509,7 @@ async function* streamTranscriptMessages(sessionJsonlFilePath, options) {
     if (readFromEnd) {
       lineSource = readLinesFromEnd(sessionJsonlFilePath, void 0, readFromByteOffset);
     } else {
-      fileStream = fs4.createReadStream(sessionJsonlFilePath, {
+      fileStream = fs5.createReadStream(sessionJsonlFilePath, {
         ...readFromByteOffset != null ? { start: readFromByteOffset } : {}
       });
       rl2 = import_readline3.default.createInterface({
@@ -33329,6 +34565,113 @@ async function* streamTranscriptMessages(sessionJsonlFilePath, options) {
     fileStream?.destroy();
   }
   return totalLinesSkipped;
+}
+
+// src/common/wozcore/utils/path-containment.ts
+var import_fs9 = require("fs");
+var path9 = __toESM(require("path"), 1);
+
+// src/common/transcripts/claude-session-transcripts.ts
+function repoPathToClaudeProjectName(repoDirPathNormalized) {
+  const repoDirPathAbs = import_path22.default.resolve(repoDirPathNormalized);
+  const repoCcProjectName = repoDirPathAbs.replace(/[\\/:\s~_]/g, "-");
+  return repoCcProjectName;
+}
+async function discoverClaudeSessionTranscripts(maxSessions, projectDir, projectsDirPath) {
+  const sessions = [];
+  const sessionsDir = projectsDirPath ?? getProjectsPath();
+  const encodedProjectDir = projectDir != null ? repoPathToClaudeProjectName(projectDir) : void 0;
+  let projectDirEntries;
+  try {
+    projectDirEntries = (await fs6.promises.readdir(sessionsDir)).map((d2) => import_path22.default.join(sessionsDir, d2));
+  } catch {
+    return [];
+  }
+  for (const dir of projectDirEntries) {
+    let stat;
+    try {
+      stat = await fs6.promises.stat(dir);
+    } catch {
+      continue;
+    }
+    if (!stat.isDirectory()) continue;
+    const projectPath = import_path22.default.basename(dir);
+    let filePaths;
+    try {
+      filePaths = (await fs6.promises.readdir(dir)).filter((f9) => f9.endsWith(".jsonl"));
+    } catch {
+      continue;
+    }
+    for (const filePath of filePaths) {
+      const sessionFilePath = import_path22.default.join(dir, filePath);
+      const sessionId = import_path22.default.basename(sessionFilePath, ".jsonl");
+      let fstat;
+      try {
+        fstat = await fs6.promises.stat(sessionFilePath);
+      } catch {
+        continue;
+      }
+      sessions.push({
+        sessionId,
+        sessionFilePath,
+        projectPath,
+        mtimeMs: fstat.mtimeMs,
+        sizeBytes: fstat.size
+      });
+    }
+  }
+  sessions.sort((a, b2) => {
+    const aMatch = encodedProjectDir != null && a.projectPath.includes(encodedProjectDir);
+    const bMatch = encodedProjectDir != null && b2.projectPath.includes(encodedProjectDir);
+    if (aMatch !== bMatch) return bMatch ? 1 : -1;
+    return b2.mtimeMs - a.mtimeMs;
+  });
+  return maxSessions != null ? sessions.slice(0, maxSessions) : sessions;
+}
+
+// src/common/usage/usage-types.ts
+var TranscriptUsageSchema = TokenCountsSchema.extend({
+  turnCount: external_exports.number(),
+  toolUseCount: external_exports.number(),
+  costInUsd: external_exports.number()
+});
+function emptyTranscriptUsage() {
+  return {
+    inputTokens: 0,
+    outputTokens: 0,
+    cacheReadTokens: 0,
+    cacheCreationTokens: 0,
+    outputThinkingTokens: 0,
+    turnCount: 0,
+    toolUseCount: 0,
+    costInUsd: 0
+  };
+}
+var ModelUsageBreakdownSchema = TranscriptUsageSchema.extend({
+  callsByTool: external_exports.record(external_exports.string(), external_exports.number())
+});
+var SavingsBucketSchema = external_exports.object({
+  callsSaved: external_exports.number(),
+  timeSavedInMs: external_exports.number(),
+  tokensSaved: external_exports.number(),
+  costSavedInUsd: external_exports.number()
+});
+function emptySavings() {
+  return { callsSaved: 0, timeSavedInMs: 0, tokensSaved: 0, costSavedInUsd: 0 };
+}
+
+// src/common/usage/usage.ts
+function addTranscriptUsage(target, source) {
+  addTokenUsage(target, source);
+  target.turnCount += source.turnCount;
+  target.toolUseCount += source.toolUseCount;
+  target.costInUsd += source.costInUsd;
+}
+function addSavings(target, source) {
+  target.callsSaved += source.callsSaved;
+  target.timeSavedInMs += source.timeSavedInMs;
+  target.tokensSaved += source.tokensSaved;
+  target.costSavedInUsd += source.costSavedInUsd;
 }
 
 // src/common/baseline/detection-patterns.ts
@@ -33690,7 +35033,7 @@ function ingestAssistantMessage(state, entry) {
   const msg = entry.message;
   for (const block of msg.content) {
     if (block.type === "tool_use") {
-      if (block.name.startsWith(MCP_PLUGIN_PREFIX)) state.isVanilla = false;
+      if (block.name.startsWith(CLAUDE_CODEX_MCP_PREFIX)) state.isVanilla = false;
       const tu2 = {
         name: block.name,
         input: block.input,
@@ -33817,7 +35160,7 @@ function aggregateSessions(results, windowDays, nowMs) {
 }
 async function computeBaselineFromProjects(projectsDir, maxSessionsRaw) {
   const maxSessions = maxSessionsRaw ?? MAX_SESSIONS;
-  const allFiles = await discoverSessionTranscripts(void 0, void 0, projectsDir);
+  const allFiles = await discoverClaudeSessionTranscripts(void 0, void 0, projectsDir);
   const candidates = allFiles.filter((f9) => f9.sizeBytes <= MAX_FILE_BYTES);
   const results = [];
   for (let i = 0; i < candidates.length && results.length < maxSessions; i += SCAN_CONCURRENCY) {
@@ -34017,3 +35360,15 @@ main().catch((err) => {
   console.error(`${BRAND} savings check failed:`, err instanceof Error ? err.message : String(err));
   process.exit(1);
 });
+/*! Bundled license information:
+
+@posthog/core/dist/vendor/uuidv7.mjs:
+  (*! For license information please see uuidv7.mjs.LICENSE.txt *)
+  (**
+   * uuidv7: An experimental implementation of the proposed UUID Version 7
+   *
+   * @license Apache-2.0
+   * @copyright 2021-2023 LiosK
+   * @packageDocumentation
+   *)
+*/

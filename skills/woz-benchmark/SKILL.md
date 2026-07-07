@@ -71,7 +71,7 @@ One-line warning: "This'll take several minutes — each prompt runs twice." The
 node --no-warnings=ExperimentalWarning ${CLAUDE_PLUGIN_ROOT}/scripts/benchmark.js --target <target> --config <yaml-path> --user-env
 ```
 
-`--user-env` loads the user's project `CLAUDE.md` hierarchy on BOTH sides. Do NOT pass `--screenshots`, `--codex`, `--judge`, or `--trace`.
+`--user-env` loads the user's project `CLAUDE.md` hierarchy on BOTH sides. Do NOT pass `--screenshots`, `--codex`, or `--judge`.
 
 ### 5. Present the results as a savings report
 
