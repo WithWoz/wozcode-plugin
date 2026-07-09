@@ -14649,7 +14649,7 @@ var FileLockInfoSchema = external_exports.object({
 // package.json
 var package_default = {
   name: "wozcode",
-  version: "0.3.84",
+  version: "0.3.85",
   description: "WOZCODE enhanced coding tools \u2014 smart search, batch editing, SQL introspection, and cost-optimized subagent delegation",
   homepage: "https://wozcode.com",
   type: "module",
@@ -14680,10 +14680,11 @@ var package_default = {
     "dev:copilot": "npm run build:copilot && node dist/install/copilot/dev-install.js",
     "dev:copilot:remove": "node dist/install/copilot/dev-install.js --remove",
     "dev:desktop": "npm run build:desktop:css && bunx electrobun dev",
-    lint: "npx eslint src/ kb-shared/src/",
+    lint: "npx eslint src/ kb-shared/src/ docs/",
     compile: "tsc --noEmit && tsc --noEmit -p tsconfig.webview.json && tsc --noEmit -p tsconfig.webview-test.json",
     format: "npx prettier --write 'src/**/*.{ts,js}' 'kb-shared/src/**/*.{ts,js}'",
     "bench:experimentdb": "tsx src/benchmark/experiment-db/experiment-cli.ts",
+    "bench:harbordb": "tsx src/benchmark/harbor/ingest-harbor-db-report.ts",
     "bench:request-audit": "tsx src/tools/session-analytics/request-audit.ts",
     test: 'node --import tsx --test "src/**/*.test.ts" "kb-shared/src/**/*.test.ts"',
     "pretest:integration": "npm run build:plugins",
@@ -14729,7 +14730,9 @@ var package_default = {
     "@aws-sdk/client-bedrock-runtime": "~3.1056.0",
     "@aws/bedrock-token-generator": "^1.1.0",
     "@cursorless/tree-sitter-wasms": "^0.9.0",
+    "@eslint/core": "^1.2.1",
     "@eslint/js": "~10.0.1",
+    "@eslint/plugin-kit": "^0.7.2",
     "@github/copilot": "^1.0.64-0",
     "@posthog/cli": "0.7.13",
     "@smithy/types": "~4.14.2",
@@ -14741,11 +14744,18 @@ var package_default = {
     dotenv: "~17.4.2",
     esbuild: "^0.28.0",
     eslint: "~10.4.0",
+    ignore: "^7.0.5",
+    jiti: "^2.6.1",
     "javascript-obfuscator": "^5.4.3",
     openai: "~6.39.1",
     prettier: "^3.8.3",
     tailwindcss: "^4.2.2",
+    "tree-sitter-c": "0.24.1",
+    "tree-sitter-cpp": "0.23.4",
+    "tree-sitter-go": "0.25.0",
+    "tree-sitter-java": "0.23.5",
     "tree-sitter-python": "0.25.0",
+    "tree-sitter-rust": "0.24.0",
     tsx: "~4.21.0",
     "typescript-eslint": "^8.60.0"
   },
@@ -14754,12 +14764,20 @@ var package_default = {
     "@homebridge/node-pty-prebuilt-multiarch": "0.14.0"
   },
   engines: {
-    node: ">=22.12.0"
+    node: ">=22.16.0"
   }
 };
 
 // src/common/config/constants.ts
 var WOZ_CODE_PLUGIN_NAME = "woz";
+var WOZ_CODE_PLUGIN_COMMAND = `/${WOZ_CODE_PLUGIN_NAME}`;
+var WOZ_CODE_PLUGIN_LOGIN_COMMAND = `${WOZ_CODE_PLUGIN_COMMAND} login`;
+var WOZ_CODE_PLUGIN_UPDATE_COMMAND = `${WOZ_CODE_PLUGIN_COMMAND} update`;
+var WOZ_CODE_PLUGIN_SETTINGS_COMMAND = `${WOZ_CODE_PLUGIN_COMMAND} settings`;
+var WOZ_CODE_PLUGIN_STATUS_COMMAND = `${WOZ_CODE_PLUGIN_COMMAND} status`;
+var WOZ_CODE_PLUGIN_SHARE_COMMAND = `${WOZ_CODE_PLUGIN_COMMAND} share`;
+var WOZ_CODE_PLUGIN_REVIEW_COMMAND = `${WOZ_CODE_PLUGIN_COMMAND} review`;
+var RECALL_DISABLED_MESSAGE = `Recall is disabled. Enable it with the \`recall\` setting \u2014 in Claude Code: \`${WOZ_CODE_PLUGIN_SETTINGS_COMMAND}\` \u2192 \`recall true\` (takes effect immediately).`;
 var WOZCODE_VERSION = package_default.version;
 var WOZCODE_CLI_NAME = "wozcode";
 var WOZ_CODE_AGENT_NAME = `${WOZ_CODE_PLUGIN_NAME}:code`;

@@ -1,13 +1,7 @@
 ---
 name: woz-logout
-description: Clear stored Woz credentials and log out.
-allowed-tools: Bash(node *)
+description: Deprecated alias — use `/woz logout`.
+disable-model-invocation: true
 ---
 
-Log out of Woz by clearing stored credentials:
-
-```bash
-node --no-warnings=ExperimentalWarning ${CLAUDE_PLUGIN_ROOT}/scripts/wozcode-cli.js logout
-```
-
-Confirm that the user has been logged out.
+`/woz-logout` was renamed. Invoke the **woz** skill and run its `logout` subcommand (equivalent to `/woz logout`).

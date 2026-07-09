@@ -1,8 +1,13 @@
 ---
 name: woz-savings
-description: Show WOZCODE savings report - calls saved, time saved, tokens saved, and lifetime totals.
+description: Show the WOZCODE savings report — calls saved, time saved, tokens saved, and lifetime totals.
+disable-model-invocation: true
 allowed-tools: Bash(node *)
 ---
+
+# WOZCODE Savings
+
+For a WOZCODE-vs-vanilla comparison run, use `/woz benchmark` instead.
 
 Run the WOZCODE savings report:
 
