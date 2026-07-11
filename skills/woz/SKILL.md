@@ -175,7 +175,7 @@ Changes to this setting take effect on the **next Claude Code launch** because `
 
 After updating settings, tell the user:
 - Most changes take effect immediately
-- For `statusLine`, `attribution`, and `spinnerVerbs`: also tell them to run `/reload-plugins` so Claude Code picks up the change in the current session
+- For `statusLine`, `attribution`, and `spinnerVerbs`: take effect immediately, no restart needed
 - For `alwaysLoadTools`: tell them to **restart Claude Code** for the change to take effect (the helper already prints this reminder)
 - For `recall`: takes effect immediately; the first Recall after enabling kicks off background indexing (no restart needed)
 
@@ -229,7 +229,7 @@ rm -f "${CLAUDE_CONFIG_DIR:-$HOME/.claude}/wozcode/update-available.json"
 
 After all steps succeed, tell the user:
 - ✅ WOZCODE updated successfully
-- Run `/reload-plugins` to apply the update or restart Claude Code
+- Run `/reload-plugins` to load the update into this session, or restart Claude Code — a running session keeps the old version until then
 
 ## share
 

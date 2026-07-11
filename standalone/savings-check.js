@@ -14583,9 +14583,9 @@ var os5 = __toESM(require("os"), 1);
 var path5 = __toESM(require("path"), 1);
 
 // src/common/claude-env.ts
-var fs = __toESM(require("fs"), 1);
-var os = __toESM(require("os"), 1);
-var path = __toESM(require("path"), 1);
+var fs2 = __toESM(require("fs"), 1);
+var os2 = __toESM(require("os"), 1);
+var path2 = __toESM(require("path"), 1);
 
 // src/common/claude-constants.ts
 var CLAUDE_CONFIG_DIR_ENV_VAR = "CLAUDE_CONFIG_DIR";
@@ -14603,24 +14603,40 @@ function isEnvVarTruthy(value) {
   return TRUTHY_ENV_VALUES.has(value.trim().toLowerCase());
 }
 
+// src/common/wozcore/utils/file-concurrency-utils.ts
+var import_child_process = require("child_process");
+var crypto = __toESM(require("crypto"), 1);
+var fs = __toESM(require("fs"), 1);
+var os = __toESM(require("os"), 1);
+var path = __toESM(require("path"), 1);
+var FileLockInfoSchema = external_exports.object({
+  pid: external_exports.number(),
+  lockAcquiredAtMs: external_exports.number(),
+  hostname: external_exports.string(),
+  processName: external_exports.string().optional(),
+  // start time of process if available, read from the process table
+  processStartAtMs: external_exports.number().optional()
+});
+
 // src/common/claude-env.ts
 var CLAUDE_DIR_NAME = ".claude";
 var CLAUDE_PROJECTS_DIR_NAME = "projects";
 function getClaudeHomePath(useEnv = true) {
-  const configPath = (useEnv ? process.env[CLAUDE_CONFIG_DIR_ENV_VAR] : void 0) ?? path.join(os.homedir(), CLAUDE_DIR_NAME);
+  const configPath = (useEnv ? process.env[CLAUDE_CONFIG_DIR_ENV_VAR] : void 0) ?? path2.join(os2.homedir(), CLAUDE_DIR_NAME);
   return configPath;
 }
 function getProjectsPath() {
-  return path.join(getClaudeHomePath(), CLAUDE_PROJECTS_DIR_NAME);
+  return path2.join(getClaudeHomePath(), CLAUDE_PROJECTS_DIR_NAME);
 }
+var settingsUpdateChain = { tail: Promise.resolve() };
 
 // src/common/codex-paths.ts
-var os2 = __toESM(require("os"), 1);
-var path2 = __toESM(require("path"), 1);
-
-// src/common/copilot-paths.ts
 var os3 = __toESM(require("os"), 1);
 var path3 = __toESM(require("path"), 1);
+
+// src/common/copilot-paths.ts
+var os4 = __toESM(require("os"), 1);
+var path4 = __toESM(require("path"), 1);
 
 // src/common/woz-host.ts
 function initialHostFromEnv() {
@@ -14631,25 +14647,10 @@ function initialHostFromEnv() {
 }
 var currentHost = initialHostFromEnv();
 
-// src/common/wozcore/utils/file-concurrency-utils.ts
-var import_child_process = require("child_process");
-var crypto = __toESM(require("crypto"), 1);
-var fs2 = __toESM(require("fs"), 1);
-var os4 = __toESM(require("os"), 1);
-var path4 = __toESM(require("path"), 1);
-var FileLockInfoSchema = external_exports.object({
-  pid: external_exports.number(),
-  lockAcquiredAtMs: external_exports.number(),
-  hostname: external_exports.string(),
-  processName: external_exports.string().optional(),
-  // start time of process if available, read from the process table
-  processStartAtMs: external_exports.number().optional()
-});
-
 // package.json
 var package_default = {
   name: "wozcode",
-  version: "0.3.85",
+  version: "0.3.86",
   description: "WOZCODE enhanced coding tools \u2014 smart search, batch editing, SQL introspection, and cost-optimized subagent delegation",
   homepage: "https://wozcode.com",
   type: "module",
@@ -14700,7 +14701,7 @@ var package_default = {
     "@aws-sdk/credential-provider-node": "^3.972.46",
     "@github/copilot-sdk": "^1.0.3",
     "@modelcontextprotocol/sdk": "^1.29.0",
-    "@pg-nano/pg-parser": "~16.1.5",
+    "@pgsql/types": "~17.6.2",
     "@smithy/fetch-http-handler": "~5.4.5",
     "@smithy/protocol-http": "^5.4.5",
     "@smithy/signature-v4": "^5.4.5",
@@ -14711,6 +14712,7 @@ var package_default = {
     electrobun: "^1.0.0",
     glob: "^13.0.6",
     "html-validate": "^11.4.0",
+    "libpg-query": "~17.7.3",
     mysql2: "^3.22.4",
     "node-pty": "^1.0.0",
     "pdf-parse": "^2.4.5",
@@ -14937,8 +14939,7 @@ var MODEL_PRICING = {
   "composer 2": { inputPerMillion: 0.5, cacheReadPerMillion: 0.2, cacheWritePerMillion: 0.5, outputPerMillion: 2.5 },
   "composer-1.5": pricingFromInput(3.5, 17.5),
   "composer 1.5": pricingFromInput(3.5, 17.5),
-  // OpenAI GPT-5 family (used by `codex exec`). cache-read = 10% of input;
-  // cache-write uses pricingFromInput's 1.25x default (OpenAI doesn't publish a tier).
+  // OpenAI GPT-5 family (used by `codex exec`). cache-read = 10% input; cache-write = 1.25x input.
   "gpt-5-mini": pricingFromInput(0.25, 2),
   "gpt-5-nano": pricingFromInput(0.05, 0.4),
   "gpt-5": pricingFromInput(1.25, 10),
@@ -14954,7 +14955,11 @@ var MODEL_PRICING = {
   // pricingFromInput's default ratio.
   "gpt-5.4-mini": pricingFromInput(0.75, 4.5),
   "gpt-5.4-nano": pricingFromInput(0.2, 1.25),
-  "gpt-5.3-codex": pricingFromInput(1.25, 10)
+  "gpt-5.3-codex": pricingFromInput(1.25, 10),
+  "gpt-5.6-sol": pricingWithLongContext(5, 30, 272e3, 10, 45),
+  "gpt-5.6-terra": pricingWithLongContext(2.5, 15, 272e3, 5, 22.5),
+  "gpt-5.6-luna": pricingWithLongContext(1, 6, 272e3, 2, 9),
+  "muse-spark-1.1": pricingFromInput(1.25, 4.25)
 };
 var DEFAULT_PRICING = pricingFromInput(3, 15);
 var MODEL_PRICING_KEYS_LONGEST_FIRST = Object.keys(MODEL_PRICING).sort((a, b2) => b2.length - a.length);
