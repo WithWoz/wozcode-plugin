@@ -14650,7 +14650,7 @@ var currentHost = initialHostFromEnv();
 // package.json
 var package_default = {
   name: "wozcode",
-  version: "0.3.86",
+  version: "0.3.87",
   description: "WOZCODE enhanced coding tools \u2014 smart search, batch editing, SQL introspection, and cost-optimized subagent delegation",
   homepage: "https://wozcode.com",
   type: "module",
@@ -14789,6 +14789,10 @@ var COPILOT_STATUS_LINE_SCRIPT_KEY = "copilot-savings-status-line";
 var COPILOT_STATUS_LINE_SCRIPT_NAME = `${COPILOT_STATUS_LINE_SCRIPT_KEY}.js`;
 var COPILOT_CLI_SCRIPT_KEY = "wozcode-cli-copilot";
 var COPILOT_CLI_SCRIPT_NAME = `${COPILOT_CLI_SCRIPT_KEY}.js`;
+var WOZ_KB_SCRIPT_KEY = "woz-kb";
+var WOZ_KB_SCRIPT_NAME = `${WOZ_KB_SCRIPT_KEY}.js`;
+var WOZ_KB_ARCHITECTURE_DOC_FETCH_SUBCOMMAND = "architecture-doc-fetch";
+var WOZ_KB_ARCHITECTURE_DOC_FETCH_COMMAND = `${WOZ_KB_SCRIPT_KEY} ${WOZ_KB_ARCHITECTURE_DOC_FETCH_SUBCOMMAND}`;
 var BENCHMARK_SCRIPT_KEY = "benchmark";
 var BENCHMARK_SCRIPT_NAME = `${BENCHMARK_SCRIPT_KEY}.js`;
 var CODRIVE_SCRIPT_KEY = "codrive";

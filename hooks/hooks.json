@@ -18,6 +18,14 @@
             "command": "node --no-warnings=ExperimentalWarning ${CLAUDE_PLUGIN_ROOT}/scripts/session-hook.js"
           }
         ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node --no-warnings=ExperimentalWarning ${CLAUDE_PLUGIN_ROOT}/scripts/reviewer-hook.js"
+          }
+        ]
       }
     ],
     "PreToolUse": [

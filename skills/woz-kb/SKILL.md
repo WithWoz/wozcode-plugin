@@ -1,22 +1,26 @@
 ---
-description: The WOZCODE knowledge base behind the /woz review reviewer. Subcommands — `tune` (end-to-end reviewer tuning), `backtest` (tuning building blocks), and knowledge-base ops (`status`, `query`, `note`, `suppress`, `boost`, `ingest`, `refresh`, `ops`).
-argument-hint: tune | backtest | status | query | note | suppress | boost | ingest | refresh | ops
+description: The WOZCODE knowledge base behind the /woz review reviewer. Subcommands — `tune` (end-to-end reviewer tuning), `backtest` (tuning building blocks), `architecture-doc-fetch` (fetch woz/architecture.md from the KB), `cross-repo` (cross-repo planning brief), and knowledge-base ops (`status`, `query`, `note`, `suppress`, `boost`, `ingest`, `refresh`, `ops`).
+argument-hint: tune | backtest | architecture-doc-fetch | cross-repo | status | query | note | suppress | boost | ingest | refresh | ops
 arguments: subcommand
 ---
 
 # /woz-kb — the reviewer's knowledge base
 
-One skill, three subcommands:
+One skill, these subcommands:
 
 - **`woz-kb tune`** — the start-to-finish orchestrator: distill → backtest → learn (autotuner new-personas + per-PR missed-fixes) → re-measure the lift. Dry-run by default; `--apply` writes to the KB. Use this to onboard/tune a new repo or a whole org.
 - **`woz-kb backtest`** — the building blocks for power users: the raw backtest run plus `--tune`, `--missed-report`, `--org-tune`, `--ab-compare` (unchanged).
+- **`woz-kb architecture-doc-fetch`** — fetch the current repo's COMPANY-scope `woz/architecture.md` manifest from the KB into the working tree (no-op when already up to date).
+- **`woz-kb cross-repo <feature>`** — print a cross-repo planning brief from the org's architecture manifests; `--ground` additionally appends a two-pass code/PR grounding search on top of the manifest brief. Flags: `--repos owner/a,owner/b`, `--topk <n>`.
 - **knowledge-base ops** (`status`, `query`, `note`, `unnote`, `suppress`, `unsuppress`, `boost`, `unboost`, `ingest`, `refresh`, `ops`) — inspect and customize the knowledge base directly, e.g. `/woz-kb status`, `/woz-kb note "..."`, `/woz-kb query <text>`.
 
-The first positional arg selects the subcommand; if omitted it defaults to `backtest` (back-compat). `tune` and `backtest` run through `woz-kb.js`; the knowledge-base ops run through `woz-knowledge.js` (see that section).
+The first positional arg selects the subcommand; if omitted it defaults to `backtest` (back-compat). `tune`, `backtest`, `architecture-doc-fetch`, and `cross-repo` run through `woz-kb.js`; the knowledge-base ops run through `woz-knowledge.js` (see that section).
 
 ## When to use
 
 TRIGGER for tune/backtest: "tune the reviewer", "tune this repo", "onboard a repo", "tune the org", "backtest the reviewer", "how well does the reviewer do", or `/woz-kb`.
+
+TRIGGER for architecture-doc-fetch/cross-repo: "sync the architecture doc", "fetch the architecture manifest", "cross-repo plan", "plan this across repos".
 
 TRIGGER for knowledge-base ops: "knowledge base status", "what's in the knowledge base", "search the knowledge base for …", "add a knowledge-base note", "remember that X", "suppress this" / "stop the reviewer from citing X", "boost this", "ingest <file> into the knowledge base", "refresh the knowledge base", or `/woz-kb status` / `/woz-kb note` / `/woz-kb query`.
 
@@ -71,6 +75,19 @@ Runs the deep reviewer against a sample of historical merged PRs and scores how 
 ## Output
 
 Each run writes `<source>/.wozcode/backtests/<runId>/`: `report.md`, `summary.json`, and per-PR/round `reviewer.md`, `findings.json`, `score.json`, `usage.json`. `--missed-report` adds `missed-fixes.{json,md}`; `tune` prints the recall/precision lift.
+
+---
+
+## `woz-kb architecture-doc-fetch` / `woz-kb cross-repo` — COMPANY-scope architecture
+
+Both require the remote knowledge base and org KB access.
+
+```bash
+node --no-warnings=ExperimentalWarning ${CLAUDE_PLUGIN_ROOT}/scripts/woz-kb.js architecture-doc-fetch
+node --no-warnings=ExperimentalWarning ${CLAUDE_PLUGIN_ROOT}/scripts/woz-kb.js cross-repo "<feature>" [--ground] [--repos owner/a,owner/b] [--topk N]
+```
+
+Print `cross-repo` output verbatim — the brief is designed for the session to consume. `architecture-doc-fetch` prints where it wrote the manifest; tell the user to review and commit it.
 
 ---
 

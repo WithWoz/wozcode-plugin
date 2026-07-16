@@ -12,7 +12,7 @@
         "WOZCODE_POSTHOG_ENABLED": "true",
         "WOZCODE_POSTHOG_PROJECT_TOKEN": "phc_F3mo2emdspgzD4QmFMQxHQfab1TyXgCAU7eYBakKq9k",
         "WOZCODE_POSTHOG_PROJECT_REGION": "us",
-        "WOZCODE_BUNDLE_VERSION": "0.3.86"
+        "WOZCODE_BUNDLE_VERSION": "0.3.87"
       }
     }
   }
