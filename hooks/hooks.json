@@ -54,7 +54,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node --no-warnings=ExperimentalWarning ${CLAUDE_PLUGIN_ROOT}/scripts/session-telemetry-hook.js"
+            "command": "node --no-warnings=ExperimentalWarning ${CLAUDE_PLUGIN_ROOT}/scripts/session-telemetry-post-tool-hook.js"
           }
         ]
       }
