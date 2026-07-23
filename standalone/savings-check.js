@@ -14582,13 +14582,13 @@ var fs3 = __toESM(require("fs/promises"), 1);
 var os5 = __toESM(require("os"), 1);
 var path5 = __toESM(require("path"), 1);
 
+// src/common/claude-constants.ts
+var CLAUDE_CONFIG_DIR_ENV_VAR = "CLAUDE_CONFIG_DIR";
+
 // src/common/claude-env.ts
 var fs2 = __toESM(require("fs"), 1);
 var os2 = __toESM(require("os"), 1);
 var path2 = __toESM(require("path"), 1);
-
-// src/common/claude-constants.ts
-var CLAUDE_CONFIG_DIR_ENV_VAR = "CLAUDE_CONFIG_DIR";
 
 // src/common/config/env-constants.ts
 var WOZCODE_HOST_ENV_VAR = "WOZCODE_HOST";
@@ -14625,10 +14625,17 @@ function getClaudeHomePath(useEnv = true) {
   const configPath = (useEnv ? process.env[CLAUDE_CONFIG_DIR_ENV_VAR] : void 0) ?? path2.join(os2.homedir(), CLAUDE_DIR_NAME);
   return configPath;
 }
-function getProjectsPath() {
+function getClaudeProjectsPath() {
   return path2.join(getClaudeHomePath(), CLAUDE_PROJECTS_DIR_NAME);
 }
 var settingsUpdateChain = { tail: Promise.resolve() };
+
+// src/common/codex-constants.ts
+var CODEX_POLICY_BUDGET_TOKENS = 1e4;
+var CODEX_BYTES_PER_TOKEN = 4;
+var CODEX_POLICY_BUDGET_BYTES = CODEX_POLICY_BUDGET_TOKENS * CODEX_BYTES_PER_TOKEN;
+var CODEX_MCP_POLICY_MULTIPLIER = 1.2;
+var CODEX_MCP_OUTPUT_BUDGET_BYTES = Math.floor(CODEX_POLICY_BUDGET_BYTES * CODEX_MCP_POLICY_MULTIPLIER);
 
 // src/common/codex-paths.ts
 var os3 = __toESM(require("os"), 1);
@@ -14650,7 +14657,7 @@ var currentHost = initialHostFromEnv();
 // package.json
 var package_default = {
   name: "wozcode",
-  version: "0.3.87",
+  version: "0.3.88",
   description: "WOZCODE enhanced coding tools \u2014 smart search, batch editing, SQL introspection, and cost-optimized subagent delegation",
   homepage: "https://wozcode.com",
   type: "module",
@@ -14779,7 +14786,6 @@ var WOZ_CODE_PLUGIN_SETTINGS_COMMAND = `${WOZ_CODE_PLUGIN_COMMAND} settings`;
 var WOZ_CODE_PLUGIN_STATUS_COMMAND = `${WOZ_CODE_PLUGIN_COMMAND} status`;
 var WOZ_CODE_PLUGIN_SHARE_COMMAND = `${WOZ_CODE_PLUGIN_COMMAND} share`;
 var WOZ_CODE_PLUGIN_REVIEW_COMMAND = `${WOZ_CODE_PLUGIN_COMMAND} review`;
-var RECALL_DISABLED_MESSAGE = `Recall is disabled. Enable it with the \`recall\` setting \u2014 in Claude Code: \`${WOZ_CODE_PLUGIN_SETTINGS_COMMAND}\` \u2192 \`recall true\` (takes effect immediately).`;
 var WOZCODE_VERSION = package_default.version;
 var WOZCODE_CLI_NAME = "wozcode";
 var WOZ_CODE_AGENT_NAME = `${WOZ_CODE_PLUGIN_NAME}:code`;
@@ -14797,6 +14803,8 @@ var BENCHMARK_SCRIPT_KEY = "benchmark";
 var BENCHMARK_SCRIPT_NAME = `${BENCHMARK_SCRIPT_KEY}.js`;
 var CODRIVE_SCRIPT_KEY = "codrive";
 var CODRIVE_SCRIPT_NAME = `${CODRIVE_SCRIPT_KEY}.js`;
+var RECALL_CLI_SCRIPT_KEY = "recall";
+var RECALL_CLI_SCRIPT_NAME = `${RECALL_CLI_SCRIPT_KEY}.js`;
 var WOZCODE_CLI_WRAPPER_NAME = WOZCODE_CLI_NAME;
 var CLAUDE_TUI_CLI_SCRIPT_KEY = "claude-tui-cli";
 var CLAUDE_TUI_CLI_SCRIPT_NAME = `${CLAUDE_TUI_CLI_SCRIPT_KEY}.js`;
@@ -34599,14 +34607,21 @@ var import_fs9 = require("fs");
 var path9 = __toESM(require("path"), 1);
 
 // src/common/transcripts/claude-session-transcripts.ts
+var CLAUDE_PROJECT_NAME_MAX_LEN = 200;
+function javaStringHashCode(value) {
+  let hash2 = 0;
+  for (let i = 0; i < value.length; i++) hash2 = (hash2 << 5) - hash2 + value.charCodeAt(i) | 0;
+  return hash2;
+}
 function repoPathToClaudeProjectName(repoDirPathNormalized) {
-  const repoDirPathAbs = import_path22.default.resolve(repoDirPathNormalized);
-  const repoCcProjectName = repoDirPathAbs.replace(/[\\/:\s~_]/g, "-");
-  return repoCcProjectName;
+  const repoDirPathAbs = import_path22.default.resolve(repoDirPathNormalized).normalize("NFC");
+  const sanitized = repoDirPathAbs.replace(/[^a-zA-Z0-9]/g, "-");
+  if (sanitized.length <= CLAUDE_PROJECT_NAME_MAX_LEN) return sanitized;
+  return `${sanitized.slice(0, CLAUDE_PROJECT_NAME_MAX_LEN)}-${Math.abs(javaStringHashCode(repoDirPathAbs)).toString(36)}`;
 }
 async function discoverClaudeSessionTranscripts(maxSessions, projectDir, projectsDirPath) {
   const sessions = [];
-  const sessionsDir = projectsDirPath ?? getProjectsPath();
+  const sessionsDir = projectsDirPath ?? getClaudeProjectsPath();
   const encodedProjectDir = projectDir != null ? repoPathToClaudeProjectName(projectDir) : void 0;
   let projectDirEntries;
   try {

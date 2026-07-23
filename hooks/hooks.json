@@ -50,7 +50,7 @@
         ]
       },
       {
-        "matcher": "",
+        "matcher": "mcp__plugin_woz_code__Edit",
         "hooks": [
           {
             "type": "command",

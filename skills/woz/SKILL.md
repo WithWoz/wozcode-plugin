@@ -148,7 +148,7 @@ Where `<key>` is a setting name and `<value>` is `true` or `false`.
 | `statusLineShare` | `true` | Show /woz share referral hint in status line |
 | `spinnerVerbs` | `true` | WOZ-themed spinner verbs |
 | `alwaysLoadTools` | `true` | Load WOZCODE MCP tools up-front instead of deferring them behind ToolSearch |
-| `recall` | `true` | Session recall: the `Recall` MCP tool, the `/woz-recall` skill, and the background session indexer. Takes effect immediately. |
+| `postCompactionDigest` | `true` | After a compaction, recall the facts it dropped so the model doesn't silently lose them. Takes effect immediately. |
 | `syntaxValidation` | `true` | Post-edit syntax warnings in the Edit tool (tree-sitter / TypeScript / JSON / YAML / HTML). Takes effect immediately. Per-repo override: `.wozcode.json` `{"features": {"syntaxValidation": false}}`. |
 | `liveReviewer` | `false` | Live PostToolUse reviewer (runs on every Edit) |
 | `liveReviewerModel` | (live-pass default) | Model id for the live pass. Unknown ids fall back to the default. |
@@ -166,7 +166,7 @@ Where `<key>` is a setting name and `<value>` is `true` or `false`.
 
 Claude Code can either load an MCP server's tool schemas into every session up-front, or defer them — in which case the model has to call the built-in `ToolSearch` tool once before it can use them.
 
-- **`true` (default):** WOZCODE's tools (Search, Edit, Sql, Recall, Bash) are available immediately on every session. Best UX — the model uses them on the first turn without an extra discovery step.
+- **`true` (default):** WOZCODE's tools (Search, Edit, Sql, Bash) are available immediately on every session. Best UX — the model uses them on the first turn without an extra discovery step.
 - **`false`:** Tool schemas are deferred. Saves a small amount of system-prompt tokens per session, useful if you start lots of short sessions where you don't end up using WOZCODE's tools. The model will call `ToolSearch` to load them on first use.
 
 Only affects WOZCODE's MCP server (`code`). Other MCP servers in your config are not touched.
@@ -177,7 +177,7 @@ After updating settings, tell the user:
 - Most changes take effect immediately
 - For `statusLine`, `attribution`, and `spinnerVerbs`: take effect immediately, no restart needed
 - For `alwaysLoadTools`: tell them to **restart Claude Code** for the change to take effect (the helper already prints this reminder)
-- For `recall`: takes effect immediately; the first Recall after enabling kicks off background indexing (no restart needed)
+- For `postCompactionDigest`: takes effect immediately (no restart needed)
 
 ## update
 
@@ -326,7 +326,6 @@ Use the Write tool to create a YAML file at `/tmp/woz-benchmark-<timestamp>.yaml
 
 ```yaml
 model: opus
-maxTurns: 15
 baseRepo:
   url: "<origin url from step 2>"
   sha: "<pinned HEAD sha from step 2>"
@@ -344,7 +343,6 @@ Notes:
 - Default to `model: opus`. Only use a different model if the user volunteered one.
 - Quote every prompt string. If a prompt contains a double quote, escape it with `\"`.
 - Omit the entire `setup:` block if the user didn't give any environment setup commands.
-- Keep `maxTurns: 15` as a safety cap so a single prompt can't run away.
 
 ### 4. Run the benchmark
 

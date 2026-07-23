@@ -58,6 +58,43 @@
       }
     },
     {
+      // Thinking Machines Tinker. Anthropic Messages wire; cache_control is accepted but ignored upstream.
+      "id": "tinker",
+      "baseUrl": "https://tinker.thinkingmachines.dev/services/tinker-prod/anthropic/api",
+      "apiKey": "${TINKER_API_KEY}",
+      "modelMappings": [
+        { "model": "*haiku*", "target": "thinkingmachines/Inkling" },
+        { "model": "*sonnet*", "target": "thinkingmachines/Inkling" },
+        { "model": "*opus*", "target": "thinkingmachines/Inkling" }
+      ],
+      "claudecode": {
+        "expose": true
+      },
+      "transports": {
+        "anthropic": {
+          // Tinker 422s on roles outside user/assistant; dropping this beta triggers the passthrough downgrade.
+          "requestModifications": [
+            {
+              "headers": [
+                {
+                  "type": "removeValues",
+                  "name": "anthropic-beta",
+                  "values": ["mid-conversation-system-2026-04-07"]
+                }
+              ],
+              // Inkling punts ambiguous prompts to clarifying questions a headless session can never answer.
+              "systemPrompt": [
+                {
+                  "type": "append",
+                  "text": "\n\nYou are running non-interactively — the user cannot reply, and a turn that ends with a question is a task failure. Never ask clarifying questions. When a request is ambiguous, pick the most reasonable interpretation yourself and fully complete the task with your tools before ending the turn."
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
       // AWS Bedrock Mantle. Serves OpenAI-compatible endpoints at `/v1/` and
       // the native Anthropic Messages API at `/anthropic/`.
       "id": "bedrock-mantle",
@@ -334,6 +371,21 @@
       "provider": "meta",
       "providerModel": "muse-spark-1.1",
       "model": "meta:muse-spark-1.1"
+    },
+    {
+      "label": "Inkling (Tinker)",
+      "provider": "tinker",
+      "providerModel": "thinkingmachines/Inkling",
+      "transport": "anthropic",
+      // Cache meters are inert over Tinker's Anthropic API (cache_control ignored), so write = input rate.
+      "cost": [
+        {
+          "inputPerMillion": 1.87,
+          "cacheReadPerMillion": 0.374,
+          "cacheWritePerMillion": 1.87,
+          "outputPerMillion": 4.68
+        }
+      ]
     },
 
     // ----- AWS Bedrock Mantle bindings -----
