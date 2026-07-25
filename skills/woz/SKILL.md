@@ -134,7 +134,7 @@ Display the JSON output as a readable table for the user.
 node --no-warnings=ExperimentalWarning ${CLAUDE_PLUGIN_ROOT}/scripts/settings-helper.js --set <key> <value>
 ```
 
-Where `<key>` is a setting name and `<value>` is `true` or `false`.
+Where `<key>` is a setting name and `<value>` is `true` or `false` (or, for `sql`, a JSON policy object — see [The `sql` connection policy](#the-sql-connection-policy) below).
 
 **Available settings:**
 
@@ -161,6 +161,42 @@ Where `<key>` is a setting name and `<value>` is `true` or `false`.
 > **Runtime-gated on KB access:** the live-reviewer knobs (`liveReviewer`, `liveReviewerModel`, `deepEditCountReviewer`, `deepEditCountInterval`, `wozReviewModel`) ship in every build but are gated on the org's KnowledgeBase-access entitlement at runtime — `--show` omits them and `--set` rejects them when the org isn't entitled. Treat the `--show` output as authoritative and don't offer to set a key it doesn't list.
 >
 > The KnowledgeBase backend settings (`knowledgeBaseProvider`, `knowledgeBaseServerUrl`) and `reviewerBaseUrl` are internal/infra and are not surfaced by `--show` for now.
+
+### The `sql` connection policy
+
+`sql` gates which databases the `Sql` tool may connect to. Unlike the toggles above it is a structured JSON object, not `true`/`false`. Absent = every connection allowed (no change). Set it wholesale — there is no per-field patch; build the full object and pass it as one JSON value.
+
+```bash
+node --no-warnings=ExperimentalWarning ${CLAUDE_PLUGIN_ROOT}/scripts/settings-helper.js --set sql '{"deny":["remote"]}'
+```
+
+Clear it (allow every connection again) with any of `none` / `off` / `clear` / `null`:
+
+```bash
+node --no-warnings=ExperimentalWarning ${CLAUDE_PLUGIN_ROOT}/scripts/settings-helper.js --set sql none
+```
+
+Policy shape — `default` plus `allow`/`deny` lists of matchers, evaluated **deny > allow > default** (`default` is `allow` when omitted):
+
+- `"local"` / `"remote"` — by scope. sqlite/duckdb files are always local; postgres/mysql are local only for loopback hosts (`localhost`, `127.0.0.1`, `::1`, unix socket). An unparseable DSN is treated as remote.
+- `{ "dialect": "postgres" }` or `{ "dialect": ["postgres", "mysql"] }` — by dialect.
+- `{ "host": "*.rds.amazonaws.com" }` — by host glob (`*` wildcard, case-insensitive).
+- Fields in one object are AND-ed; an empty `{}` matches nothing.
+
+Examples:
+
+- Block the isolated remote DB, keep local DBs usable: `{"deny":["remote"]}`
+- Lock down to local only (whitelist): `{"default":"deny","allow":["local"]}`
+- Block one host: `{"deny":[{"host":"*.rds.amazonaws.com"}]}`
+- Allow ONLY one database, deny all else: `{"default":"deny","allow":[{"dialect":"postgres","host":"*.eks-analytics.us-east-1.rds.amazonaws.com"}]}`
+
+When building a single-database whitelist, two things trip people up: `default:"deny"` also blocks local sqlite/duckdb files (add `"local"` to `allow` to keep them), and reaching the DB through a `localhost` port-forward tunnel classifies as `local`, not the RDS host — so it won't match the host glob. Full walk-through and caveats: `docs/sql-connection-policy.md`.
+
+A blocked connection returns an error naming the `wozcode.sql` policy and never opens a socket or leaks credentials. Changes take effect on the **next `Sql` tool call** — no restart.
+
+### DuckDB first-use download
+
+DuckDB runs by spawning the `duckdb` CLI. It uses a `duckdb` on `PATH` (≥1.2) or `WOZ_DUCKDB_CLI_PATH`; otherwise the pinned CLI (~20 MB) downloads once on the first `Sql` call to a `duckdb:` connection — retry after ~30–60 s and the query runs. `WOZ_NO_DUCKDB_INSTALL=1` disables the download. Full setup + cache paths: `docs/sql-connection-policy.md`.
 
 ### About `alwaysLoadTools`
 

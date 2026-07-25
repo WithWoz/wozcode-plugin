@@ -15241,7 +15241,7 @@ var currentHost = initialHostFromEnv();
 // package.json
 var package_default = {
   name: "wozcode",
-  version: "0.3.89",
+  version: "0.3.90",
   description: "WOZCODE enhanced coding tools \u2014 smart search, batch editing, SQL introspection, and cost-optimized subagent delegation",
   homepage: "https://wozcode.com",
   type: "module",
@@ -15278,6 +15278,7 @@ var package_default = {
     "bench:experimentdb": "tsx src/benchmark/experiment-db/experiment-cli.ts",
     "bench:harbordb": "tsx src/benchmark/harbor/ingest-harbor-db-report.ts",
     "bench:request-audit": "tsx src/tools/session-analytics/request-audit.ts",
+    "test:duckdb-cli": "node --import tsx --test --test-force-exit src/test/integration/duckdb-cli-round-trip.int-test.ts",
     test: 'node --import tsx --test "src/**/*.test.ts" "kb-shared/src/**/*.test.ts"',
     "pretest:integration": "npm run build:plugins",
     "build:integration:obfuscated": "npm run build:claude:all:prod -- --for-integration-tests && npm run build:codex:prod -- --for-integration-tests",
@@ -15338,8 +15339,8 @@ var package_default = {
     esbuild: "^0.28.0",
     eslint: "~10.4.0",
     ignore: "^7.0.5",
-    jiti: "^2.6.1",
     "javascript-obfuscator": "^5.4.3",
+    jiti: "^2.6.1",
     openai: "~6.39.1",
     prettier: "^3.8.3",
     tailwindcss: "^4.2.2",
@@ -15354,7 +15355,8 @@ var package_default = {
   },
   vendoredDependencies: {
     "@lydell/node-pty": "1.2.0-beta.12",
-    "@homebridge/node-pty-prebuilt-multiarch": "0.14.0"
+    "@homebridge/node-pty-prebuilt-multiarch": "0.14.0",
+    "duckdb-cli": "1.5.5"
   },
   engines: {
     node: ">=22.16.0"
