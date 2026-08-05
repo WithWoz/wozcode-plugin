@@ -149,6 +149,7 @@ Where `<key>` is a setting name and `<value>` is `true` or `false` (or, for `sql
 | `spinnerVerbs` | `true` | WOZ-themed spinner verbs |
 | `alwaysLoadTools` | `true` | Load WOZCODE MCP tools up-front instead of deferring them behind ToolSearch |
 | `postCompactionDigest` | `true` | After a compaction, recall the facts it dropped so the model doesn't silently lose them. Takes effect immediately. |
+| `autoSessionTitle` | `true` | Name the session after its first prompt instead of `woz:code` — shows in the terminal tab and `/resume`. Takes effect on the next prompt. |
 | `syntaxValidation` | `true` | Post-edit syntax warnings in the Edit tool (tree-sitter / TypeScript / JSON / YAML / HTML). Takes effect immediately. Per-repo override: `.wozcode.json` `{"features": {"syntaxValidation": false}}`. |
 | `liveReviewer` | `false` | Live PostToolUse reviewer (runs on every Edit) |
 | `liveReviewerModel` | (live-pass default) | Model id for the live pass. Unknown ids fall back to the default. |
@@ -339,7 +340,7 @@ Ask for all three in ONE short message (< 10 lines). Do not re-explain what the 
 2. **Prompts** — 2–10 real coding tasks. Tell them briefly: "meaty feature/refactor/bugfix work, not one-liners — trivial prompts hide WOZCODE's advantage". If they don't have prompts in mind, offer to suggest some after looking at their repo.
 3. **Environment setup** (optional) — one line: "Anything Claude needs already in place (DB seeded, services running, credentials in `.env`)? Skip if the repo is self-contained."
 
-Do NOT ask about the model. Default to `opus` in the YAML config. Only switch to `sonnet` or `haiku` if the user volunteers a different choice in their answer.
+Do NOT ask about the model, and do NOT put a `model:` line in the YAML config — the harness picks the default. Only add one if the user volunteers a model in their answer.
 
 Keep examples OUT of the user message unless they ask for help picking prompts.
 
@@ -361,7 +362,6 @@ The pinned `sha` MUST be reachable on the remote (the harness clones `url` and c
 Use the Write tool to create a YAML file at `/tmp/woz-benchmark-<timestamp>.yaml` (get the timestamp from `date +%s`). Format:
 
 ```yaml
-model: opus
 baseRepo:
   url: "<origin url from step 2>"
   sha: "<pinned HEAD sha from step 2>"
@@ -376,7 +376,6 @@ setup:
 
 Notes:
 - `baseRepo.url` and `baseRepo.sha` are both required.
-- Default to `model: opus`. Only use a different model if the user volunteered one.
 - Quote every prompt string. If a prompt contains a double quote, escape it with `\"`.
 - Omit the entire `setup:` block if the user didn't give any environment setup commands.
 

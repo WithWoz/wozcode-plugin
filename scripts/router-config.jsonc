@@ -58,6 +58,23 @@
       }
     },
     {
+      // Moonshot's native Anthropic Messages endpoint (their OpenAI wire is served under /v1 instead).
+      "id": "moonshot",
+      "baseUrl": "https://api.moonshot.ai/anthropic",
+      "apiKey": "${MOONSHOT_API_KEY}",
+      "modelMappings": [
+        { "model": "*haiku*", "target": "kimi-k3" },
+        { "model": "*sonnet*", "target": "kimi-k3" },
+        { "model": "*opus*", "target": "kimi-k3" }
+      ],
+      "claudecode": {
+        "expose": true
+      },
+      "transports": {
+        "anthropic": {}
+      }
+    },
+    {
       // Thinking Machines Tinker. Anthropic Messages wire; cache_control is accepted but ignored upstream.
       "id": "tinker",
       "baseUrl": "https://tinker.thinkingmachines.dev/services/tinker-prod/anthropic/api",
@@ -275,10 +292,12 @@
   // Pricing is auto-injected from `src/router/router-config-pricing.ts` when
   // not set inline.
   "models": [
+    { "id": "moonshotai:kimi-k3" },
     { "id": "moonshotai:kimi-k2.6", "driver": "moonshotai" },
     { "id": "moonshotai:kimi-k2.5", "driver": "moonshotai" },
     { "id": "meta:muse-spark-1.1" },
     { "id": "anthropic:claude-fable-5" },
+    { "id": "anthropic:claude-opus-5" },
     { "id": "anthropic:claude-opus-4-8" },
     { "id": "anthropic:claude-opus-4-7" },
     { "id": "anthropic:claude-opus-4-6" },
@@ -371,6 +390,13 @@
       "provider": "meta",
       "providerModel": "muse-spark-1.1",
       "model": "meta:muse-spark-1.1"
+    },
+    {
+      "label": "Kimi K3 (Moonshot)",
+      "provider": "moonshot",
+      "providerModel": "kimi-k3",
+      "model": "moonshotai:kimi-k3",
+      "transport": "anthropic"
     },
     {
       "label": "Inkling (Tinker)",

@@ -15197,9 +15197,14 @@ var WOZCODE_POSTHOG_PROJECT_TOKEN_ENV_VAR = "WOZCODE_POSTHOG_PROJECT_TOKEN";
 var WOZCODE_POSTHOG_PROJECT_REGION_ENV_VAR = "WOZCODE_POSTHOG_PROJECT_REGION";
 var WOZCODE_DEBUG_TELEMETRY_ENV_VAR = "WOZCODE_DEBUG_TELEMETRY";
 var TRUTHY_ENV_VALUES = /* @__PURE__ */ new Set(["1", "true", "yes", "on"]);
+var FALSY_ENV_VALUES = /* @__PURE__ */ new Set(["0", "false", "no", "off"]);
 function isEnvVarTruthy(value) {
   if (value == null) return false;
   return TRUTHY_ENV_VALUES.has(value.trim().toLowerCase());
+}
+function isEnvVarFalsy(value) {
+  if (value == null) return false;
+  return FALSY_ENV_VALUES.has(value.trim().toLowerCase());
 }
 
 // src/common/claude-env.ts
@@ -15241,7 +15246,7 @@ var currentHost = initialHostFromEnv();
 // package.json
 var package_default = {
   name: "wozcode",
-  version: "0.3.90",
+  version: "0.3.91",
   description: "WOZCODE enhanced coding tools \u2014 smart search, batch editing, SQL introspection, and cost-optimized subagent delegation",
   homepage: "https://wozcode.com",
   type: "module",
@@ -15276,7 +15281,8 @@ var package_default = {
     compile: "tsc --noEmit && tsc --noEmit -p tsconfig.webview.json && tsc --noEmit -p tsconfig.webview-test.json",
     format: "npx prettier --write 'src/**/*.{ts,js}' 'kb-shared/src/**/*.{ts,js}'",
     "bench:experimentdb": "tsx src/benchmark/experiment-db/experiment-cli.ts",
-    "bench:harbordb": "tsx src/benchmark/harbor/ingest-harbor-db-report.ts",
+    "bench:harbordb": "tsx src/benchmark/harbor/harbor-results-cli.ts ingest",
+    "bench:harbormerge": "tsx src/benchmark/harbor/harbor-results-cli.ts merge",
     "bench:request-audit": "tsx src/tools/session-analytics/request-audit.ts",
     "test:duckdb-cli": "node --import tsx --test --test-force-exit src/test/integration/duckdb-cli-round-trip.int-test.ts",
     test: 'node --import tsx --test "src/**/*.test.ts" "kb-shared/src/**/*.test.ts"',
@@ -15439,6 +15445,7 @@ function pricingWithLongContext(baseInput, baseOutput, thresholdTokens, longInpu
 }
 var MODEL_PRICING = {
   "claude-fable-5": pricingFromInput(10, 50),
+  "claude-opus-5": pricingFromInput(5, 25),
   "claude-opus-4-8": pricingFromInput(5, 25),
   "claude-opus-4-7": pricingFromInput(5, 25),
   "claude-opus-4-6": pricingFromInput(5, 25),
@@ -15496,6 +15503,7 @@ var MODEL_PRICING = {
   "gpt-5.6-sol": pricingWithLongContext(5, 30, 272e3, 10, 45),
   "gpt-5.6-terra": pricingWithLongContext(2.5, 15, 272e3, 5, 22.5),
   "gpt-5.6-luna": pricingWithLongContext(1, 6, 272e3, 2, 9),
+  "kimi-k3": pricingFromInput(3, 15),
   "muse-spark-1.1": pricingFromInput(1.25, 4.25)
 };
 var DEFAULT_PRICING = pricingFromInput(3, 15);
@@ -16853,6 +16861,11 @@ var POSTHOG_HOST_BY_REGION = {
 function isTelemetryDisabled() {
   return isEnvVarTruthy(readEnv(WOZCODE_TELEMETRY_DISABLED_ENV_VAR));
 }
+var POSTHOG_INGESTION_PAUSED = true;
+function isPostHogIngestionPaused() {
+  if (isEnvVarFalsy(readEnv(WOZCODE_TELEMETRY_DISABLED_ENV_VAR))) return false;
+  return POSTHOG_INGESTION_PAUSED;
+}
 var TELEMETRY_FLUSH_AT_BATCH_SIZE = 10;
 var projectToken = readEnv(WOZCODE_POSTHOG_PROJECT_TOKEN_ENV_VAR);
 var projectRegion = readEnv(WOZCODE_POSTHOG_PROJECT_REGION_ENV_VAR)?.toLowerCase();
@@ -16862,7 +16875,7 @@ var postHogConfig = {
   // Snapshotted at module load — runtime toggles of WOZCODE_TELEMETRY_DISABLED
   // do NOT propagate here. Runtime-respecting callers go through
   // `isTelemetryDisabled()` directly. See its JSDoc for the full split.
-  enabled: !isTelemetryDisabled() && isEnvVarTruthy(readEnv(WOZCODE_POSTHOG_ENABLED_ENV_VAR)) && projectToken !== void 0,
+  enabled: !isPostHogIngestionPaused() && !isTelemetryDisabled() && isEnvVarTruthy(readEnv(WOZCODE_POSTHOG_ENABLED_ENV_VAR)) && projectToken !== void 0,
   flushIntervalInMs: 5e3,
   flushAt: TELEMETRY_FLUSH_AT_BATCH_SIZE,
   debugEnabled: isEnvVarTruthy(readEnv(WOZCODE_DEBUG_TELEMETRY_ENV_VAR)),
@@ -35077,7 +35090,8 @@ process.env.NoDefaultCurrentDirectoryInExePath = "1";
 var fs5 = __toESM(require("fs"), 1);
 var import_path21 = __toESM(require("path"), 1);
 var import_readline3 = __toESM(require("readline"), 1);
-async function* readLinesFromEnd(filePath, chunkSize = 65536, readFromByteOffset) {
+var REVERSE_READ_CHUNK_SIZE_IN_BYTES = 65536;
+async function* readLinesFromEnd(filePath, chunkSize = REVERSE_READ_CHUNK_SIZE_IN_BYTES, readFromByteOffset) {
   const fd = await fs5.promises.open(filePath, "r");
   try {
     const stats = await fd.stat();
@@ -35183,6 +35197,7 @@ async function* streamTranscriptMessages(sessionJsonlFilePath, options) {
       }
     }
   } catch (error51) {
+    options?.onReadError?.(error51);
     if (error51.code === "ENOENT") {
       console.warn(`Session doesn't exist: ${sessionJsonlFilePath}`);
     } else {
