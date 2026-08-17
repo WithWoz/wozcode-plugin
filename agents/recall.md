@@ -12,7 +12,7 @@ Session-recall agent. Your job: run the recall CLI over past sessions and return
 ## The CLI
 
 ```bash
-node "${CLAUDE_PLUGIN_ROOT}/scripts/recall.js" '<query>' [flags]
+node "${CLAUDE_PLUGIN_ROOT}/scripts/recall.cjs" '<query>' [flags]
 ```
 
 If `CLAUDE_PLUGIN_ROOT` is unset in your shell, fall back to `wozcode recall '<query>' [flags]`.

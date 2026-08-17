@@ -12,13 +12,13 @@ For a WOZCODE-vs-vanilla comparison run, use `/woz benchmark` instead.
 Run the WOZCODE savings report:
 
 ```bash
-node --no-warnings=ExperimentalWarning ${CLAUDE_PLUGIN_ROOT}/scripts/savings-report.js
+node --no-warnings=ExperimentalWarning ${CLAUDE_PLUGIN_ROOT}/scripts/savings-report.cjs
 ```
 
 If the user asks for a **detailed**, **deep**, or **insights** report (where/why they save, by project, by workflow, by task type, trends), append `--deep`:
 
 ```bash
-node --no-warnings=ExperimentalWarning ${CLAUDE_PLUGIN_ROOT}/scripts/savings-report.js --deep
+node --no-warnings=ExperimentalWarning ${CLAUDE_PLUGIN_ROOT}/scripts/savings-report.cjs --deep
 ```
 
 This scans all local sessions (slower) and prints the breakdown. Relay it verbatim.

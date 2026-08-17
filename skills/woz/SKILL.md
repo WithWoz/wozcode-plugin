@@ -40,7 +40,7 @@ Dispatch on the arguments after the subcommand:
 Run the Woz authentication flow. This opens a browser for the user to log in:
 
 ```bash
-node --no-warnings=ExperimentalWarning ${CLAUDE_PLUGIN_ROOT}/scripts/wozcode-cli.js login
+node --no-warnings=ExperimentalWarning ${CLAUDE_PLUGIN_ROOT}/scripts/wozcode-cli.cjs login
 ```
 
 If the command exits with code 0, login succeeded — confirm to the user.
@@ -58,7 +58,7 @@ argument to the login command (it would show in `ps` for that process) — pipe
 it on stdin:
 
 ```bash
-printf %s '<api-key>' | node --no-warnings=ExperimentalWarning ${CLAUDE_PLUGIN_ROOT}/scripts/wozcode-cli.js login --api-key-stdin
+printf %s '<api-key>' | node --no-warnings=ExperimentalWarning ${CLAUDE_PLUGIN_ROOT}/scripts/wozcode-cli.cjs login --api-key-stdin
 ```
 
 Replace `<api-key>` with the actual key, single-quoted. Do not echo the key
@@ -91,7 +91,7 @@ If the browser login failed:
 Once you have the token (from args or from the user), run:
 
 ```bash
-node --no-warnings=ExperimentalWarning ${CLAUDE_PLUGIN_ROOT}/scripts/wozcode-cli.js login --token '<token>'
+node --no-warnings=ExperimentalWarning ${CLAUDE_PLUGIN_ROOT}/scripts/wozcode-cli.cjs login --token '<token>'
 ```
 
 Replace `<token>` with the actual token.
@@ -103,7 +103,7 @@ Confirm success or relay any error to the user.
 Log out of Woz by clearing stored credentials:
 
 ```bash
-node --no-warnings=ExperimentalWarning ${CLAUDE_PLUGIN_ROOT}/scripts/wozcode-cli.js logout
+node --no-warnings=ExperimentalWarning ${CLAUDE_PLUGIN_ROOT}/scripts/wozcode-cli.cjs logout
 ```
 
 Confirm that the user has been logged out.
@@ -113,7 +113,7 @@ Confirm that the user has been logged out.
 Check the current Woz authentication status:
 
 ```bash
-node --no-warnings=ExperimentalWarning ${CLAUDE_PLUGIN_ROOT}/scripts/wozcode-cli.js status
+node --no-warnings=ExperimentalWarning ${CLAUDE_PLUGIN_ROOT}/scripts/wozcode-cli.cjs status
 ```
 
 Relay the output to the user. Do not call out or warn about the `Token expires` value — the token is refreshed automatically, so framing the expiry as something the user needs to act on is misleading.
@@ -124,14 +124,14 @@ Manage WOZCODE plugin settings. The user-facing knobs (attribution, status line,
 
 ### Show current settings
 ```bash
-node --no-warnings=ExperimentalWarning ${CLAUDE_PLUGIN_ROOT}/scripts/settings-helper.js --show
+node --no-warnings=ExperimentalWarning ${CLAUDE_PLUGIN_ROOT}/scripts/settings-helper.cjs --show
 ```
 
 Display the JSON output as a readable table for the user.
 
 ### Update a setting
 ```bash
-node --no-warnings=ExperimentalWarning ${CLAUDE_PLUGIN_ROOT}/scripts/settings-helper.js --set <key> <value>
+node --no-warnings=ExperimentalWarning ${CLAUDE_PLUGIN_ROOT}/scripts/settings-helper.cjs --set <key> <value>
 ```
 
 Where `<key>` is a setting name and `<value>` is `true` or `false` (or, for `sql`, a JSON policy object — see [The `sql` connection policy](#the-sql-connection-policy) below).
@@ -168,13 +168,13 @@ Where `<key>` is a setting name and `<value>` is `true` or `false` (or, for `sql
 `sql` gates which databases the `Sql` tool may connect to. Unlike the toggles above it is a structured JSON object, not `true`/`false`. Absent = every connection allowed (no change). Set it wholesale — there is no per-field patch; build the full object and pass it as one JSON value.
 
 ```bash
-node --no-warnings=ExperimentalWarning ${CLAUDE_PLUGIN_ROOT}/scripts/settings-helper.js --set sql '{"deny":["remote"]}'
+node --no-warnings=ExperimentalWarning ${CLAUDE_PLUGIN_ROOT}/scripts/settings-helper.cjs --set sql '{"deny":["remote"]}'
 ```
 
 Clear it (allow every connection again) with any of `none` / `off` / `clear` / `null`:
 
 ```bash
-node --no-warnings=ExperimentalWarning ${CLAUDE_PLUGIN_ROOT}/scripts/settings-helper.js --set sql none
+node --no-warnings=ExperimentalWarning ${CLAUDE_PLUGIN_ROOT}/scripts/settings-helper.cjs --set sql none
 ```
 
 Policy shape — `default` plus `allow`/`deny` lists of matchers, evaluated **deny > allow > default** (`default` is `allow` when omitted):
@@ -273,7 +273,7 @@ After all steps succeed, tell the user:
 Print the user's WOZCODE referral share message:
 
 ```bash
-node --no-warnings=ExperimentalWarning ${CLAUDE_PLUGIN_ROOT}/scripts/wozcode-cli.js share
+node --no-warnings=ExperimentalWarning ${CLAUDE_PLUGIN_ROOT}/scripts/wozcode-cli.cjs share
 ```
 
 Relay the full output to the user. Do not summarize or modify it.
@@ -301,10 +301,10 @@ If the user is unclear, default to read-only + markdown.
 Run WITHOUT `2>/dev/null` or any stderr redirect — the CLI streams progress lines to stderr so the user sees activity during the wait. Stdout carries the final markdown report.
 
 ```bash
-node --no-warnings=ExperimentalWarning ${CLAUDE_PLUGIN_ROOT}/scripts/woz-review.js [--save] [--apply] [--interactive] [--personas <comma-separated-ids>] [--model <id>] [--repo <path>]
+node --no-warnings=ExperimentalWarning ${CLAUDE_PLUGIN_ROOT}/scripts/woz-review.cjs [--save] [--apply] [--interactive] [--personas <comma-separated-ids>] [--model <id>] [--repo <path>]
 ```
 
-If this fails with a module-not-found error for `woz-review.js`, this is a reviewer-free build — tell the user the deep review requires KnowledgeBase access and stop. (Released builds always include the reviewer; the CLI itself reports a clean message when the org simply isn't entitled.)
+If this fails with a module-not-found error for `woz-review.cjs`, this is a reviewer-free build — tell the user the deep review requires KnowledgeBase access and stop. (Released builds always include the reviewer; the CLI itself reports a clean message when the org simply isn't entitled.)
 
 ### 3. Present the report — PRINT IT VERBATIM, FIRST THING
 
@@ -359,7 +359,13 @@ The pinned `sha` MUST be reachable on the remote (the harness clones `url` and c
 
 ### 3. Write a temporary benchmark config
 
-Use the Write tool to create a YAML file at `/tmp/woz-benchmark-<timestamp>.yaml` (get the timestamp from `date +%s`). Format:
+Derive a cross-platform scratch base path (node is already required to run the harness; `/tmp` and `date +%s` do not exist on Windows):
+
+```bash
+node -e "console.log(require('path').join(require('os').tmpdir(),'woz-benchmark-'+Date.now()))"
+```
+
+Use the Write tool to create a YAML file at `<base>.yaml`. Format:
 
 ```yaml
 baseRepo:
@@ -381,10 +387,10 @@ Notes:
 
 ### 4. Run the benchmark
 
-Pick a harness-owned scratch dir for `--work-dir` (e.g. `/tmp/woz-benchmark-work-<timestamp>`) — the repo is cloned there, NOT into the user's checkout. One-line warning: "This'll take several minutes — each prompt runs twice." Then run:
+Use `<base>-work` from step 3 as `--work-dir` — the repo is cloned there, NOT into the user's checkout. One-line warning: "This'll take several minutes — each prompt runs twice." Then run:
 
 ```bash
-node --no-warnings=ExperimentalWarning ${CLAUDE_PLUGIN_ROOT}/scripts/benchmark.js --work-dir <scratch-dir> --config <yaml-path> --user-env
+node --no-warnings=ExperimentalWarning "${CLAUDE_PLUGIN_ROOT}/scripts/benchmark.cjs" --work-dir "<scratch-dir>" --config "<yaml-path>" --user-env
 ```
 
 `--user-env` loads the user's project `CLAUDE.md` hierarchy on BOTH sides. Do NOT pass `--screenshots`, `--codex`, or `--judge`.
@@ -408,5 +414,5 @@ Frame the numbers positively. If WOZCODE was slower or more expensive on a speci
 ### Benchmark tips
 
 - If the user has no prompts in mind, read a few files in their repo and suggest 2-3 realistic tasks tailored to what you see.
-- The temp YAML file and the `--work-dir` scratch clone are safe to leave in `/tmp` — the OS cleans them up. The user's own checkout is never touched.
+- The temp YAML file and the `--work-dir` scratch clone are safe to leave in the OS temp dir — it is cleaned up periodically. The user's own checkout is never touched.
 - The benchmark clones `baseRepo.url` at the pinned `baseRepo.sha`, so uncommitted or unpushed local work is NOT included — push it first if it should be part of the run.

@@ -14,7 +14,7 @@ One skill, these subcommands:
 - **`woz-kb cross-repo <feature>`** — print a cross-repo planning brief from the org's architecture manifests; `--ground` additionally appends a two-pass code/PR grounding search on top of the manifest brief. Flags: `--repos owner/a,owner/b`, `--topk <n>`.
 - **knowledge-base ops** (`status`, `query`, `note`, `unnote`, `suppress`, `unsuppress`, `boost`, `unboost`, `ingest`, `refresh`, `ops`) — inspect and customize the knowledge base directly, e.g. `/woz-kb status`, `/woz-kb note "..."`, `/woz-kb query <text>`.
 
-The first positional arg selects the subcommand; if omitted it defaults to `backtest` (back-compat). `tune`, `backtest`, `architecture-doc-fetch`, and `cross-repo` run through `woz-kb.js`; the knowledge-base ops run through `woz-knowledge.js` (see that section).
+The first positional arg selects the subcommand; if omitted it defaults to `backtest` (back-compat). `tune`, `backtest`, `architecture-doc-fetch`, and `cross-repo` run through `woz-kb.cjs`; the knowledge-base ops run through `woz-knowledge.cjs` (see that section).
 
 ## When to use
 
@@ -31,7 +31,7 @@ DO NOT use for: reviewing the current branch (`/woz review`) or past-session rec
 ## `woz-kb tune` — start-to-finish
 
 ```bash
-node --no-warnings=ExperimentalWarning ${CLAUDE_PLUGIN_ROOT}/scripts/woz-kb.js tune \
+node --no-warnings=ExperimentalWarning ${CLAUDE_PLUGIN_ROOT}/scripts/woz-kb.cjs tune \
   --repo with-woz/wozcode \
   --anthropic-api-key-file ~/.woz/.anthropic-backtest-key
 ```
@@ -55,7 +55,7 @@ Note: after an `--apply`, the reviewer cache is invalidated (KB changed), so the
 ## `woz-kb backtest` — building blocks
 
 ```bash
-node --no-warnings=ExperimentalWarning ${CLAUDE_PLUGIN_ROOT}/scripts/woz-kb.js backtest \
+node --no-warnings=ExperimentalWarning ${CLAUDE_PLUGIN_ROOT}/scripts/woz-kb.cjs backtest \
   --repo with-woz/wozcode --count 3 --rounds 1
 ```
 
@@ -83,8 +83,8 @@ Each run writes `<source>/.wozcode/backtests/<runId>/`: `report.md`, `summary.js
 Both require the remote knowledge base and org KB access.
 
 ```bash
-node --no-warnings=ExperimentalWarning ${CLAUDE_PLUGIN_ROOT}/scripts/woz-kb.js architecture-doc-fetch
-node --no-warnings=ExperimentalWarning ${CLAUDE_PLUGIN_ROOT}/scripts/woz-kb.js cross-repo "<feature>" [--ground] [--repos owner/a,owner/b] [--topk N]
+node --no-warnings=ExperimentalWarning ${CLAUDE_PLUGIN_ROOT}/scripts/woz-kb.cjs architecture-doc-fetch
+node --no-warnings=ExperimentalWarning ${CLAUDE_PLUGIN_ROOT}/scripts/woz-kb.cjs cross-repo "<feature>" [--ground] [--repos owner/a,owner/b] [--topk N]
 ```
 
 Print `cross-repo` output verbatim — the brief is designed for the session to consume. `architecture-doc-fetch` prints where it wrote the manifest; tell the user to review and commit it.
@@ -101,10 +101,10 @@ These run as direct `/woz-kb <op>` subcommands (e.g. `/woz-kb status`). The know
 | **repo** | code files + PR history + distilled rules | local (v1) / server (v2) |
 | **personal** | your notes, suppressions, boosts | local (v1) / server (v2) |
 
-These ops are a thin wrapper around a dedicated CLI (note: `woz-knowledge.js`, not `woz-kb.js`):
+These ops are a thin wrapper around a dedicated CLI (note: `woz-knowledge.cjs`, not `woz-kb.cjs`):
 
 ```bash
-node --no-warnings=ExperimentalWarning ${CLAUDE_PLUGIN_ROOT}/scripts/woz-knowledge.js <subcommand> [args] [--json]
+node --no-warnings=ExperimentalWarning ${CLAUDE_PLUGIN_ROOT}/scripts/woz-knowledge.cjs <subcommand> [args] [--json]
 ```
 
 Run WITHOUT `2>/dev/null` — stderr surfaces useful errors (login required, not in a github repo, etc.). Use `--json` when you need to programmatically inspect output; use the human-readable output when you'll just print it back to the user verbatim.

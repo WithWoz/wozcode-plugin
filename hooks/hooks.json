@@ -5,7 +5,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node --no-warnings=ExperimentalWarning ${CLAUDE_PLUGIN_ROOT}/scripts/session-hook.js"
+            "command": "node --no-warnings=ExperimentalWarning ${CLAUDE_PLUGIN_ROOT}/scripts/session-hook.cjs"
           }
         ]
       }
@@ -15,7 +15,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node --no-warnings=ExperimentalWarning ${CLAUDE_PLUGIN_ROOT}/scripts/session-hook.js"
+            "command": "node --no-warnings=ExperimentalWarning ${CLAUDE_PLUGIN_ROOT}/scripts/session-hook.cjs"
           }
         ]
       },
@@ -23,7 +23,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node --no-warnings=ExperimentalWarning ${CLAUDE_PLUGIN_ROOT}/scripts/reviewer-hook.js"
+            "command": "node --no-warnings=ExperimentalWarning ${CLAUDE_PLUGIN_ROOT}/scripts/reviewer-hook.cjs"
           }
         ]
       }
@@ -34,7 +34,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node --no-warnings=ExperimentalWarning ${CLAUDE_PLUGIN_ROOT}/scripts/session-hook.js"
+            "command": "node --no-warnings=ExperimentalWarning ${CLAUDE_PLUGIN_ROOT}/scripts/session-hook.cjs"
           }
         ]
       }
@@ -45,7 +45,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node --no-warnings=ExperimentalWarning ${CLAUDE_PLUGIN_ROOT}/scripts/reviewer-hook.js"
+            "command": "node --no-warnings=ExperimentalWarning ${CLAUDE_PLUGIN_ROOT}/scripts/reviewer-hook.cjs"
           }
         ]
       },
@@ -54,7 +54,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node --no-warnings=ExperimentalWarning ${CLAUDE_PLUGIN_ROOT}/scripts/session-telemetry-post-tool-hook.js"
+            "command": "node --no-warnings=ExperimentalWarning ${CLAUDE_PLUGIN_ROOT}/scripts/session-telemetry-post-tool-hook.cjs"
           }
         ]
       }
@@ -65,7 +65,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node --no-warnings=ExperimentalWarning ${CLAUDE_PLUGIN_ROOT}/scripts/session-telemetry-hook.js"
+            "command": "node --no-warnings=ExperimentalWarning ${CLAUDE_PLUGIN_ROOT}/scripts/session-telemetry-hook.cjs"
           }
         ]
       }
@@ -76,7 +76,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node --no-warnings=ExperimentalWarning ${CLAUDE_PLUGIN_ROOT}/scripts/session-telemetry-hook.js"
+            "command": "node --no-warnings=ExperimentalWarning ${CLAUDE_PLUGIN_ROOT}/scripts/session-telemetry-hook.cjs"
           }
         ]
       }
@@ -86,7 +86,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node --no-warnings=ExperimentalWarning ${CLAUDE_PLUGIN_ROOT}/scripts/session-hook.js"
+            "command": "node --no-warnings=ExperimentalWarning ${CLAUDE_PLUGIN_ROOT}/scripts/session-hook.cjs"
           }
         ]
       }
@@ -97,7 +97,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node --no-warnings=ExperimentalWarning ${CLAUDE_PLUGIN_ROOT}/scripts/session-telemetry-hook.js"
+            "command": "node --no-warnings=ExperimentalWarning ${CLAUDE_PLUGIN_ROOT}/scripts/session-telemetry-hook.cjs"
           }
         ]
       }
@@ -107,7 +107,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node --no-warnings=ExperimentalWarning ${CLAUDE_PLUGIN_ROOT}/scripts/session-telemetry-hook.js"
+            "command": "node --no-warnings=ExperimentalWarning ${CLAUDE_PLUGIN_ROOT}/scripts/session-telemetry-hook.cjs"
           }
         ]
       }

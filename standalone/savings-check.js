@@ -298,8 +298,8 @@ function getElementAtPath(obj, path13) {
 }
 function promiseAllObject(promisesObj) {
   const keys = Object.keys(promisesObj);
-  const promises6 = keys.map((key) => promisesObj[key]);
-  return Promise.all(promises6).then((results) => {
+  const promises7 = keys.map((key) => promisesObj[key]);
+  return Promise.all(promises7).then((results) => {
     const resolvedObj = {};
     for (let i = 0; i < keys.length; i++) {
       resolvedObj[keys[i]] = results[i];
@@ -15132,17 +15132,29 @@ var init_v4 = __esm({
   }
 });
 
+// src/common/wozcore/utils/rename-replacing-dest.ts
+var fs2, RENAME_TRANSIENT_WINDOWS_CODES, RENAME_TRANSIENT_WINDOWS_CODE_SET;
+var init_rename_replacing_dest = __esm({
+  "src/common/wozcore/utils/rename-replacing-dest.ts"() {
+    "use strict";
+    fs2 = __toESM(require("fs"), 1);
+    RENAME_TRANSIENT_WINDOWS_CODES = ["EPERM", "EACCES", "EBUSY"];
+    RENAME_TRANSIENT_WINDOWS_CODE_SET = new Set(RENAME_TRANSIENT_WINDOWS_CODES);
+  }
+});
+
 // src/common/wozcore/utils/file-concurrency-utils.ts
-var import_child_process, crypto, fs2, os5, path5, FileLockInfoSchema;
+var import_child_process, crypto, fs3, os5, path5, FileLockInfoSchema;
 var init_file_concurrency_utils = __esm({
   "src/common/wozcore/utils/file-concurrency-utils.ts"() {
     "use strict";
     import_child_process = require("child_process");
     crypto = __toESM(require("crypto"), 1);
-    fs2 = __toESM(require("fs"), 1);
+    fs3 = __toESM(require("fs"), 1);
     os5 = __toESM(require("os"), 1);
     path5 = __toESM(require("path"), 1);
     init_v4();
+    init_rename_replacing_dest();
     FileLockInfoSchema = external_exports.object({
       pid: external_exports.number(),
       lockAcquiredAtMs: external_exports.number(),
@@ -15155,8 +15167,8 @@ var init_file_concurrency_utils = __esm({
 });
 
 // src/common/baseline/baseline-scanner.ts
-var import_child_process7 = require("child_process");
-var fs7 = __toESM(require("fs"), 1);
+var import_child_process8 = require("child_process");
+var fs8 = __toESM(require("fs"), 1);
 var path12 = __toESM(require("path"), 1);
 
 // kb-shared/src/usage/token-counts.ts
@@ -15246,7 +15258,7 @@ var currentHost = initialHostFromEnv();
 // package.json
 var package_default = {
   name: "wozcode",
-  version: "0.3.91",
+  version: "0.3.92",
   description: "WOZCODE enhanced coding tools \u2014 smart search, batch editing, SQL introspection, and cost-optimized subagent delegation",
   homepage: "https://wozcode.com",
   type: "module",
@@ -15383,27 +15395,36 @@ var WOZCODE_CLI_NAME = "wozcode";
 var WOZ_CODE_AGENT_NAME = `${WOZ_CODE_PLUGIN_NAME}:code`;
 var WOZ_CODE_FREE_AGENT_NAME = `${WOZ_CODE_PLUGIN_NAME}:code-free`;
 var WOZ_EXPLORE_AGENT_NAME = `${WOZ_CODE_PLUGIN_NAME}:explore`;
+var NODE_LAUNCHER_BUNDLE_INFIX = ".bundle";
+var NODE_LAUNCHER_BUNDLE_SUFFIX = `${NODE_LAUNCHER_BUNDLE_INFIX}.js`;
+function nodeLauncherBundleName(entryKey) {
+  return `${entryKey}${NODE_LAUNCHER_BUNDLE_SUFFIX}`;
+}
 var COPILOT_STATUS_LINE_SCRIPT_KEY = "copilot-savings-status-line";
 var COPILOT_STATUS_LINE_SCRIPT_NAME = `${COPILOT_STATUS_LINE_SCRIPT_KEY}.js`;
+var CODEX_CLI_SCRIPT_KEY = "wozcode-cli-codex";
+var CODEX_CLI_SCRIPT_NAME = `${CODEX_CLI_SCRIPT_KEY}.js`;
 var COPILOT_CLI_SCRIPT_KEY = "wozcode-cli-copilot";
 var COPILOT_CLI_SCRIPT_NAME = `${COPILOT_CLI_SCRIPT_KEY}.js`;
 var WOZ_KB_SCRIPT_KEY = "woz-kb";
-var WOZ_KB_SCRIPT_NAME = `${WOZ_KB_SCRIPT_KEY}.js`;
+var WOZ_KB_SCRIPT_NAME = nodeLauncherBundleName(WOZ_KB_SCRIPT_KEY);
 var WOZ_KB_ARCHITECTURE_DOC_FETCH_SUBCOMMAND = "architecture-doc-fetch";
 var WOZ_KB_ARCHITECTURE_DOC_FETCH_COMMAND = `${WOZ_KB_SCRIPT_KEY} ${WOZ_KB_ARCHITECTURE_DOC_FETCH_SUBCOMMAND}`;
 var BENCHMARK_SCRIPT_KEY = "benchmark";
 var BENCHMARK_SCRIPT_NAME = `${BENCHMARK_SCRIPT_KEY}.js`;
 var CODRIVE_SCRIPT_KEY = "codrive";
-var CODRIVE_SCRIPT_NAME = `${CODRIVE_SCRIPT_KEY}.js`;
+var CODRIVE_SCRIPT_NAME = nodeLauncherBundleName(CODRIVE_SCRIPT_KEY);
 var RECALL_CLI_SCRIPT_KEY = "recall";
 var RECALL_CLI_SCRIPT_NAME = `${RECALL_CLI_SCRIPT_KEY}.js`;
 var WOZCODE_CLI_WRAPPER_NAME = WOZCODE_CLI_NAME;
 var CLAUDE_TUI_CLI_SCRIPT_KEY = "claude-tui-cli";
-var CLAUDE_TUI_CLI_SCRIPT_NAME = `${CLAUDE_TUI_CLI_SCRIPT_KEY}.js`;
+var CLAUDE_TUI_CLI_SCRIPT_NAME = nodeLauncherBundleName(CLAUDE_TUI_CLI_SCRIPT_KEY);
 var CLAUDE_TUI_CLI_SOURCE_NAME = `${CLAUDE_TUI_CLI_SCRIPT_KEY}.ts`;
 var WOZCODE_CLI_WRAPPER_FILENAME_WIN = `${WOZCODE_CLI_WRAPPER_NAME}.cmd`;
+var WOZCODE_CLI_SCRIPT_KEY = "wozcode-cli";
+var WOZCODE_CLI_SCRIPT_NAME = nodeLauncherBundleName(WOZCODE_CLI_SCRIPT_KEY);
 var ROUTER_DAEMON_SCRIPT_KEY = "router-daemon";
-var ROUTER_DAEMON_SCRIPT_NAME = `${ROUTER_DAEMON_SCRIPT_KEY}.js`;
+var ROUTER_DAEMON_SCRIPT_NAME = nodeLauncherBundleName(ROUTER_DAEMON_SCRIPT_KEY);
 var ROUTER_DAEMON_SOURCE_REL = `router/${ROUTER_DAEMON_SCRIPT_KEY}.ts`;
 var CLAUDE_CODEX_MCP_PREFIX = "mcp__plugin_woz_code__";
 var COPILOT_MCP_PREFIX = "plugin_woz_code-";
@@ -15415,7 +15436,8 @@ var SQL_TOOL_NAME = "Sql";
 var SQL_TOOL_COPILOT_MCP = `${COPILOT_MCP_PREFIX}${SQL_TOOL_NAME}`;
 var WOZ_MARKETPLACE_GITHUB_REPO = "WithWoz/wozcode-plugin";
 var PLUGIN_METADATA_DIR_NAME = ".claude-plugin";
-var WOZ_MARKETPLACE_PLUGIN_JSON_URL = `https://raw.githubusercontent.com/${WOZ_MARKETPLACE_GITHUB_REPO}/main/${PLUGIN_METADATA_DIR_NAME}/plugin.json`;
+var PLUGIN_MANIFEST_FILE_NAME = "plugin.json";
+var WOZ_MARKETPLACE_PLUGIN_JSON_URL = `https://raw.githubusercontent.com/${WOZ_MARKETPLACE_GITHUB_REPO}/main/${PLUGIN_METADATA_DIR_NAME}/${PLUGIN_MANIFEST_FILE_NAME}`;
 var WOZCODE_BRAND_NAME = "WOZCODE";
 var WOZ_DESKTOP_DOWNLOAD_URL_TEMPLATE = `https://github.com/${WOZ_MARKETPLACE_GITHUB_REPO}/releases/download/v{version}/${WOZCODE_BRAND_NAME}-darwin-{arch}.zip`;
 var WOZ_DESKTOP_APP_NAME = WOZCODE_BRAND_NAME;
@@ -15532,8 +15554,11 @@ function getModelPricing(model) {
   return DEFAULT_PRICING;
 }
 
+// src/common/child-process-stdio-guard.ts
+init_file_concurrency_utils();
+
 // src/common/config/config.ts
-var fs3 = __toESM(require("fs/promises"), 1);
+var fs4 = __toESM(require("fs/promises"), 1);
 var path6 = __toESM(require("path"), 1);
 init_file_concurrency_utils();
 
@@ -15604,6 +15629,9 @@ var DEV_ENV_KEY = ["WOZ", "INTERNAL", "KEY"].join("_");
 var SUBSCRIPTION_CACHE_TTL_IN_MS = 5 * 60 * 1e3;
 var AUTH_CHECK_FAIL_CLOSED_GRACE_IN_MS = 60 * 1e3;
 var VALIDATION_FAILURE_COOLDOWN_IN_MS = 15 * 1e3;
+
+// src/common/guarded-claude-spawner.ts
+var import_child_process2 = require("child_process");
 
 // src/common/telemetry/providers/posthog-telemetry-service.ts
 var import_node_os = __toESM(require("node:os"), 1);
@@ -16828,7 +16856,7 @@ var PostHogSentryIntegration = class {
 
 // src/common/telemetry/telemetry-id-store.ts
 var crypto2 = __toESM(require("node:crypto"), 1);
-var fs4 = __toESM(require("node:fs/promises"), 1);
+var fs5 = __toESM(require("node:fs/promises"), 1);
 var path7 = __toESM(require("node:path"), 1);
 init_v4();
 
@@ -16897,12 +16925,12 @@ var TelemetryIdFileSchema = external_exports.object({
 var HEARTBEAT_INTERVAL_MS = 5 * 60 * 1e3;
 
 // src/common/transcripts/claude-session-transcripts.ts
-var fs6 = __toESM(require("fs"), 1);
+var fs7 = __toESM(require("fs"), 1);
 var import_path22 = __toESM(require("path"), 1);
 
 // node_modules/@anthropic-ai/claude-agent-sdk/sdk.mjs
 var import_node_module = require("node:module");
-var import_child_process2 = require("child_process");
+var import_child_process3 = require("child_process");
 var import_crypto2 = require("crypto");
 var import_fs = require("fs");
 var import_promises = require("fs/promises");
@@ -16912,7 +16940,7 @@ var import_path3 = require("path");
 var import_readline = require("readline");
 var import_url = require("url");
 var import_events = require("events");
-var import_child_process3 = require("child_process");
+var import_child_process4 = require("child_process");
 var import_fs2 = require("fs");
 var import_readline2 = require("readline");
 var import_os2 = require("os");
@@ -16938,9 +16966,9 @@ var import_events2 = require("events");
 var import_fs6 = require("fs");
 var import_promises7 = require("fs/promises");
 var import_path8 = require("path");
-var import_child_process4 = require("child_process");
-var import_util3 = require("util");
 var import_child_process5 = require("child_process");
+var import_util3 = require("util");
+var import_child_process6 = require("child_process");
 var import_path9 = require("path");
 var import_promises8 = require("fs/promises");
 var import_path10 = require("path");
@@ -16964,7 +16992,7 @@ var import_promises11 = require("fs/promises");
 var import_os4 = require("os");
 var import_path18 = require("path");
 var import_os5 = require("os");
-var import_child_process6 = require("child_process");
+var import_child_process7 = require("child_process");
 var import_fs8 = require("fs");
 var import_path19 = require("path");
 var import_path20 = require("path");
@@ -26188,7 +26216,7 @@ function mx() {
 }
 var lx = mx();
 var qG = DG(wZ(), 1);
-var Og = (0, import_util3.promisify)(import_child_process4.execFile);
+var Og = (0, import_util3.promisify)(import_child_process5.execFile);
 var AX = Buffer.from('{"type":"attribution-snapshot"');
 var Pg = Buffer.from('{"type":"system"');
 var nQ = 10;
@@ -35087,12 +35115,12 @@ var I6$ = X_(function($, Q) {
 process.env.NoDefaultCurrentDirectoryInExePath = "1";
 
 // src/common/wozcore/session-transcripts.ts
-var fs5 = __toESM(require("fs"), 1);
+var fs6 = __toESM(require("fs"), 1);
 var import_path21 = __toESM(require("path"), 1);
 var import_readline3 = __toESM(require("readline"), 1);
 var REVERSE_READ_CHUNK_SIZE_IN_BYTES = 65536;
 async function* readLinesFromEnd(filePath, chunkSize = REVERSE_READ_CHUNK_SIZE_IN_BYTES, readFromByteOffset) {
-  const fd = await fs5.promises.open(filePath, "r");
+  const fd = await fs6.promises.open(filePath, "r");
   try {
     const stats = await fd.stat();
     const fileSize = readFromByteOffset ?? stats.size;
@@ -35151,7 +35179,7 @@ async function* streamTranscriptMessages(sessionJsonlFilePath, options) {
     if (readFromEnd) {
       lineSource = readLinesFromEnd(sessionJsonlFilePath, void 0, readFromByteOffset);
     } else {
-      fileStream = fs5.createReadStream(sessionJsonlFilePath, {
+      fileStream = fs6.createReadStream(sessionJsonlFilePath, {
         ...readFromByteOffset != null ? { start: readFromByteOffset } : {}
       });
       rl2 = import_readline3.default.createInterface({
@@ -35233,14 +35261,14 @@ async function discoverClaudeSessionTranscripts(maxSessions, projectDir, project
   const encodedProjectDir = projectDir != null ? repoPathToClaudeProjectName(projectDir) : void 0;
   let projectDirEntries;
   try {
-    projectDirEntries = (await fs6.promises.readdir(sessionsDir)).map((d2) => import_path22.default.join(sessionsDir, d2));
+    projectDirEntries = (await fs7.promises.readdir(sessionsDir)).map((d2) => import_path22.default.join(sessionsDir, d2));
   } catch {
     return [];
   }
   for (const dir of projectDirEntries) {
     let stat;
     try {
-      stat = await fs6.promises.stat(dir);
+      stat = await fs7.promises.stat(dir);
     } catch {
       continue;
     }
@@ -35248,7 +35276,7 @@ async function discoverClaudeSessionTranscripts(maxSessions, projectDir, project
     const projectPath = import_path22.default.basename(dir);
     let filePaths;
     try {
-      filePaths = (await fs6.promises.readdir(dir)).filter((f9) => f9.endsWith(".jsonl"));
+      filePaths = (await fs7.promises.readdir(dir)).filter((f9) => f9.endsWith(".jsonl"));
     } catch {
       continue;
     }
@@ -35257,7 +35285,7 @@ async function discoverClaudeSessionTranscripts(maxSessions, projectDir, project
       const sessionId = import_path22.default.basename(sessionFilePath, ".jsonl");
       let fstat;
       try {
-        fstat = await fs6.promises.stat(sessionFilePath);
+        fstat = await fs7.promises.stat(sessionFilePath);
       } catch {
         continue;
       }

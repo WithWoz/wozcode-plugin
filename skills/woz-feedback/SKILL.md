@@ -19,7 +19,7 @@ Submit by piping a JSON envelope to stdin. Use a single-quoted heredoc (`<<'WOZ_
 For general feedback (feature requests, thoughts) — this is the default, omit `type`:
 
 ```bash
-node --no-warnings=ExperimentalWarning ${CLAUDE_PLUGIN_ROOT}/scripts/wozcode-cli.js feedback <<'WOZ_FEEDBACK'
+node --no-warnings=ExperimentalWarning ${CLAUDE_PLUGIN_ROOT}/scripts/wozcode-cli.cjs feedback <<'WOZ_FEEDBACK'
 {"subject":"<json-escaped subject>","body":"<json-escaped body>"}
 WOZ_FEEDBACK
 ```
@@ -27,7 +27,7 @@ WOZ_FEEDBACK
 For a bug report, add `"type":"BUG"` so it routes to bug triage:
 
 ```bash
-node --no-warnings=ExperimentalWarning ${CLAUDE_PLUGIN_ROOT}/scripts/wozcode-cli.js feedback <<'WOZ_FEEDBACK'
+node --no-warnings=ExperimentalWarning ${CLAUDE_PLUGIN_ROOT}/scripts/wozcode-cli.cjs feedback <<'WOZ_FEEDBACK'
 {"type":"BUG","subject":"<json-escaped subject>","body":"<json-escaped body>"}
 WOZ_FEEDBACK
 ```
